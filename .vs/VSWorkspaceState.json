@@ -4,9 +4,9 @@
     "\\MarsRunner",
     "\\MarsRunner\\Code",
     "\\MarsRunner\\Code\\Game engine",
-    "\\MarsRunner\\MarsRunner",
-    "\\MarsRunner\\MarsRunner\\Debug",
-    "\\MarsRunner\\MarsRunner\\x64"
+    "\\MarsRunner\\Code\\Game engine\\Physics systems",
+    "\\MarsRunner\\MarsRunner"
   ],
+  "SelectedNode": "\\MarsRunner\\Code\\Game engine\\Physics systems\\physics.hpp",
   "PreviewInSolutionExplorer": false
 }
