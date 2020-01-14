@@ -1,12 +1,16 @@
 #include <SFML/Graphics.hpp>
 
 #include "Code/Game engine/Input systems/input.hpp"
+#include "Code/Game engine/Object systems/GameObject.hpp"
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1000, 800), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!");
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
+   
+    std::string thing = "../Assets/Test/testplaatje.png";
+    GameObject object{ thing, sf::Vector2f{0,0}, sf::Vector2f{0.1,0.1}, 5 };
 
 
     action actions[] = {
@@ -33,7 +37,7 @@ int main()
         }
 
         window.clear();
-        window.draw(shape);
+        object.draw(window);
         window.display();
 
         sf::Event event;
