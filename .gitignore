@@ -43,3 +43,5 @@ MarsRunner/MarsRunner/MarsRunner.vcxproj.user
 *.ilk
 *.sqlite
 MarsRunner/MarsRunner/MarsRunner.vcxproj
+
+*.vcxproj
