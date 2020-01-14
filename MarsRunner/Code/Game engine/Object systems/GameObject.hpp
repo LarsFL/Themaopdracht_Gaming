@@ -15,6 +15,7 @@ protected:
 	sf::Vector2f acceleration = { 0,0 };
 	bool isStatic = true;
 	bool isActive = true;
+	sf::IntRect rectSourceSprite = { 2, 2, 30, 40 };
 public:
 	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic = true) :
 		position(position),
@@ -24,6 +25,7 @@ public:
 	{
 		image.loadFromFile(imageLocation);
 		sprite.setTexture(image);
+		sprite.setTextureRect(sf::IntRect(1, 2, 38, 42));
 		sprite.setPosition(position);
 		sprite.setScale(size);
 	}

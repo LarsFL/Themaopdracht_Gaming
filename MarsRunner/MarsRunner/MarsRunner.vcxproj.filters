@@ -13,10 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="input">
-      <UniqueIdentifier>{3329ed4b-6a47-4611-90f4-e4fd883bb440}</UniqueIdentifier>
     <Filter Include="GameObject">
       <UniqueIdentifier>{9084f051-9f12-4fb0-964a-1dae5e1be698}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{b080df37-84c1-4c48-9944-cc81c4bb4797}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -25,10 +26,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Code\Game engine\Input systems\input.hpp">
-      <Filter>input</Filter>
     <ClInclude Include="..\Code\Game engine\Object systems\GameObject.hpp">
       <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Input systems\input.hpp">
+      <Filter>Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

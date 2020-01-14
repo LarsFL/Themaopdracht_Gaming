@@ -5,12 +5,12 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
    
-    std::string thing = "../Assets/Test/testplaatje.png";
-    GameObject object{ thing, sf::Vector2f{0,0}, sf::Vector2f{0.1,0.1}, 5 };
+    std::string thing = "../Assets/Test/Astronaut_idle.png";
+    GameObject object{ thing, sf::Vector2f{0,0}, sf::Vector2f{2,2}, 5 };
 
 
     action actions[] = {
