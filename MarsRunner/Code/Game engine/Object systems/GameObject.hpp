@@ -1,6 +1,8 @@
+#ifndef _GAMEOBJECT_HPP
+#define _GAMEOBJECT_HPP
+
 #include <SFML/Graphics.hpp>
 #include <string>
-
 
 class GameObject {
 protected:
@@ -76,3 +78,5 @@ public:
 		a();
 	}
 };
+
+#endif
