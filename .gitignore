@@ -39,7 +39,7 @@ MarsRunner/.vs/MarsRunner/v16/.suo
 *.tlog
 *.idb
 *.pdb
-MarsRunner/MarsRunner/MarsRunner.vcxproj
 MarsRunner/MarsRunner/MarsRunner.vcxproj.user
 *.ilk
-MarsRunner/MarsRunner.sln
+*.sqlite
+*.vcxproj
