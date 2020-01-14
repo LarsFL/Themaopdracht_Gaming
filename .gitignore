@@ -45,5 +45,6 @@ MarsRunner/MarsRunner/MarsRunner.vcxproj.user
 MarsRunner/MarsRunner/MarsRunner.vcxproj
 
 *.vcxproj
+*.sqlite-journal
 
 .vs/ProjectSettings.json
