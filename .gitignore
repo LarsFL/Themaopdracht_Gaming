@@ -45,3 +45,5 @@ MarsRunner/MarsRunner/MarsRunner.vcxproj.user
 MarsRunner/MarsRunner/MarsRunner.vcxproj
 
 *.vcxproj
+
+.vs/ProjectSettings.json
