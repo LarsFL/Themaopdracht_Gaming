@@ -30,3 +30,16 @@
 *.exe
 *.out
 *.app
+*.sqlite
+MarsRunner/.vs/MarsRunner/v16/.suo
+*.db
+*.ipch
+*.opendb
+*.log
+*.tlog
+*.idb
+*.pdb
+MarsRunner/MarsRunner/MarsRunner.vcxproj
+MarsRunner/MarsRunner/MarsRunner.vcxproj.user
+*.ilk
+MarsRunner/MarsRunner.sln
