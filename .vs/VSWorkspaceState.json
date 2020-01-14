@@ -1,8 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\MarsRunner"
+    "\\MarsRunner",
+    "\\MarsRunner\\Code",
+    "\\MarsRunner\\Code\\Game engine",
+    "\\MarsRunner\\MarsRunner",
+    "\\MarsRunner\\MarsRunner\\Debug",
+    "\\MarsRunner\\MarsRunner\\x64"
   ],
-  "SelectedNode": "\\MarsRunner",
   "PreviewInSolutionExplorer": false
 }
