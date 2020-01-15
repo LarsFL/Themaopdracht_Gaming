@@ -19,6 +19,12 @@
     <Filter Include="Input">
       <UniqueIdentifier>{b080df37-84c1-4c48-9944-cc81c4bb4797}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{5389279c-f37f-4138-9a8c-151a49b04de3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Setup">
+      <UniqueIdentifier>{16517712-0201-4e65-88a2-eeb37a24231d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp">
@@ -31,6 +37,24 @@
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\Input systems\input.hpp">
       <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\UI systems\UI_Element.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\UI systems\Button.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\UI systems\Text.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\UI systems\UI_State.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Setup\GameState.hpp">
+      <Filter>Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Setup\InitializeUI.hpp">
+      <Filter>Setup</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
