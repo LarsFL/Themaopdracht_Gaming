@@ -16,12 +16,16 @@ protected:
 	bool isStatic = true;
 	bool isActive = true;
 	sf::IntRect rectSourceSprite = { 1, 2, 38, 42 };
+
+	bool animated;
+
 public:
-	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic = true) :
+	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic = true, bool animated = false) :
 		position(position),
 		size(size),
 		weight(weight),
-		isStatic(isStatic)
+		isStatic(isStatic),
+		animated(animated)
 	{
 		image.loadFromFile(imageLocation);
 		sprite.setTexture(image);
