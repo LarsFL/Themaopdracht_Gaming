@@ -1,11 +1,14 @@
 #include <SFML/Graphics.hpp>
+#include <vector>
 #include <chrono>
 #include <ctime>
 
+#include "Code/Game engine/UI systems/Button.hpp"
+#include "Code/Game engine/UI systems/Text.hpp"
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Object systems/GameObject.hpp"
 
-void move_background_with_view(GameObject & object, double & amount) {
+void move_background_with_view(GameObject& object, double& amount) {
     /// Move the background at the ame speed as the view.    
     double minSpeed = 0.05;
 
@@ -17,12 +20,12 @@ void move_background_with_view(GameObject & object, double & amount) {
     }
 }
 
-void update_game_object_speed(GameObject & object) {
+void update_game_object_speed(GameObject& object) {
     /// Move all object from the game object array in a constant motion.
     object.move(sf::Vector2f{ 0.1, 0.1 });
 }
 
-double update_view_position(sf::View & view, sf::RenderWindow & window, double amount) {
+double update_view_position(sf::View& view, sf::RenderWindow& window, double amount) {
     /// Move the selected view in a slowly accelerating motion.
     double minSpeed = 0.05;
     static double increaseValue = minSpeed;
@@ -31,15 +34,16 @@ double update_view_position(sf::View & view, sf::RenderWindow & window, double a
     // Move the view with a constant speed, until a certain value. From there the speed will slowly increase.
     if ((increaseValue / 500) < minSpeed) {
         view.move(minSpeed, 0);
-    } else {
+    }
+    else {
         view.move(increaseValue / 500, 0);
     }
-    
+
     window.setView(view);
     return increaseValue / 500;
 }
 
-sf::FloatRect getViewBounds(const sf::View & view){
+sf::FloatRect getViewBounds(const sf::View& view) {
     /// Return the bound of the selected view.
     sf::FloatRect rt;
     rt.left = view.getCenter().x - view.getSize().x / 2.f;
@@ -51,7 +55,7 @@ sf::FloatRect getViewBounds(const sf::View & view){
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
-    
+
     sf::View mainView;
     mainView.setCenter(sf::Vector2f(600.f, 384.f));
     mainView.setSize(sf::Vector2f(1280.f, 720.f));
@@ -61,13 +65,22 @@ int main() {
     sf::CircleShape shape(50.f);
     shape.setPosition(sf::Vector2f(840, 260));
     shape.setFillColor(sf::Color::Green);
-    
-    std::string thing = "../Assets/Test/testplaatje.png";
-    GameObject object{ thing, sf::Vector2f{1200, 500}, sf::Vector2f{0.1, 0.1}, 5, false };
+
+    std::string thing = "../Assets/Test/Astronaut_idle.png";
+    GameObject object{ thing, sf::Vector2f{1200, 500}, sf::Vector2f{2,2}, 5 };
 
     std::string path = "../Assets/Test/background2.png";
     GameObject background{ path, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
 
+    std::string button = "../Assets/Test/grey_button01.png";
+    std::string replaceButton = "../Assets/Test/green_button01.png";
+    Button testButton{ button, replaceButton, sf::Vector2f { 0, 0}, sf::Vector2f{1,1.5 }, [&] {std::cout << "Test"; } };
+
+    std::string fontLocation = "../Assets/Fonts/Mars.otf";
+    std::string textext = "Hallo123";
+    Text testText{ fontLocation, textext, sf::Vector2f{500,200}, sf::Vector2f{1,1}, [&] {std::cout << "Text clicc"; } };
+
+    std::vector<UIElement*> UIElements = { &testButton, &testText };
     GameObject game_objects[] = { object };
 
     action actions[] = {
@@ -86,21 +99,22 @@ int main() {
         action(sf::Mouse::Left,     [&]() { std::cout << "Mouse\n"; })
     };
 
+    unsigned int i = 0;
     auto previous = std::chrono::system_clock::now();
     auto lag = 0.0;
 
-    while (window.isOpen()){
+    while (window.isOpen()) {
         // Always take the same time step per loop. (should work)
         auto current = std::chrono::system_clock::now();
         std::chrono::duration<double> elapsed = current - previous;
         previous = current;
         lag += elapsed.count();
 
-        for (auto& action : actions){
+        for (auto& action : actions) {
             action();
         }
 
-        while (lag >= elapsed.count()){
+        while (lag >= elapsed.count()) {
             // Move the view at an ever increasing speed and move the background along with the same speed.
             double viewMoveSpeed = update_view_position(mainView, window, elapsed.count());
             move_background_with_view(background, viewMoveSpeed);
@@ -109,17 +123,32 @@ int main() {
             sf::FloatRect view2 = getViewBounds(mainView);
             auto rect = object.getGlobalBounds();
 
-            if (rect.intersects(view2)){
+            if (rect.intersects(view2)) {
                 //std::cout << "y\n";
             }
             else {
                 //std::cout << "n\n";
             }
 
-            
+            auto mouse_pos = sf::Mouse::getPosition(window);
+            auto translated_pos = window.mapPixelToCoords(mouse_pos);
+            for (auto& object : UIElements) {
+                if (object->getGlobalBounds().contains(translated_pos)) {
+                    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                        object->onClick();
+                    }
+                    else {
+                        object->onHover();
+                    }
+                }
+            }
+
+            testText.setText(std::to_string(i));
+
+
 
             /* Zet hier je code. */
-            
+
 
 
 
@@ -130,20 +159,27 @@ int main() {
 
         background.draw(window);
 
-        for (auto & current_object : game_objects){
+        for (auto& current_object : game_objects) {
             current_object.draw(window);
         }
+
+        for (UIElement* current_object : UIElements) {
+            current_object->draw(window);
+        }
+
         window.draw(shape);
         window.display();
 
         sf::Event event;
-        while (window.pollEvent(event)){
-            if (event.type == sf::Event::Closed){
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
                 window.close();
             }
         }
+
+        i++;
     }
-        
+
     return 0;
 }
 
