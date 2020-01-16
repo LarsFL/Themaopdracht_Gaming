@@ -53,7 +53,7 @@ sf::FloatRect getViewBounds(const sf::View& view) {
     return rt;
 }
 
-int main() {
+int main(){
     sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
 
     sf::View mainView;
@@ -163,7 +163,7 @@ int main() {
             current_object.draw(window);
         }
 
-        for (UIElement* current_object : UIElements) {
+        for (UIElement * current_object : UIElements) {
             current_object->draw(window);
         }
 
