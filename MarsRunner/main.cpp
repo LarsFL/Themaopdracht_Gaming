@@ -11,8 +11,11 @@
 
 int main(){
     sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
-
+    sf::View fixed = window.getView();
     sf::View mainView;
+
+    bool escapeUp = true;
+
     mainView.setCenter(sf::Vector2f(600.f, 384.f));
     mainView.setSize(sf::Vector2f(1280.f, 720.f));
     mainView.setViewport(sf::FloatRect(0, 0, 1, 1));
@@ -28,16 +31,14 @@ int main(){
     std::string path = "../Assets/Test/background2.png";
     GameObject background{ path, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
 
-    std::string button = "../Assets/Test/grey_button01.png";
-    std::string replaceButton = "../Assets/Test/green_button01.png";
-    Button testButton{ button, replaceButton, sf::Vector2f { 0, 0}, sf::Vector2f{1,1.5 }, [&]{std::cout << "Test"; } };
+    sf::CircleShape shape(100.f);
+    shape.setFillColor(sf::Color::Green);
 
-    std::string fontLocation = "../Assets/Fonts/Mars.otf";
-    std::string textext = "Hallo123";
-    Text testText{ fontLocation, textext, sf::Vector2f{500,200}, sf::Vector2f{1,1}, [&] {std::cout << "Text clicc"; } };
+    GameState state{};
 
     std::vector<UIElement*> UIElements = { &testButton, &testText };
     GameObject game_objects[] = { object };
+    InitializeUI(window, fixed, state);
 
     action actions[] = {
         action(sf::Keyboard::Up,    [&]() { std::cout << "Up\n"; }),
@@ -52,7 +53,9 @@ int main(){
 
         action(sf::Keyboard::Space, [&]() { std::cout << "Space\n"; }),
 
-        action(sf::Mouse::Left,     [&]() { std::cout << "Mouse\n"; })
+        action(sf::Mouse::Left,     [&]() { std::cout << "Mouse\n"; }),
+        action(sf::Keyboard::Escape,[&]() { if (escapeUp) { state.handleEscape(); escapeUp = false; } }),
+        action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape); }, [&]() { escapeUp = true; })
     };
 
     unsigned int i = 0;
@@ -106,13 +109,16 @@ int main(){
             /* Zet hier je code. */
 
 
+            auto mouse_pos = sf::Mouse::getPosition(window);
+            auto translated_pos = window.mapPixelToCoords(mouse_pos);
+            state.updateUI(translated_pos);
 
 
             lag -= elapsed.count();
         }
 
         window.clear();
-
+        //
         background.draw(window);
 
         for (auto& current_object : game_objects) {
@@ -128,6 +134,16 @@ int main(){
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
+        //
+        window.setView(game);
+        window.setView(fixed);
+        state.draw(window);
+        window.display();
+
+        sf::Event event;
+        while (window.pollEvent(event)){
+            if (event.type == sf::Event::Closed || state.closeGame) {
+                //
                 window.close();
             }
         }

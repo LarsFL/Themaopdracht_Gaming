@@ -3,14 +3,21 @@
 
 #include <map>
 #include <string>
+#include <iostream>
+#include <SFML/Graphics.hpp>
 
 #include "Code/Game engine/UI systems/UI_State.hpp"
 
-enum game_states {
+enum class game_states {
 	MAIN_MENU,
 	GAME_OVER,
 	PAUSED,
 	PLAYING
+};
+
+enum class paused_substates {
+	MAIN,
+	ARE_YOU_SURE
 };
 
 class GameState {
@@ -21,14 +28,41 @@ private:
 	std::string playerName = "Elon";
 	game_states state = game_states::MAIN_MENU;
 public:
+	bool closeGame = false;
+	GameState() {}
 
-
-	void addUIState(game_states state, UI_State* stateUI) {
-		UIStates[state] = stateUI;
+	void addUIState(game_states newState, UI_State &stateUI) {
+		auto copyUI(stateUI);
+		UIStates[newState] = new UI_State(stateUI);
 	}
 
 	void draw(sf::RenderWindow& window) {
 		UIStates[state]->draw(window);
+	}
+
+	void updateUI(sf::Vector2f& mouse_pos) {
+		UIStates[state]->update(mouse_pos);
+	}
+
+	void setState(game_states newState) {
+		state = newState;
+	}
+
+	void handleEscape() {
+		switch (state) {
+			case (game_states::MAIN_MENU): {
+				closeGame = true;
+				return;
+			}
+			case (game_states::PLAYING): {
+				state = game_states::PAUSED;
+				return;
+			}
+			case (game_states::PAUSED): {
+				state = game_states::PLAYING;
+				return;
+			}
+		}
 	}
 
 
