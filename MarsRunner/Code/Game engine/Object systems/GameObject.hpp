@@ -1,6 +1,7 @@
-#include <SFML/Graphics.hpp>
-#include <string>
+#ifndef GAMEOBJECT_HPP
+#define GAMEOBJECT_HPP
 
+#include <SFML/Graphics.hpp>
 
 class GameObject {
 protected:
@@ -68,7 +69,7 @@ public:
 	}
 
 	sf::FloatRect getGlobalBounds() {
-		sprite.getGlobalBounds();
+		return sprite.getGlobalBounds();
 	}
 
 	template <class T>
@@ -76,3 +77,5 @@ public:
 		a();
 	}
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef INPUT_HPP
+#define INPUT_HPP
+
 #include <iostream>
 #include <functional>
 #include <SFML/Graphics.hpp>
@@ -40,3 +43,5 @@ public:
 		}
 	}
 };
+
+#endif //INPUT_HPP

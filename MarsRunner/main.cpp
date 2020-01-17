@@ -1,7 +1,10 @@
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Object systems/GameObject.hpp"
+#include "Code/Game engine/Object systems/Player.hpp"
+#include "Code/Game engine/Physics systems/physics.hpp"
 
 int main()
 {
@@ -10,38 +13,30 @@ int main()
     shape.setFillColor(sf::Color::Green);
    
     std::string thing = "../Assets/Test/testplaatje.png";
-    GameObject object{ thing, sf::Vector2f{0,0}, sf::Vector2f{0.1,0.1}, 5 };
 
+    GameObject ground { thing, sf::Vector2f{250,250}, sf::Vector2f{0.1,0.1}, 5, false };
+    GameObject ground1 { thing, sf::Vector2f{0,400}, sf::Vector2f{0.1,0.1}, 5, false };
+    GameObject ground2 { thing, sf::Vector2f{82,400}, sf::Vector2f{0.1,0.1}, 5, false };
+    GameObject ground3{ thing, sf::Vector2f{164,400}, sf::Vector2f{0.1,0.1}, 5, false };
+    GameObject ground4{ thing, sf::Vector2f{246,400}, sf::Vector2f{0.1,0.1}, 5, false };
+    GameObject ground5{ thing, sf::Vector2f{328,400}, sf::Vector2f{0.1,0.1}, 5, false };
+    GameObject ground6{ thing, sf::Vector2f{410,400}, sf::Vector2f{0.1,0.1}, 5, false };
 
-    action actions[] = {
-        action(sf::Keyboard::Up,    [&]() { std::cout << "Up\n"; }),
-        action(sf::Keyboard::Left,  [&]() { std::cout << "Left\n"; }),
-        action(sf::Keyboard::Down,  [&]() { std::cout << "Down\n"; }),
-        action(sf::Keyboard::Right, [&]() { std::cout << "Right\n"; }),
+    std::vector<GameObject*> groundObjects = { &ground, &ground1, &ground2 ,&ground3, &ground4, &ground5, &ground6 };
 
-        action(sf::Keyboard::W,     [&]() { std::cout << "W\n"; }),
-        action(sf::Keyboard::A,     [&]() { std::cout << "A\n"; }),
-        action(sf::Keyboard::S,     [&]() { std::cout << "S\n"; }),
-        action(sf::Keyboard::D,     [&]() { std::cout << "D\n"; }),
+    Player player{ thing, sf::Vector2f{0,250}, sf::Vector2f{0.1,0.1}, 5, false, window, groundObjects };
+    player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
 
-        action(sf::Keyboard::Space, [&]() { std::cout << "Space\n"; }),
-
-        action(sf::Mouse::Left,     [&]() { std::cout << "Mouse\n"; })
-    };
-
-
-    while (window.isOpen())
-    {
-        for (auto& action : actions){
-            action();
-        }
+    while (window.isOpen()) {
 
         window.clear();
-        object.draw(window);
+
+        player.update();
+
         window.display();
 
         sf::Event event;
-        while (window.pollEvent(event)){
+        while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
