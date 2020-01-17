@@ -48,6 +48,10 @@ public:
 		state = newState;
 	}
 
+	game_states getState() {
+		return state;
+	}
+
 	void handleEscape() {
 		switch (state) {
 			case (game_states::MAIN_MENU): {
