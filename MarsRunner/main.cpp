@@ -11,7 +11,7 @@
 #include "Code/Game engine/Object systems/Player.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
 
-int main(){
+int main() {
     sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
 
     sf::View mainView;
@@ -23,7 +23,7 @@ int main(){
     sf::CircleShape shape(50.f);
     shape.setPosition(sf::Vector2f(840, 260));
     shape.setFillColor(sf::Color::Green);
-    
+
     std::string thing = "../Assets/Test/Astronaut_idle.png";
     GameObject object{ thing, sf::Vector2f{1200, 500}, sf::Vector2f{2,2}, 5 };
 
@@ -32,7 +32,7 @@ int main(){
 
     std::string button = "../Assets/Test/grey_button01.png";
     std::string replaceButton = "../Assets/Test/green_button01.png";
-    Button testButton{ button, replaceButton, sf::Vector2f { 0, 0}, sf::Vector2f{1,1.5 }, [&]{std::cout << "Test"; } };
+    Button testButton{ button, replaceButton, sf::Vector2f { 0, 0}, sf::Vector2f{1,1.5 }, [&] {std::cout << "Test"; } };
 
     std::string fontLocation = "../Assets/Fonts/Mars.otf";
     std::string textext = "Hallo123";
@@ -40,104 +40,106 @@ int main(){
 
     std::vector<UIElement*> UIElements = { &testButton, &testText };
     GameObject game_objects[] = { object };
-   
-    std::string thing = "../Assets/Test/testplaatje.png";
 
-    GameObject ground { thing, sf::Vector2f{250,250}, sf::Vector2f{0.1,0.1}, 5, false };
-    GameObject ground1 { thing, sf::Vector2f{0,400}, sf::Vector2f{0.1,0.1}, 5, false };
-    GameObject ground2 { thing, sf::Vector2f{82,400}, sf::Vector2f{0.1,0.1}, 5, false };
-    GameObject ground3{ thing, sf::Vector2f{164,400}, sf::Vector2f{0.1,0.1}, 5, false };
-    GameObject ground4{ thing, sf::Vector2f{246,400}, sf::Vector2f{0.1,0.1}, 5, false };
-    GameObject ground5{ thing, sf::Vector2f{328,400}, sf::Vector2f{0.1,0.1}, 5, false };
-    GameObject ground6{ thing, sf::Vector2f{410,400}, sf::Vector2f{0.1,0.1}, 5, false };
+    std::string testPlaatje = "../Assets/Test/testplaatje.png";
+
+    GameObject ground{ testPlaatje, sf::Vector2f{250,250}, sf::Vector2f{0.1,0.1}, 5, false };
+    GameObject ground1{ testPlaatje, sf::Vector2f{0,400}, sf::Vector2f{0.1,0.1}, 5, false };
+    GameObject ground2{ testPlaatje, sf::Vector2f{82,400}, sf::Vector2f{0.1,0.1}, 5, false };
+    GameObject ground3{ testPlaatje, sf::Vector2f{164,400}, sf::Vector2f{0.1,0.1}, 5, false };
+    GameObject ground4{ testPlaatje, sf::Vector2f{246,400}, sf::Vector2f{0.1,0.1}, 5, false };
+    GameObject ground5{ testPlaatje, sf::Vector2f{328,400}, sf::Vector2f{0.1,0.1}, 5, false };
+    GameObject ground6{ testPlaatje, sf::Vector2f{410,400}, sf::Vector2f{0.1,0.1}, 5, false };
 
     std::vector<GameObject*> groundObjects = { &ground, &ground1, &ground2 ,&ground3, &ground4, &ground5, &ground6 };
 
-    Player player{ thing, sf::Vector2f{0,250}, sf::Vector2f{0.1,0.1}, 5, false, window, groundObjects };
+    Player player{ testPlaatje, sf::Vector2f{0,250}, sf::Vector2f{0.1,0.1}, 5, false, window, groundObjects };
     player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
 
     while (window.isOpen()) {
 
-    unsigned int i = 0;
-    auto previous = std::chrono::system_clock::now();
-    auto lag = 0.0;
+        unsigned int i = 0;
+        auto previous = std::chrono::system_clock::now();
+        auto lag = 0.0;
 
-    while (window.isOpen()) {
-        // Always take the same time step per loop. (should work)
-        auto current = std::chrono::system_clock::now();
-        std::chrono::duration<float> elapsed = current - previous;
-        previous = current;
-        lag += elapsed.count();
+        while (window.isOpen()) {
+            // Always take the same time step per loop. (should work)
+            auto current = std::chrono::system_clock::now();
+            std::chrono::duration<float> elapsed = current - previous;
+            previous = current;
+            lag += elapsed.count();
 
-        for (auto& action : actions) {
-            action();
-        }
+            while (lag >= elapsed.count()) {
+                // Move the view at an ever increasing speed and move the background along with the same speed.
+                float viewMoveSpeed = update_view_position(mainView, window, elapsed.count());
+                move_object_with_view(background, viewMoveSpeed);
 
-        while (lag >= elapsed.count()) {
-            // Move the view at an ever increasing speed and move the background along with the same speed.
-            float viewMoveSpeed = update_view_position(mainView, window, elapsed.count());
-            move_object_with_view(background, viewMoveSpeed);
-            
-            // Check if selected object is within the bouns of the selected view
-            sf::FloatRect view2 = getViewBounds(mainView);
-            auto rect = object.getGlobalBounds();
+                // Check if selected object is within the bouns of the selected view
+                sf::FloatRect view2 = getViewBounds(mainView);
+                auto rect = object.getGlobalBounds();
 
-            if (rect.intersects(view2)) {
-                //std::cout << "y\n";
-            }
-            else {
-                //std::cout << "n\n";
-            }
+                if (rect.intersects(view2)) {
+                    //std::cout << "y\n";
+                }
+                else {
+                    //std::cout << "n\n";
+                }
 
-            auto mouse_pos = sf::Mouse::getPosition(window);
-            auto translated_pos = window.mapPixelToCoords(mouse_pos);
-            for (auto& object : UIElements) {
-                if (object->getGlobalBounds().contains(translated_pos)) {
-                    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                        object->onClick();
+                auto mouse_pos = sf::Mouse::getPosition(window);
+                auto translated_pos = window.mapPixelToCoords(mouse_pos);
+                for (auto& object : UIElements) {
+                    if (object->getGlobalBounds().contains(translated_pos)) {
+                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                            object->onClick();
+                        }
+                        else {
+                            object->onHover();
+                        }
                     }
-                    else {
-                        object->onHover();
-                    }
+                }
+
+                testText.setText(std::to_string(i));
+
+
+
+                /* Zet hier je code. */
+                player.update();
+
+
+
+                lag -= elapsed.count();
+            }
+
+            window.clear();
+
+            background.draw(window);
+
+            for (auto& current_object : game_objects) {
+                current_object.draw(window);
+            }
+
+            for (UIElement* current_object : UIElements) {
+                current_object->draw(window);
+            }
+
+            for (auto& objectThing : groundObjects) {
+                objectThing->draw(window);
+            }
+
+            player.draw(window);
+
+            window.display();
+
+            sf::Event event;
+            while (window.pollEvent(event)) {
+                if (event.type == sf::Event::Closed) {
+                    window.close();
                 }
             }
 
-            testText.setText(std::to_string(i));
-            
-            
-            
-            /* Zet hier je code. */
-            player.update();
-
-
-
-            lag -= elapsed.count();
+            i++;
         }
 
-        window.clear();
-
-        background.draw(window);
-
-        for (auto& current_object : game_objects) {
-            current_object.draw(window);
-        }
-
-        for (UIElement * current_object : UIElements) {
-            current_object->draw(window);
-        }
-
-        window.display();
-
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-            }
-        }
-
-        i++;
+        return 0;
     }
-
-    return 0;
 }
-
