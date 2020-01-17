@@ -15,6 +15,8 @@ int main()
     sf::View fixed = window.getView();
     sf::View game = fixed;
 
+    bool escapeUp = true;
+
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
 
@@ -37,7 +39,8 @@ int main()
 
         action(sf::Mouse::Left,     [&]() { std::cout << "Mouse\n"; }),
 
-        action(sf::Keyboard::Escape,[&]() { state.setState(game_states::MAIN_MENU); })
+        action(sf::Keyboard::Escape,[&]() { if (escapeUp) { state.handleEscape(); escapeUp = false; } }),
+        action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape); }, [&]() { escapeUp = true; })
     };
 
     while (window.isOpen())
@@ -52,14 +55,13 @@ int main()
 
         window.clear();
         window.setView(game);
-        /*object.draw(window);*/
         window.setView(fixed);
         state.draw(window);
         window.display();
 
         sf::Event event;
         while (window.pollEvent(event)){
-            if (event.type == sf::Event::Closed) {
+            if (event.type == sf::Event::Closed || state.closeGame) {
                 window.close();
             }
         }

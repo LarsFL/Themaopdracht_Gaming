@@ -15,6 +15,11 @@ enum class game_states {
 	PLAYING
 };
 
+enum class paused_substates {
+	MAIN,
+	ARE_YOU_SURE
+};
+
 class GameState {
 private:
 	std::map<game_states, UI_State*> UIStates = {};
@@ -23,6 +28,7 @@ private:
 	std::string playerName = "Elon";
 	game_states state = game_states::MAIN_MENU;
 public:
+	bool closeGame = false;
 	GameState() {}
 
 	void addUIState(game_states newState, UI_State &stateUI) {
@@ -40,6 +46,23 @@ public:
 
 	void setState(game_states newState) {
 		state = newState;
+	}
+
+	void handleEscape() {
+		switch (state) {
+			case (game_states::MAIN_MENU): {
+				closeGame = true;
+				return;
+			}
+			case (game_states::PLAYING): {
+				state = game_states::PAUSED;
+				return;
+			}
+			case (game_states::PAUSED): {
+				state = game_states::PLAYING;
+				return;
+			}
+		}
 	}
 
 
