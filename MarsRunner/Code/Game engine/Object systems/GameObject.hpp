@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+#include "../Animation systems/AnimationStates.hpp"
+
 class GameObject {
 protected:
 	sf::Texture image;
@@ -18,6 +20,7 @@ protected:
 	sf::IntRect rectSourceSprite = { 1, 2, 38, 42 };
 
 	bool animated;
+	AnimationStates* animations = nullptr;
 
 public:
 	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic = true, bool animated = false) :
@@ -34,12 +37,19 @@ public:
 	}
 
 	void draw(sf::RenderWindow& window) {
+		if (animated) {
+			sprite.setTextureRect(animations->getFrame());
+		}
 		if (isActive) {
 			if (!isStatic) {
 				sprite.setPosition(position);
 			}
 			window.draw(sprite);
 		}
+	}
+
+	void setAnimationStates(AnimationStates* newAnimations) {
+		animations = newAnimations;
 	}
 
 	void move(sf::Vector2f delta) {

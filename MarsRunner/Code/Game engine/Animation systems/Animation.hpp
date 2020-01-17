@@ -6,35 +6,32 @@
 
 class Animation {
 private:
-	int fps;
+	sf::IntRect firstFrameLoc; //left, top, width, height
+	int nFrames;
+	int distToNextFrame;
 
-	std::vector <sf::IntRect> FrameLoctations = {};
-	int nFrames = 0;
 	int currentFrame = 0;
 
 public:
-	Animation(int fps) :
-		fps(fps)
+	Animation(sf::IntRect firstFrameLoc = { 0,0,0,0 }, int nFrames = 0, int distToNextFrame = 0) :
+		firstFrameLoc(firstFrameLoc),
+		nFrames(nFrames),
+		distToNextFrame(distToNextFrame)
 	{}
 
-	void addFrameLoctation(sf::IntRect newLocation) {
-		FrameLoctations.push_back(newLocation);
-		nFrames++;
-	}
-
-	void setFirstFrame(sf::Sprite& sprite) {
-		currentFrame = 0;
-		sprite.setTextureRect(FrameLoctations[currentFrame]);
-	}
-
-	void goToNextFrame(sf::Sprite& sprite) {
+	void goToNextFrame() {
 		if (currentFrame + 1 < nFrames) {
 			currentFrame++;
 		}
 		else {
 			currentFrame = 0;
 		}
-		sprite.setTextureRect(FrameLoctations[currentFrame]);
+	}
+
+	sf::IntRect getFrame() {
+		sf::IntRect currentFrameRect = firstFrameLoc;
+		currentFrameRect.left += (distToNextFrame * currentFrame);
+		return currentFrameRect;
 	}
 };
 #endif //_ANIMATION_HPP

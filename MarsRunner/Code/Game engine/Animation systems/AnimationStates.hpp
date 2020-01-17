@@ -3,33 +3,58 @@
 
 #include <map>
 #include <string>
+#include <chrono>
 
 #include "Animation.hpp"
 
-class animationStates {
+enum PossibleStates {
+	CROUCH,
+	DAMAGED,
+	DEATH,
+	IDLE,
+	JUMP_START_IMPACT,
+	SHOOT,
+	START_SHOOT_WALK,
+	WALK
+};
+
+class AnimationStates {
 private:
-	std::map<std::string, Animation> animations = {};
+
+	std::map<PossibleStates, Animation> animations = {};
 	int nAnimations = 0;
 	std::string currentAnimation;
+
+	std::chrono::milliseconds timeToNextFrame;
+	std::chrono::system_clock::time_point timeLastFrame;
+
+	PossibleStates state = PossibleStates::IDLE;
 public:
-	animationStates(){}
+	AnimationStates(int timeToNextFrameInt){
+		timeToNextFrame = timeToNextFrame;
+	}
 
-	void addAnimation(std::string name, Animation newAnimation) {
-		animations[name] = newAnimation;
+	void addAnimation(PossibleStates state, Animation newAnimation) {
+		animations[state] = newAnimation;
 		nAnimations++;
-	} 
+	}
 
-	void setAnimation(std::string newAnimation) {
-		if (animations.find(newAnimation) == animations.end()) {
-			//error
-		}
-		else {
-			currentAnimation = newAnimation;
-		}
+	void setState(PossibleStates newState) {
+		state = newState;
 	}
 
 	Animation getAnimation() {
-		return animations[currentAnimation];
+		return animations[state];
+	}
+
+	sf::IntRect getFrame() {
+		auto current = std::chrono::system_clock::now();
+		if (timeLastFrame + timeToNextFrame > current) {
+			animations[state].goToNextFrame();
+		}
+
+		timeLastFrame = std::chrono::system_clock::now();
+		return animations[state].getFrame();
 	}
 };
 #endif

@@ -17,9 +17,6 @@
     <Filter Include="Code\Game engine\UI systems">
       <UniqueIdentifier>{7465677c-57e4-4d06-b0a0-94a7d15fe9a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Game engine\object systems">
-      <UniqueIdentifier>{ae5fbd5f-1136-490c-ba29-ad0f50e31411}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\setup">
       <UniqueIdentifier>{24cb04e0-224d-4e3d-8398-de1c4515f9e8}</UniqueIdentifier>
     </Filter>
@@ -38,6 +35,12 @@
     <Filter Include="Code\Game engine\Animation systems">
       <UniqueIdentifier>{0e18e948-c885-4f48-af7b-63af040eed13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\Game engine\Physics systems">
+      <UniqueIdentifier>{f8d56576-6285-4f62-aa59-14680d88ab24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Game engine\Object systems">
+      <UniqueIdentifier>{ae5fbd5f-1136-490c-ba29-ad0f50e31411}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp">
@@ -49,7 +52,7 @@
       <Filter>Code\Game engine\input systems</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\Object systems\GameObject.hpp">
-      <Filter>Code\Game engine\object systems</Filter>
+      <Filter>Code\Game engine\Object systems</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\UI systems\Button.hpp">
       <Filter>Code\Game engine\UI systems</Filter>
@@ -71,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\Animation systems\Animation.hpp">
       <Filter>Code\Game engine\Animation systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Setup\InitializeAnimations.hpp">
+      <Filter>Code\setup</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
