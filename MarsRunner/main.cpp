@@ -7,61 +7,11 @@
 #include "Code/Game engine/UI systems/Text.hpp"
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Object systems/GameObject.hpp"
+#include "Code/Game engine/World Speed Systems/view.hpp"
 
-void move_background_with_view(GameObject & object, double & amount) {
-    /// Move the background at the ame speed as the view.    
-    double minSpeed = 0.05;
-
-    if ((amount) < minSpeed) {
-        object.move(sf::Vector2f{ ((float)minSpeed), 0 });
-    }
-    else {
-        object.move(sf::Vector2f{ ((float)amount), 0 });
-    }
-}
-
-void update_game_object_speed(GameObject & object) {
-    /// Move all object from the game object array in a constant motion.
-    object.move(sf::Vector2f{ 0.1, 0.1 });
-}
-
-double update_view_position(sf::View & view, sf::RenderWindow & window, double amount) {
-    /// Move the selected view in a slowly accelerating motion.
-    double minSpeed = 0.05;
-    static double increaseValue = minSpeed;
-    increaseValue += amount;
-
-    // Move the view with a constant speed, until a certain value. From there the speed will slowly increase.
-    if ((increaseValue / 500) < minSpeed) {
-        view.move(minSpeed, 0);
-    } else {
-        view.move(increaseValue / 500, 0);
-    }
-    
-    window.setView(view);
-    return increaseValue / 500;
-}
-
-sf::FloatRect getViewBounds(const sf::View & view){
-    /// Return the bound of the selected view.
-    sf::FloatRect rt;
-    rt.left = view.getCenter().x - view.getSize().x / 2.f;
-    rt.top = view.getCenter().y - view.getSize().y / 2.f;
-    rt.width = view.getSize().x;
-    rt.height = view.getSize().y;
-    return rt;
-}
-
-int main()
-{
+int main(){
     sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
 
-
-int main() {
-    sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
-    
     sf::View mainView;
     mainView.setCenter(sf::Vector2f(600.f, 384.f));
     mainView.setSize(sf::Vector2f(1280.f, 720.f));
@@ -87,13 +37,13 @@ int main() {
     Text testText{ fontLocation, textext, sf::Vector2f{500,200}, sf::Vector2f{1,1}, [&] {std::cout << "Text clicc"; } };
 
     std::vector<UIElement*> UIElements = { &testButton, &testText };
-    GameObject game_objects[] = { object, testButton, testText };
+    GameObject game_objects[] = { object };
 
     action actions[] = {
-        action(sf::Keyboard::Up,    [&]() { mainView.move(0, -1); window.setView(mainView); }),
-        action(sf::Keyboard::Left,  [&]() { mainView.move(-1, 0); window.setView(mainView); }),
-        action(sf::Keyboard::Down,  [&]() { mainView.move(0, 1); window.setView(mainView); }),
-        action(sf::Keyboard::Right, [&]() { mainView.move(1, 0); window.setView(mainView); }),
+        action(sf::Keyboard::Up,    [&]() { std::cout << "Up\n"; }),
+        action(sf::Keyboard::Left,  [&]() { std::cout << "Left\n"; }),
+        action(sf::Keyboard::Down,  [&]() { std::cout << "Down\n"; }),
+        action(sf::Keyboard::Right, [&]() { std::cout << "Right\n"; }),
 
         action(sf::Keyboard::W,     [&]() { std::cout << "W\n"; }),
         action(sf::Keyboard::A,     [&]() { std::cout << "A\n"; }),
@@ -109,27 +59,27 @@ int main() {
     auto previous = std::chrono::system_clock::now();
     auto lag = 0.0;
 
-    while (window.isOpen()){
+    while (window.isOpen()) {
         // Always take the same time step per loop. (should work)
         auto current = std::chrono::system_clock::now();
-        std::chrono::duration<double> elapsed = current - previous;
+        std::chrono::duration<float> elapsed = current - previous;
         previous = current;
         lag += elapsed.count();
 
-        for (auto& action : actions){
+        for (auto& action : actions) {
             action();
         }
 
-        while (lag >= elapsed.count()){
+        while (lag >= elapsed.count()) {
             // Move the view at an ever increasing speed and move the background along with the same speed.
-            double viewMoveSpeed = update_view_position(mainView, window, elapsed.count());
+            float viewMoveSpeed = update_view_position(mainView, window, elapsed.count());
             move_background_with_view(background, viewMoveSpeed);
-
+            
             // Check if selected object is within the bouns of the selected view
             sf::FloatRect view2 = getViewBounds(mainView);
             auto rect = object.getGlobalBounds();
 
-            if (rect.intersects(view2)){
+            if (rect.intersects(view2)) {
                 //std::cout << "y\n";
             }
             else {
@@ -154,7 +104,7 @@ int main() {
             
             
             /* Zet hier je code. */
-            
+
 
 
 
@@ -165,22 +115,26 @@ int main() {
 
         background.draw(window);
 
-        for (auto & current_object : game_objects){
+        for (auto& current_object : game_objects) {
             current_object.draw(window);
         }
-        window.draw(shape);
+
+        for (UIElement * current_object : UIElements) {
+            current_object->draw(window);
+        }
+
         window.display();
 
         sf::Event event;
-        while (window.pollEvent(event)){
-            if (event.type == sf::Event::Closed){
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
                 window.close();
             }
         }
 
         i++;
     }
-        
+
     return 0;
 }
 
