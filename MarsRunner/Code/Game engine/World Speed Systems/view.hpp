@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 
-void move_background_with_view(GameObject& object, float& amount) {
+void move_object_with_view(GameObject& object, float& amount) {
     /// Move the background at the ame speed as the view.    
     float minSpeed = 0.05;
 

@@ -73,7 +73,7 @@ int main(){
         while (lag >= elapsed.count()) {
             // Move the view at an ever increasing speed and move the background along with the same speed.
             float viewMoveSpeed = update_view_position(mainView, window, elapsed.count());
-            move_background_with_view(background, viewMoveSpeed);
+            move_object_with_view(background, viewMoveSpeed);
             
             // Check if selected object is within the bouns of the selected view
             sf::FloatRect view2 = getViewBounds(mainView);
