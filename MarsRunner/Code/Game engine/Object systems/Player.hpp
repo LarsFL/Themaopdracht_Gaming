@@ -13,15 +13,14 @@ protected:
 	bool isGround = false;
 	sf::RenderWindow& window;
 	std::vector<GameObject*>& groundObjects;
-	//std::vector<action>& actions;
 
 	std::vector<action> actions = {
 		action(sf::Keyboard::Up,
 		[&]() {
 		if (this->isOnGround()) {
 			this->isOnGround(false);
-			this->setAcceleration(sf::Vector2f{ 0.0, 0.3 });
-			this->setVelocity(sf::Vector2f{ 0.0, -10.0 });
+			this->setAcceleration(sf::Vector2f{ 0.0, 0.2 });
+			this->setVelocity(sf::Vector2f{ 0.0, -6.0 });
 		}
 		}),
 
@@ -68,7 +67,6 @@ public:
 		this->isOnGround(false);
 
 		for (auto& groundObject : groundObjects) {
-			groundObject->draw(window);
 
 			if (isObjOnGround(*this, *groundObject)) {
 				this->isOnGround(true);
@@ -85,12 +83,20 @@ public:
 			this->setVelocity(velocity);
 			this->move(this->getVelocity());
 		}
+		
 		else
 		{
-			this->setVelocity(sf::Vector2f{ 0.0, 0.0 });
+			if (this->getVelocity().y < 0.0) {
+				sf::Vector2f velocity = this->getVelocity();
+				velocity += this->getAcceleration();
+				this->setVelocity(velocity);
+				this->move(this->getVelocity());
+			}
+			
+			else {
+				this->setVelocity(sf::Vector2f{ 0.0, 0.0 });
+			}
 		}
-
-		this->draw(window);
 	}
 
 };

@@ -100,12 +100,7 @@ int main() {
 
                 testText.setText(std::to_string(i));
 
-
-
-                /* Zet hier je code. */
                 player.update();
-
-
 
                 lag -= elapsed.count();
             }
@@ -126,7 +121,7 @@ int main() {
                 objectThing->draw(window);
             }
 
-            player.draw(window);
+            player.draw(window); //volgens mij onnodig, wordt al in player.update() aangeroepen
 
             window.display();
 

@@ -17,13 +17,13 @@ bool isObjOnGround(GameObject& movingObj, GameObject& staticObj) {
 
 bool isLeftIntersecting(GameObject& movingObj, GameObject& staticObj) {
 	sf::FloatRect globalBounds = movingObj.getGlobalBounds();
-	sf::FloatRect intersectionTester(globalBounds.left - 2, globalBounds.top, 2, globalBounds.height - 4);
+	sf::FloatRect intersectionTester(globalBounds.left - 2, globalBounds.top, 2, globalBounds.height - 6);
 	return intersectionTester.intersects(staticObj.getGlobalBounds());
 }
 
 bool isRightIntersecting(GameObject& movingObj, GameObject& staticObj) {
 	sf::FloatRect globalBounds = movingObj.getGlobalBounds();
-	sf::FloatRect intersectionTester(globalBounds.left + globalBounds.width, globalBounds.top, 2, globalBounds.height - 4);
+	sf::FloatRect intersectionTester(globalBounds.left + globalBounds.width, globalBounds.top, 2, globalBounds.height - 6);
 	return intersectionTester.intersects(staticObj.getGlobalBounds());
 }
 
