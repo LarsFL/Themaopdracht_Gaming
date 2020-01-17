@@ -71,7 +71,7 @@ public:
 	}
 
 	sf::FloatRect getGlobalBounds() {
-		sprite.getGlobalBounds();
+		return sprite.getGlobalBounds();
 	}
 
 	template <class T>
