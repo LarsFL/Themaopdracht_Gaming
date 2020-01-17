@@ -56,7 +56,7 @@ void InitializeUI(sf::RenderWindow& window, sf::View & fixedView, GameState & st
 	mainMenuState.append(LeaderboardText);
 
 	// Quit button
-	Button QuitButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Quit clicc" << std::endl; state.closeGame = true; } };
+	Button QuitButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Quit clicc" << std::endl; /*state.closeGame = true;*/ } };
 	QuitButton.centerOrigin();
 	QuitButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 7))));
 	mainMenuState.append(QuitButton);

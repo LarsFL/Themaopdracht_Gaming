@@ -25,6 +25,9 @@
     <Filter Include="Setup">
       <UniqueIdentifier>{16517712-0201-4e65-88a2-eeb37a24231d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="World speed">
+      <UniqueIdentifier>{9f74bf39-c368-441c-bd54-0e1f99422335}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp">
@@ -55,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="..\Code\Setup\InitializeUI.hpp">
       <Filter>Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\World Speed Systems\view.hpp">
+      <Filter>World speed</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

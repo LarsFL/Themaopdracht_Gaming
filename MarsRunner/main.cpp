@@ -9,6 +9,9 @@
 #include "Code/Game engine/Object systems/GameObject.hpp"
 #include "Code/Game engine/World Speed Systems/view.hpp"
 
+#include "Code/Setup/GameState.hpp"
+#include "Code/Setup/InitializeUI.hpp"
+
 int main(){
     sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
     sf::View fixed = window.getView();
@@ -31,12 +34,8 @@ int main(){
     std::string path = "../Assets/Test/background2.png";
     GameObject background{ path, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
 
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-
     GameState state{};
 
-    std::vector<UIElement*> UIElements = { &testButton, &testText };
     GameObject game_objects[] = { object };
     InitializeUI(window, fixed, state);
 
@@ -58,7 +57,6 @@ int main(){
         action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape); }, [&]() { escapeUp = true; })
     };
 
-    unsigned int i = 0;
     auto previous = std::chrono::system_clock::now();
     auto lag = 0.0;
 
@@ -89,29 +87,8 @@ int main(){
                 //std::cout << "n\n";
             }
 
-            auto mouse_pos = sf::Mouse::getPosition(window);
-            auto translated_pos = window.mapPixelToCoords(mouse_pos);
-            for (auto& object : UIElements) {
-                if (object->getGlobalBounds().contains(translated_pos)) {
-                    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                        object->onClick();
-                    }
-                    else {
-                        object->onHover();
-                    }
-                }
-            }
-
-            testText.setText(std::to_string(i));
-            
-            
-            
             /* Zet hier je code. */
 
-
-            auto mouse_pos = sf::Mouse::getPosition(window);
-            auto translated_pos = window.mapPixelToCoords(mouse_pos);
-            state.updateUI(translated_pos);
 
 
             lag -= elapsed.count();
@@ -119,36 +96,30 @@ int main(){
 
         window.clear();
         //
+        window.setView(mainView);
         background.draw(window);
+
+        auto mouse_pos = sf::Mouse::getPosition(window);
+        auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
+        state.updateUI(translated_pos);
 
         for (auto& current_object : game_objects) {
             current_object.draw(window);
         }
 
-        for (UIElement * current_object : UIElements) {
-            current_object->draw(window);
-        }
 
-        window.display();
-
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-        //
-        window.setView(game);
         window.setView(fixed);
         state.draw(window);
+
         window.display();
+        window.setView(mainView);
 
         sf::Event event;
         while (window.pollEvent(event)){
             if (event.type == sf::Event::Closed || state.closeGame) {
-                //
                 window.close();
             }
         }
-
-        i++;
     }
 
     return 0;
