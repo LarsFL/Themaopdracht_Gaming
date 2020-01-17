@@ -123,7 +123,6 @@ int main(){
             current_object->draw(window);
         }
 
-        window.draw(shape);
         window.display();
 
         sf::Event event;

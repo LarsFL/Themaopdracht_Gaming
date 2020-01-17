@@ -2,11 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\MarsRunner",
+    "\\MarsRunner\\Assets",
+    "\\MarsRunner\\Assets\\Test",
     "\\MarsRunner\\Code",
     "\\MarsRunner\\Code\\Game engine",
+    "\\MarsRunner\\Code\\Game engine\\Object systems",
+    "\\MarsRunner\\Code\\Game engine\\UI systems",
     "\\MarsRunner\\MarsRunner",
-    "\\MarsRunner\\MarsRunner\\Debug",
     "\\MarsRunner\\MarsRunner\\x64"
   ],
+  "SelectedNode": "\\MarsRunner\\Code\\Game engine\\UI systems\\Button.hpp",
   "PreviewInSolutionExplorer": false
 }

@@ -1,6 +1,8 @@
+#ifndef _GAMEOBJECT_HPP
+#define _GAMEOBJECT_HPP
+
 #include <SFML/Graphics.hpp>
 #include <string>
-
 
 class GameObject {
 protected:
@@ -13,6 +15,7 @@ protected:
 	sf::Vector2f acceleration = { 0,0 };
 	bool isStatic = true;
 	bool isActive = true;
+	sf::IntRect rectSourceSprite = { 1, 2, 38, 42 };
 public:
 	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic = true) :
 		position(position),
@@ -76,3 +79,5 @@ public:
 		a();
 	}
 };
+
+#endif
