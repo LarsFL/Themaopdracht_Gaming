@@ -6,24 +6,21 @@
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Object systems/GameObject.hpp"
 
+#include "Code/Setup/GameState.hpp"
+#include "Code/Setup/InitializeUI.hpp"
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
+    sf::View fixed = window.getView();
+    sf::View game = fixed;
+
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
 
-    std::string thing = "../Assets/Test/Astronaut_idle.png";
-    GameObject object{ thing, sf::Vector2f{0,0}, sf::Vector2f{2,2}, 5 };
+    GameState state{};
 
-    std::string button = "../Assets/Test/grey_button01.png";
-    std::string replaceButton = "../Assets/Test/green_button01.png";
-    Button testButton{ button, replaceButton, sf::Vector2f { 0, 0}, sf::Vector2f{1,1.5 }, [&]{std::cout << "Test"; } };
-
-    std::string fontLocation = "../Assets/Fonts/Mars.otf";
-    std::string textext = "Hallo123";
-    Text testText{ fontLocation, textext, sf::Vector2f{500,200}, sf::Vector2f{1,1}, [&] {std::cout << "Text clicc"; } };
-
-    std::vector<UIElement*> UIElements = { &testButton, &testText };
+    InitializeUI(window, fixed, state);
 
     action actions[] = {
         action(sf::Keyboard::Up,    [&]() { std::cout << "Up\n"; }),
@@ -38,10 +35,10 @@ int main()
 
         action(sf::Keyboard::Space, [&]() { std::cout << "Space\n"; }),
 
-        action(sf::Mouse::Left,     [&]() { std::cout << "Mouse\n"; })
-    };
+        action(sf::Mouse::Left,     [&]() { std::cout << "Mouse\n"; }),
 
-    unsigned int i = 0;
+        action(sf::Keyboard::Escape,[&]() { state.setState(game_states::MAIN_MENU); })
+    };
 
     while (window.isOpen())
     {
@@ -51,24 +48,13 @@ int main()
 
         auto mouse_pos = sf::Mouse::getPosition(window);
         auto translated_pos = window.mapPixelToCoords(mouse_pos);
-        for (auto& object : UIElements) {
-            if (object->getGlobalBounds().contains(translated_pos)) {
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                    object->onClick();
-                }
-                else {
-                    object->onHover();
-                }
-            }
-        }
-
-        testText.setText(std::to_string(i));
-
+        state.updateUI(translated_pos);
 
         window.clear();
-        object.draw(window);
-        testButton.draw(window);
-        testText.draw(window);
+        window.setView(game);
+        /*object.draw(window);*/
+        window.setView(fixed);
+        state.draw(window);
         window.display();
 
         sf::Event event;
@@ -79,7 +65,6 @@ int main()
         }
 
         sf::sleep(sf::milliseconds(10));
-        i++;
     }
 
     return 0;

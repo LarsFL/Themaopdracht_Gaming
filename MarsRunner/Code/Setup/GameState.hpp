@@ -3,10 +3,12 @@
 
 #include <map>
 #include <string>
+#include <iostream>
+#include <SFML/Graphics.hpp>
 
 #include "Code/Game engine/UI systems/UI_State.hpp"
 
-enum game_states {
+enum class game_states {
 	MAIN_MENU,
 	GAME_OVER,
 	PAUSED,
@@ -21,14 +23,23 @@ private:
 	std::string playerName = "Elon";
 	game_states state = game_states::MAIN_MENU;
 public:
+	GameState() {}
 
-
-	void addUIState(game_states state, UI_State* stateUI) {
-		UIStates[state] = stateUI;
+	void addUIState(game_states newState, UI_State &stateUI) {
+		auto copyUI(stateUI);
+		UIStates[newState] = new UI_State(stateUI);
 	}
 
 	void draw(sf::RenderWindow& window) {
 		UIStates[state]->draw(window);
+	}
+
+	void updateUI(sf::Vector2f& mouse_pos) {
+		UIStates[state]->update(mouse_pos);
+	}
+
+	void setState(game_states newState) {
+		state = newState;
 	}
 
 

@@ -8,9 +8,9 @@
     "\\MarsRunner\\Code\\Game engine",
     "\\MarsRunner\\Code\\Game engine\\Object systems",
     "\\MarsRunner\\Code\\Game engine\\UI systems",
+    "\\MarsRunner\\Code\\Setup",
     "\\MarsRunner\\MarsRunner",
     "\\MarsRunner\\MarsRunner\\x64"
   ],
-  "SelectedNode": "\\MarsRunner\\Code\\Game engine\\UI systems\\Button.hpp",
   "PreviewInSolutionExplorer": false
 }

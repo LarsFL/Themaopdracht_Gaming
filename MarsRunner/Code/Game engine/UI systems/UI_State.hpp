@@ -14,8 +14,14 @@ private:
 public:
 	UI_State(std::string name = "") : name(name) {}
 
-	void append(UIElement* newElement) {
-		elements.push_back(newElement);
+	UI_State(const UI_State& a) : name(a.name) {
+		for (auto element : a.elements) {
+			elements.push_back(element->clone());
+		}
+	}
+
+	void append(UIElement &newElement) {
+		elements.push_back(newElement.clone());
 	}
 
 	void draw(sf::RenderWindow & window) {
@@ -26,6 +32,19 @@ public:
 
 	std::string getName() {
 		return name;
+	}
+
+	void update(sf::Vector2f& mouse_pos) {
+		for (auto element : elements) {
+			if (element->getGlobalBounds().contains(mouse_pos)) {
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+					element->onClick();
+				}
+				else {
+					element->onHover();
+				}
+			}
+		}
 	}
 };
 
