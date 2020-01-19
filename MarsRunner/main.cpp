@@ -42,7 +42,6 @@ int main(){
     Button testButton{ button, replaceButton, sf::Vector2f { 0, 0}, sf::Vector2f{1,1.5 }, [&]{std::cout << "Test"; } };
     GameState state{};
 
-    GameObject game_objects[] = { object };
     InitializeUI(window, fixed, state);
 
     action actions[] = {
@@ -111,8 +110,8 @@ int main(){
             }    
             
             
-            lag -= elapsed.count();
             }
+            lag -= elapsed.count();
         }
 
         window.clear();
@@ -127,10 +126,6 @@ int main(){
         auto mouse_pos = sf::Mouse::getPosition(window);
         auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
         state.updateUI(translated_pos);
-
-        for (auto& current_object : game_objects) {
-            current_object.draw(window);
-        }
 
 
         window.setView(fixed);
