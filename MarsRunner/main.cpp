@@ -25,8 +25,18 @@ int main(){
     std::string thing = "../Assets/Test/Astronaut_idle.png";
     GameObject object{ thing, sf::Vector2f{1200, 500}, sf::Vector2f{2,2}, 5 };
 
-    std::string path = "../Assets/Test/background2.png";
-    GameObject background{ path, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
+    std::string pathBackground = "../Assets/Test/background2.png";
+    GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
+
+    std::string pathGround = "../Assets/Test/green_button01.png";
+    std::vector<GameObject> groundObjectList;
+    float widthValue = -190;
+    float widthG = 190;
+
+    for (unsigned int i = 0; i < 5; i++) {
+        groundObjectList.push_back({ pathGround, sf::Vector2f{widthValue, 675}, sf::Vector2f{1, 1}, 5, false });
+        widthValue += widthG;
+    }
 
     std::string button = "../Assets/Test/grey_button01.png";
     std::string replaceButton = "../Assets/Test/green_button01.png";
@@ -40,7 +50,7 @@ int main(){
     GameObject game_objects[] = { object };
 
     action actions[] = {
-        action(sf::Keyboard::Up,    [&]() { std::cout << "Up\n"; }),
+        action(sf::Keyboard::Up,    [&]() { mainView.move(-1, 0); window.setView(mainView); }),
         action(sf::Keyboard::Left,  [&]() { std::cout << "Left\n"; }),
         action(sf::Keyboard::Down,  [&]() { std::cout << "Down\n"; }),
         action(sf::Keyboard::Right, [&]() { std::cout << "Right\n"; }),
@@ -77,14 +87,31 @@ int main(){
             
             // Check if selected object is within the bouns of the selected view
             sf::FloatRect view2 = getViewBounds(mainView);
-            auto rect = object.getGlobalBounds();
-
-            if (rect.intersects(view2)) {
+            GameObject firstGroundObject = groundObjectList[0];
+            GameObject secondGroundObject = groundObjectList[1];
+            sf::FloatRect rectObject = groundObjectList[0].getGlobalBounds();
+            static float minLengthGroundObjects = widthG * (groundObjectList.size() - 1);
+            // Tet of pointer werkt als lijst voor ground objecten om de textures er goed in te krijgen.
+            if (rectObject.intersects(view2)) {
                 //std::cout << "y\n";
             }
             else {
+                firstGroundObject = secondGroundObject;
+                groundObjectList.erase(groundObjectList.begin());
+
+                std::cout << "L: " << groundObjectList.size() << "\n";
+                std::cout << "WV: " << minLengthGroundObjects << "\n";
+                groundObjectList.push_back({ pathGround, sf::Vector2f{minLengthGroundObjects, 675}, sf::Vector2f{1, 1}, 5, false });
+                minLengthGroundObjects += widthG;
+                widthValue += widthG;
+
+                groundObjectList[(groundObjectList.size() - 1)].draw(window);
+
+                std::cout << "L: " << groundObjectList.size() << "\n";
+
                 //std::cout << "n\n";
-            }
+            }    
+
 
             auto mouse_pos = sf::Mouse::getPosition(window);
             auto translated_pos = window.mapPixelToCoords(mouse_pos);
@@ -115,7 +142,7 @@ int main(){
 
         background.draw(window);
 
-        for (auto& current_object : game_objects) {
+        for (GameObject & current_object : game_objects) {
             current_object.draw(window);
         }
 
@@ -123,6 +150,11 @@ int main(){
             current_object->draw(window);
         }
 
+        for (GameObject& current_object : groundObjectList) {
+            current_object.draw(window);
+        }
+
+        window.draw(shape);
         window.display();
 
         sf::Event event;
