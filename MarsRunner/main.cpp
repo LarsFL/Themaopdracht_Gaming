@@ -18,13 +18,6 @@ int main(){
     mainView.setViewport(sf::FloatRect(0, 0, 1, 1));
     window.setView(mainView);
 
-    sf::CircleShape shape(50.f);
-    shape.setPosition(sf::Vector2f(840, 260));
-    shape.setFillColor(sf::Color::Green);
-    
-    std::string thing = "../Assets/Test/Astronaut_idle.png";
-    GameObject object{ thing, sf::Vector2f{1200, 500}, sf::Vector2f{2,2}, 5 };
-
     std::string pathBackground = "../Assets/Test/background2.png";
     GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
 
@@ -34,20 +27,13 @@ int main(){
     float widthG = 190;
 
     for (unsigned int i = 0; i < 5; i++) {
-        groundObjectList.push_back({ pathGround, sf::Vector2f{widthValue, 675}, sf::Vector2f{1, 1}, 5, false });
+        groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{widthValue, 675}, sf::Vector2f{1, 1}, 5, false });
         widthValue += widthG;
     }
 
     std::string button = "../Assets/Test/grey_button01.png";
     std::string replaceButton = "../Assets/Test/green_button01.png";
     Button testButton{ button, replaceButton, sf::Vector2f { 0, 0}, sf::Vector2f{1,1.5 }, [&]{std::cout << "Test"; } };
-
-    std::string fontLocation = "../Assets/Fonts/Mars.otf";
-    std::string textext = "Hallo123";
-    Text testText{ fontLocation, textext, sf::Vector2f{500,200}, sf::Vector2f{1,1}, [&] {std::cout << "Text clicc"; } };
-
-    std::vector<UIElement*> UIElements = { &testButton, &testText };
-    GameObject game_objects[] = { object };
 
     action actions[] = {
         action(sf::Keyboard::Up,    [&]() { mainView.move(-1, 0); window.setView(mainView); }),
@@ -101,7 +87,7 @@ int main(){
 
                 std::cout << "L: " << groundObjectList.size() << "\n";
                 std::cout << "WV: " << minLengthGroundObjects << "\n";
-                groundObjectList.push_back({ pathGround, sf::Vector2f{minLengthGroundObjects, 675}, sf::Vector2f{1, 1}, 5, false });
+                groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{minLengthGroundObjects, 675}, sf::Vector2f{1, 1}, 5, false });
                 minLengthGroundObjects += widthG;
                 widthValue += widthG;
 
@@ -111,23 +97,6 @@ int main(){
 
                 //std::cout << "n\n";
             }    
-
-
-            auto mouse_pos = sf::Mouse::getPosition(window);
-            auto translated_pos = window.mapPixelToCoords(mouse_pos);
-            for (auto& object : UIElements) {
-                if (object->getGlobalBounds().contains(translated_pos)) {
-                    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                        object->onClick();
-                    }
-                    else {
-                        object->onHover();
-                    }
-                }
-            }
-
-            testText.setText(std::to_string(i));
-            
             
             
             /* Zet hier je code. */
@@ -142,19 +111,10 @@ int main(){
 
         background.draw(window);
 
-        for (GameObject & current_object : game_objects) {
-            current_object.draw(window);
-        }
-
-        for (UIElement * current_object : UIElements) {
-            current_object->draw(window);
-        }
-
         for (GameObject& current_object : groundObjectList) {
             current_object.draw(window);
         }
 
-        window.draw(shape);
         window.display();
 
         sf::Event event;
