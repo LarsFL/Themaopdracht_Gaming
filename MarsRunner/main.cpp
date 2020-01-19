@@ -8,6 +8,8 @@
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Object systems/GameObject.hpp"
 #include "Code/Game engine/World Speed Systems/view.hpp"
+#include "Code/Game engine/Object systems/Player.hpp"
+#include "Code/Game engine/Physics systems/physics.hpp"
 
 #include "Code/Setup/GameState.hpp"
 #include "Code/Setup/InitializeUI.hpp"
@@ -54,8 +56,7 @@ int main(){
         action(sf::Keyboard::A,     [&]() { std::cout << "A\n"; }),
         action(sf::Keyboard::S,     [&]() { std::cout << "S\n"; }),
         action(sf::Keyboard::D,     [&]() { std::cout << "D\n"; }),
-
-        action(sf::Keyboard::Space, [&]() { std::cout << "Space\n"; }),
+        //
 
         action(sf::Mouse::Left,     [&]() { std::cout << "Mouse\n"; }),
         action(sf::Keyboard::Escape,[&]() { if (escapeUp) { state.handleEscape(); escapeUp = false; } }),
@@ -65,16 +66,10 @@ int main(){
     auto previous = std::chrono::system_clock::now();
     auto lag = 0.0;
 
-    while (window.isOpen()) {
-        // Always take the same time step per loop. (should work)
-        auto current = std::chrono::system_clock::now();
-        std::chrono::duration<float> elapsed = current - previous;
-        previous = current;
-        lag += elapsed.count();
+    Player player{ testPlaatje, sf::Vector2f{0,250}, sf::Vector2f{0.1,0.1}, 5, false, window, groundObjects };
+    player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
 
-        for (auto& action : actions) {
-            action();
-        }
+    while (window.isOpen()) {
 
         while (lag >= elapsed.count()) {
             if (state.getState() == game_states::PLAYING) {
@@ -107,6 +102,7 @@ int main(){
                 std::cout << "L: " << groundObjectList.size() << "\n";
 
                 //std::cout << "n\n";
+                player.update();
             }    
             
             
@@ -117,6 +113,7 @@ int main(){
         window.clear();
         //
         window.setView(mainView);
+        player.draw(window);
         background.draw(window);
 
         for (GameObject& current_object : groundObjectList) {
@@ -139,9 +136,10 @@ int main(){
             if (event.type == sf::Event::Closed || state.closeGame) {
                 window.close();
             }
+
+            i++;
         }
+
+        return 0;
     }
-
-    return 0;
 }
-
