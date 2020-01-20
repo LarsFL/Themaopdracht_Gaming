@@ -28,10 +28,19 @@
     <Filter Include="World speed">
       <UniqueIdentifier>{9f74bf39-c368-441c-bd54-0e1f99422335}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{79d52760-27fc-4074-a869-1882ffbfcb0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{5b06461c-e151-40a4-938d-3d8b1b638e7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Game engine\Physics systems\physics.cpp">
+      <Filter>Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +70,12 @@
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\World Speed Systems\view.hpp">
       <Filter>World speed</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Object systems\Player.hpp">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Physics systems\physics.hpp">
+      <Filter>Physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

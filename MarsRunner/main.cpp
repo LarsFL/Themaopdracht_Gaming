@@ -41,7 +41,7 @@ int main(){
 
     std::string button = "../Assets/Test/grey_button01.png";
     std::string replaceButton = "../Assets/Test/green_button01.png";
-    Button testButton{ button, replaceButton, sf::Vector2f { 0, 0}, sf::Vector2f{1,1.5 }, [&]{std::cout << "Test"; } };
+    //Button testButton{ button, replaceButton, sf::Vector2f { 0, 0}, sf::Vector2f{1,1.5 }, [&]{std::cout << "Test"; } };
     GameState state{};
 
     InitializeUI(window, fixed, state);
@@ -65,12 +65,21 @@ int main(){
 
     auto previous = std::chrono::system_clock::now();
     auto lag = 0.0;
-
-    Player player{ testPlaatje, sf::Vector2f{0,250}, sf::Vector2f{0.1,0.1}, 5, false, window, groundObjects };
+    std::string testPlaatje = "../Assets/Test/testplaatje.png";
+    Player player{ testPlaatje, sf::Vector2f{0,250}, sf::Vector2f{.1,.1}, 5, false, window, groundObjectList };
     player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
 
     while (window.isOpen()) {
+        // Always take the same time step per loop. (should work)
+        auto current = std::chrono::system_clock::now();
+        std::chrono::duration<float> elapsed = current - previous;
+        previous = current;
+        lag += elapsed.count();
 
+        for (auto& action : actions) {
+            action();
+        }
+        window.clear();
         while (lag >= elapsed.count()) {
             if (state.getState() == game_states::PLAYING) {
             // Move the view at an ever increasing speed and move the background along with the same speed.
@@ -102,18 +111,16 @@ int main(){
                 std::cout << "L: " << groundObjectList.size() << "\n";
 
                 //std::cout << "n\n";
-                player.update();
             }    
             
+            player.update();
             
             }
             lag -= elapsed.count();
         }
 
-        window.clear();
         //
         window.setView(mainView);
-        player.draw(window);
         background.draw(window);
 
         for (GameObject& current_object : groundObjectList) {
@@ -136,10 +143,8 @@ int main(){
             if (event.type == sf::Event::Closed || state.closeGame) {
                 window.close();
             }
-
-            i++;
         }
 
-        return 0;
     }
+    return 0;
 }

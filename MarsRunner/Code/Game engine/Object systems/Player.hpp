@@ -5,6 +5,7 @@
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
 #include <vector>
+#include <iostream>
 
 #include "GameObject.hpp"
 
@@ -12,7 +13,7 @@ class Player : public GameObject {
 protected:
 	bool isGround = false;
 	sf::RenderWindow& window;
-	std::vector<GameObject*>& groundObjects;
+	std::vector<GameObject>& groundObjects;
 	//std::vector<action>& actions;
 
 	std::vector<action> actions = {
@@ -26,25 +27,25 @@ protected:
 		}),
 
 
-		action(sf::Keyboard::Left,  [&]() { if (!isLeftIntersecting(*this, *groundObjects[0])) { this->move(sf::Vector2f(-1, 0)); } }),
+		action(sf::Keyboard::Left,  [&]() { if (!isLeftIntersecting(*this, groundObjects[0])) { this->move(sf::Vector2f(-1, 0)); } }),
 
 		action(sf::Keyboard::Down,
 		[&]() {
 		for (auto& groundObject : groundObjects)
 		{
-			if (isObjOnGround(*this, *groundObject)) { return; }
+			if (isObjOnGround(*this, groundObject)) { return; }
 		}
 
 		this->move(sf::Vector2f(0, 1));
 		}),
 
-		action(sf::Keyboard::Right, [&]() { if (!isRightIntersecting(*this, *groundObjects[0])) { this->move(sf::Vector2f(1, 0)); } }),
+		action(sf::Keyboard::Right, [&]() { if (!isRightIntersecting(*this, groundObjects[0])) { this->move(sf::Vector2f(1, 0)); } }),
 
 	};
 
 public:
 	Player(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight,
-		bool isStatic, sf::RenderWindow& window, std::vector<GameObject*>& groundObjects) :
+		bool isStatic, sf::RenderWindow& window, std::vector<GameObject>& groundObjects) :
 
 		GameObject(imageLocation, position, size, weight, isStatic),
 		window(window),
@@ -68,9 +69,9 @@ public:
 		this->isOnGround(false);
 
 		for (auto& groundObject : groundObjects) {
-			groundObject->draw(window);
+			//groundObject.draw(window);
 
-			if (isObjOnGround(*this, *groundObject)) {
+			if (isObjOnGround(*this, groundObject)) {
 				this->isOnGround(true);
 			}
 		}
@@ -89,7 +90,6 @@ public:
 		{
 			this->setVelocity(sf::Vector2f{ 0.0, 0.0 });
 		}
-
 		this->draw(window);
 	}
 
