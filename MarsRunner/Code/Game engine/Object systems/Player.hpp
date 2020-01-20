@@ -49,13 +49,13 @@ public:
 
 		GameObject(imageLocation, position, size, weight, isStatic),
 		window(window),
-		groundObjects(groundObjects)
-	{
-		image.loadFromFile(imageLocation);
-		sprite.setTexture(image);
-		sprite.setPosition(position);
-		sprite.setScale(size);
-	}
+		groundObjects(groundObjects) {}
+
+	Player(const Player& a) :
+		GameObject(a.imageLocation, a.position, a.size, a.weight, a.isStatic),
+		window(a.window),
+		groundObjects(a.groundObjects)
+	{}
 
 	bool isOnGround() {
 		return isGround;
@@ -91,6 +91,7 @@ public:
 			this->setVelocity(sf::Vector2f{ 0.0, 0.0 });
 		}
 		this->draw(window);
+		//window.draw(sprite);
 	}
 
 };

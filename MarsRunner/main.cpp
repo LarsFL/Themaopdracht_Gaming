@@ -44,7 +44,7 @@ int main(){
     InitializeUI(window, fixed, state);
 
     action actions[] = {
-        action(sf::Keyboard::Up,    [&]() { mainView.move(-1, 0); window.setView(mainView); }),
+        action(sf::Keyboard::Up,    [&]() { std::cout << "Up\n"; }),
         action(sf::Keyboard::Left,  [&]() { std::cout << "Left\n"; }),
         action(sf::Keyboard::Down,  [&]() { std::cout << "Down\n"; }),
         action(sf::Keyboard::Right, [&]() { std::cout << "Right\n"; }),
@@ -128,7 +128,7 @@ int main(){
         auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
         state.updateUI(translated_pos);
 
-
+        player.draw(window);
         window.setView(fixed);
         state.draw(window);
 
