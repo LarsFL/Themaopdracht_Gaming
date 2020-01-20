@@ -39,9 +39,6 @@ int main(){
         widthValue += widthG;
     }
 
-    std::string button = "../Assets/Test/grey_button01.png";
-    std::string replaceButton = "../Assets/Test/green_button01.png";
-    //Button testButton{ button, replaceButton, sf::Vector2f { 0, 0}, sf::Vector2f{1,1.5 }, [&]{std::cout << "Test"; } };
     GameState state{};
 
     InitializeUI(window, fixed, state);

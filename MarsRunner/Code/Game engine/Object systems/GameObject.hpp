@@ -6,6 +6,7 @@
 
 class GameObject {
 protected:
+	std::string imageLocation;
 	sf::Texture image;
 	sf::Sprite sprite;
 	sf::Vector2f position = { 0,0 };
@@ -18,10 +19,28 @@ protected:
 	sf::IntRect rectSourceSprite = { 1, 2, 38, 42 };
 public:
 	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic = true) :
+		imageLocation(imageLocation),
 		position(position),
 		size(size),
 		weight(weight),
 		isStatic(isStatic)
+	{
+		image.loadFromFile(imageLocation);
+		sprite.setTexture(image);
+		sprite.setPosition(position);
+		sprite.setScale(size);
+	}
+
+	GameObject(const GameObject& r) :
+		imageLocation(r.imageLocation),
+		position(r.position),
+		size(r.size),
+		acceleration(r.acceleration),
+		velocity(r.velocity),
+		weight(r.weight),
+		isStatic(r.isStatic),
+		isActive(r.isActive),
+		rectSourceSprite(r.rectSourceSprite)
 	{
 		image.loadFromFile(imageLocation);
 		sprite.setTexture(image);
