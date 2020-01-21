@@ -18,6 +18,8 @@ protected:
 	bool isActive = true;
 	sf::IntRect rectSourceSprite = { 1, 2, 38, 42 };
 public:
+	GameObject() {}
+
 	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic = true) :
 		imageLocation(imageLocation),
 		position(position),

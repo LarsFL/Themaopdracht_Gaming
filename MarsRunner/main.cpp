@@ -8,11 +8,14 @@
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Object systems/GameObject.hpp"
 #include "Code/Game engine/World Speed Systems/view.hpp"
+#include "Code/Game engine/World generation systems/ObjectBlock.hpp"
+#include "Code/Game engine/World generation systems/GenerateBlock.hpp"
 #include "Code/Game engine/Object systems/Player.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
 
 #include "Code/Setup/GameState.hpp"
 #include "Code/Setup/InitializeUI.hpp"
+#include "Code/Setup/InitializeBlocks.hpp"
 
 int main(){
     sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
@@ -30,13 +33,21 @@ int main(){
     GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
 
     std::string pathGround = "../Assets/Test/green_button01.png";
-    std::vector<GameObject> groundObjectList;
+    std::vector<ObjectBlock> groundObjectList;
+
+    GenerateBlock generator = {};
+
+    generateBlocks(generator);
+
     float widthValue = -190;
-    float widthG = 190;
+    float widthG = 32;
 
     for (unsigned int i = 0; i < 5; i++) {
-        groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{widthValue, 675}, sf::Vector2f{1, 1}, 5, false });
-        widthValue += widthG;
+        ObjectBlock generatedBlock = generator.generate();
+        generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
+        groundObjectList.push_back(generatedBlock);
+        //groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{widthValue, 675}, sf::Vector2f{1, 1}, 5, false });
+        widthValue += (widthG * 5);
     }
 
     GameState state{};
@@ -63,8 +74,8 @@ int main(){
     auto previous = std::chrono::system_clock::now();
     auto lag = 0.0;
     std::string testPlaatje = "../Assets/Test/testplaatje.png";
-    Player player{ testPlaatje, sf::Vector2f{0,250}, sf::Vector2f{.1,.1}, 5, false, window, groundObjectList };
-    player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
+    //Player player{ testPlaatje, sf::Vector2f{0,250}, sf::Vector2f{.1,.1}, 5, false, window, groundObjectList };
+    //player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
 
     while (window.isOpen()) {
         // Always take the same time step per loop. (should work)
@@ -85,21 +96,22 @@ int main(){
             
             // Check if selected object is within the bouns of the selected view
             sf::FloatRect view2 = getViewBounds(mainView);
-            GameObject firstGroundObject = groundObjectList[0];
-            GameObject secondGroundObject = groundObjectList[1];
-            sf::FloatRect rectObject = groundObjectList[0].getGlobalBounds();
+            ObjectBlock firstGroundObject = groundObjectList[0];
+            ObjectBlock secondGroundObject = groundObjectList[1];
+            sf::FloatRect rectObject = groundObjectList[0].getGlobalBounds(); // Get global bounds van blok
             static float minLengthGroundObjects = widthG * (groundObjectList.size() - 1);
-            // Tet of pointer werkt als lijst voor ground objecten om de textures er goed in te krijgen.
-            if (rectObject.intersects(view2)) {
-                //std::cout << "y\n";
-            }
-            else {
+            if (!rectObject.intersects(view2)) {
                 firstGroundObject = secondGroundObject;
+                // Eigen functie om destructors aan te roepen
                 groundObjectList.erase(groundObjectList.begin());
 
                 std::cout << "L: " << groundObjectList.size() << "\n";
                 std::cout << "WV: " << minLengthGroundObjects << "\n";
-                groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{minLengthGroundObjects, 675}, sf::Vector2f{1, 1}, 5, false });
+                // Functie om alles toe te voegen
+                ObjectBlock generatedBlock = generator.generate();
+                generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
+                groundObjectList.push_back(generatedBlock);
+                //groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{minLengthGroundObjects, 675}, sf::Vector2f{1, 1}, 5, false });
                 minLengthGroundObjects += widthG;
                 widthValue += widthG;
 
@@ -110,7 +122,7 @@ int main(){
                 //std::cout << "n\n";
             }    
             
-            player.update();
+            //player.update();
             
             }
             lag -= elapsed.count();
@@ -120,7 +132,7 @@ int main(){
         window.setView(mainView);
         background.draw(window);
 
-        for (GameObject& current_object : groundObjectList) {
+        for (ObjectBlock& current_object : groundObjectList) {
             current_object.draw(window);
         }
 
@@ -128,7 +140,7 @@ int main(){
         auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
         state.updateUI(translated_pos);
 
-        player.draw(window);
+        //player.draw(window);
         window.setView(fixed);
         state.draw(window);
 

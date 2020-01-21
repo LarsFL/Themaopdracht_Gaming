@@ -34,6 +34,9 @@
     <Filter Include="Physics">
       <UniqueIdentifier>{5b06461c-e151-40a4-938d-3d8b1b638e7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="World generation">
+      <UniqueIdentifier>{6fd96c62-80ca-4585-911d-6aa09b3a522a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp">
@@ -41,6 +44,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Game engine\Physics systems\physics.cpp">
       <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Game engine\World generation systems\ObjectBlock.cpp">
+      <Filter>World generation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +82,15 @@
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\Physics systems\physics.hpp">
       <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\World generation systems\ObjectBlock.hpp">
+      <Filter>World generation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\World generation systems\GenerateBlock.hpp">
+      <Filter>World generation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Setup\InitializeBlocks.hpp">
+      <Filter>Setup</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
