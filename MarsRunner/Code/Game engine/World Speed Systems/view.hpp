@@ -2,7 +2,7 @@
 
 void move_object_with_view(GameObject& object, float& amount) {
     /// Move the background at the ame speed as the view.    
-    float minSpeed = 0.05;
+    float minSpeed = 0.5;
 
     if (amount < minSpeed) {
         object.move(sf::Vector2f{ minSpeed, 0 });
@@ -19,20 +19,21 @@ void update_game_object_speed(GameObject& object) {
 
 float update_view_position(sf::View& view, sf::RenderWindow& window, float amount) {
     /// Move the selected view in a slowly accelerating motion.
-    float minSpeed = 0.05;
+    float minSpeed = 0.5;
+    float devideValue = 5000.0;
     static float increaseValue = minSpeed;
     increaseValue += amount;
 
     // Move the view with a constant speed, until a certain value. From there the speed will slowly increase.
-    if ((increaseValue / 500) < minSpeed) {
+    if ((increaseValue / devideValue) < minSpeed) {
         view.move(minSpeed, 0);
     }
     else {
-        view.move(increaseValue / 500, 0);
+        view.move(increaseValue / devideValue, 0);
     }
 
     window.setView(view);
-    return increaseValue / 500;
+    return increaseValue / devideValue;
 }
 
 sf::FloatRect getViewBounds(const sf::View& view) {

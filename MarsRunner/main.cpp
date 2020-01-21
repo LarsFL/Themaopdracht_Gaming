@@ -14,7 +14,7 @@
 #include "Code/Setup/GameState.hpp"
 #include "Code/Setup/InitializeUI.hpp"
 
-int main(){
+int main() {
     sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
     sf::View fixed = window.getView();
     sf::View mainView;
@@ -34,7 +34,7 @@ int main(){
     float widthValue = -190;
     float widthG = 190;
 
-    for (unsigned int i = 0; i < 5; i++) {
+    for (unsigned int i = 0; i < 10; i++) {
         groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{widthValue, 675}, sf::Vector2f{1, 1}, 5, false });
         widthValue += widthG;
     }
@@ -53,7 +53,6 @@ int main(){
         action(sf::Keyboard::A,     [&]() { std::cout << "A\n"; }),
         action(sf::Keyboard::S,     [&]() { std::cout << "S\n"; }),
         action(sf::Keyboard::D,     [&]() { std::cout << "D\n"; }),
-        //
 
         action(sf::Mouse::Left,     [&]() { std::cout << "Mouse\n"; }),
         action(sf::Keyboard::Escape,[&]() { if (escapeUp) { state.handleEscape(); escapeUp = false; } }),
@@ -62,61 +61,58 @@ int main(){
 
     auto previous = std::chrono::system_clock::now();
     auto lag = 0.0;
+    float msPerLoop = 16.33;
     std::string testPlaatje = "../Assets/Test/testplaatje.png";
     Player player{ testPlaatje, sf::Vector2f{0,250}, sf::Vector2f{.1,.1}, 5, false, window, groundObjectList };
     player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
 
     while (window.isOpen()) {
-        // Always take the same time step per loop. (should work)
+        // Always take the same time step per loop. (should work now)
         auto current = std::chrono::system_clock::now();
-        std::chrono::duration<float> elapsed = current - previous;
+        std::chrono::duration<float, std::milli> elapsed = current - previous;
         previous = current;
         lag += elapsed.count();
 
         for (auto& action : actions) {
             action();
         }
+
         window.clear();
-        while (lag >= elapsed.count()) {
+
+        while (lag >= msPerLoop) {
             if (state.getState() == game_states::PLAYING) {
-            // Move the view at an ever increasing speed and move the background along with the same speed.
-            float viewMoveSpeed = update_view_position(mainView, window, elapsed.count());
-            move_object_with_view(background, viewMoveSpeed);
-            
-            // Check if selected object is within the bouns of the selected view
-            sf::FloatRect view2 = getViewBounds(mainView);
-            GameObject firstGroundObject = groundObjectList[0];
-            GameObject secondGroundObject = groundObjectList[1];
-            sf::FloatRect rectObject = groundObjectList[0].getGlobalBounds();
-            static float minLengthGroundObjects = widthG * (groundObjectList.size() - 1);
-            // Tet of pointer werkt als lijst voor ground objecten om de textures er goed in te krijgen.
-            if (rectObject.intersects(view2)) {
-                //std::cout << "y\n";
+                // Move the view at an ever increasing speed and move the background along with the same speed.
+                float viewMoveSpeed = update_view_position(mainView, window, elapsed.count());
+                move_object_with_view(background, viewMoveSpeed);
+
+                // Check if selected object is within the bouns of the selected view
+                sf::FloatRect view2 = getViewBounds(mainView);
+                GameObject firstGroundObject = groundObjectList[0];
+                GameObject secondGroundObject = groundObjectList[1];
+                sf::FloatRect rectObject = groundObjectList[0].getGlobalBounds();
+                static float minLengthGroundObjects = widthG * (groundObjectList.size() - 1);
+
+                if (rectObject.intersects(view2)) {
+                    //std::cout << "y\n";
+                }
+                else {
+                    firstGroundObject = secondGroundObject;
+                    groundObjectList.erase(groundObjectList.begin());
+
+                    groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{minLengthGroundObjects, 675}, sf::Vector2f{1, 1}, 5, false });
+                    minLengthGroundObjects += widthG;
+                    widthValue += widthG;
+
+                    groundObjectList[(groundObjectList.size() - 1)].draw(window);
+                }
+
+                player.update();
+
             }
-            else {
-                firstGroundObject = secondGroundObject;
-                groundObjectList.erase(groundObjectList.begin());
 
-                std::cout << "L: " << groundObjectList.size() << "\n";
-                std::cout << "WV: " << minLengthGroundObjects << "\n";
-                groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{minLengthGroundObjects, 675}, sf::Vector2f{1, 1}, 5, false });
-                minLengthGroundObjects += widthG;
-                widthValue += widthG;
-
-                groundObjectList[(groundObjectList.size() - 1)].draw(window);
-
-                std::cout << "L: " << groundObjectList.size() << "\n";
-
-                //std::cout << "n\n";
-            }    
-            
-            player.update();
-            
-            }
-            lag -= elapsed.count();
+            lag -= msPerLoop;
         }
 
-        //
         window.setView(mainView);
         background.draw(window);
 
@@ -136,7 +132,7 @@ int main(){
         window.setView(mainView);
 
         sf::Event event;
-        while (window.pollEvent(event)){
+        while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || state.closeGame) {
                 window.close();
             }
