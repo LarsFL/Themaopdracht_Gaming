@@ -17,7 +17,7 @@
 #include "Code/Setup/InitializeUI.hpp"
 #include "Code/Setup/InitializeBlocks.hpp"
 
-int main(){
+int main() {
     sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
     sf::View fixed = window.getView();
     sf::View mainView;
@@ -64,7 +64,6 @@ int main(){
         action(sf::Keyboard::A,     [&]() { std::cout << "A\n"; }),
         action(sf::Keyboard::S,     [&]() { std::cout << "S\n"; }),
         action(sf::Keyboard::D,     [&]() { std::cout << "D\n"; }),
-        //
 
         action(sf::Mouse::Left,     [&]() { std::cout << "Mouse\n"; }),
         action(sf::Keyboard::Escape,[&]() { if (escapeUp) { state.handleEscape(); escapeUp = false; } }),
@@ -73,26 +72,27 @@ int main(){
 
     auto previous = std::chrono::system_clock::now();
     auto lag = 0.0;
+    float msPerLoop = 16.33;
     std::string testPlaatje = "../Assets/Test/testplaatje.png";
     //Player player{ testPlaatje, sf::Vector2f{0,250}, sf::Vector2f{.1,.1}, 5, false, window, groundObjectList };
     //player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
 
     while (window.isOpen()) {
-        // Always take the same time step per loop. (should work)
+        // Always take the same time step per loop. (should work now)
         auto current = std::chrono::system_clock::now();
-        std::chrono::duration<float> elapsed = current - previous;
+        std::chrono::duration<float, std::milli> elapsed = current - previous;
         previous = current;
         lag += elapsed.count();
 
         for (auto& action : actions) {
             action();
         }
+
         window.clear();
-        while (lag >= elapsed.count()) {
+
+        while (lag >= msPerLoop) {
             if (state.getState() == game_states::PLAYING) {
             // Move the view at an ever increasing speed and move the background along with the same speed.
-            float viewMoveSpeed = update_view_position(mainView, window, elapsed.count());
-            move_object_with_view(background, viewMoveSpeed);
             
             // Check if selected object is within the bouns of the selected view
             sf::FloatRect view2 = getViewBounds(mainView);
@@ -101,6 +101,8 @@ int main(){
             sf::FloatRect rectObject = groundObjectList[0].getGlobalBounds(); // Get global bounds van blok
             static float minLengthGroundObjects = widthG * (groundObjectList.size() - 1);
             if (!rectObject.intersects(view2)) {
+                float viewMoveSpeed = update_view_position(mainView, window, elapsed.count());
+            move_object_with_view(background, viewMoveSpeed);
                 firstGroundObject = secondGroundObject;
                 // Eigen functie om destructors aan te roepen
                 groundObjectList.erase(groundObjectList.begin());
@@ -115,9 +117,10 @@ int main(){
                 minLengthGroundObjects += widthG;
                 widthValue += widthG;
 
-                groundObjectList[(groundObjectList.size() - 1)].draw(window);
+                    groundObjectList[(groundObjectList.size() - 1)].draw(window);
+                }
 
-                std::cout << "L: " << groundObjectList.size() << "\n";
+                player.update();
 
                 //std::cout << "n\n";
             }    
@@ -125,10 +128,10 @@ int main(){
             //player.update();
             
             }
-            lag -= elapsed.count();
+
+            lag -= msPerLoop;
         }
 
-        //
         window.setView(mainView);
         background.draw(window);
 
@@ -148,7 +151,7 @@ int main(){
         window.setView(mainView);
 
         sf::Event event;
-        while (window.pollEvent(event)){
+        while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || state.closeGame) {
                 window.close();
             }
