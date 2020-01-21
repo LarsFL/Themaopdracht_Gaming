@@ -43,15 +43,16 @@ int main() {
 
     std::string testPlaatje = "../Assets/Test/testplaatje.png";
 
-    GameObject ground{ testPlaatje, sf::Vector2f{250,250}, sf::Vector2f{0.1,0.1}, 5, false };
+    GameObject ground{ testPlaatje, sf::Vector2f{100,250}, sf::Vector2f{0.1,0.1}, 5, false };
     GameObject ground1{ testPlaatje, sf::Vector2f{0,400}, sf::Vector2f{0.1,0.1}, 5, false };
     GameObject ground2{ testPlaatje, sf::Vector2f{82,400}, sf::Vector2f{0.1,0.1}, 5, false };
     GameObject ground3{ testPlaatje, sf::Vector2f{164,400}, sf::Vector2f{0.1,0.1}, 5, false };
     GameObject ground4{ testPlaatje, sf::Vector2f{246,400}, sf::Vector2f{0.1,0.1}, 5, false };
     GameObject ground5{ testPlaatje, sf::Vector2f{328,400}, sf::Vector2f{0.1,0.1}, 5, false };
     GameObject ground6{ testPlaatje, sf::Vector2f{410,400}, sf::Vector2f{0.1,0.1}, 5, false };
+    GameObject ground7{ testPlaatje, sf::Vector2f{250,100}, sf::Vector2f{0.1,0.1}, 5, false };
 
-    std::vector<GameObject*> groundObjects = { &ground, &ground1, &ground2 ,&ground3, &ground4, &ground5, &ground6 };
+    std::vector<GameObject*> groundObjects = { &ground, &ground1, &ground2 ,&ground3, &ground4, &ground5, &ground6, &ground7 };
 
     Player player{ testPlaatje, sf::Vector2f{0,250}, sf::Vector2f{0.1,0.1}, 5, false, window, groundObjects };
     player.setVelocity(sf::Vector2f{ 0.0, 1.1 });

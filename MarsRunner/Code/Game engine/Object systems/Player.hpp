@@ -5,6 +5,8 @@
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
 #include <vector>
+#include <chrono>
+#include <thread>
 
 #include "GameObject.hpp"
 
@@ -19,8 +21,8 @@ protected:
 		[&]() {
 		if (this->isOnGround()) {
 			this->isOnGround(false);
-			this->setAcceleration(sf::Vector2f{ 0.0, 0.2 });
-			this->setVelocity(sf::Vector2f{ 0.0, -6.0 });
+			this->setAcceleration(sf::Vector2f{ 0.0, 0.25 });
+			this->setVelocity(sf::Vector2f{ 0.0, -9.0 });
 		}
 		}),
 
@@ -70,6 +72,8 @@ public:
 
 			if (isObjOnGround(*this, *groundObject)) {
 				this->isOnGround(true);
+				std::cout << "GROUND DETECTED";
+				//std::this_thread::sleep_for(std::chrono::milliseconds(100));
 			}
 		}
 
