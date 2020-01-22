@@ -8,6 +8,7 @@
 
 class GameObject {
 protected:
+	std::string imageLocation;
 	sf::Texture image;
 	sf::Sprite sprite;
 	sf::Vector2f position = { 0,0 };
@@ -24,11 +25,29 @@ protected:
 
 public:
 	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic = true, bool animated = false) :
+		imageLocation(imageLocation),
 		position(position),
 		size(size),
 		weight(weight),
 		isStatic(isStatic),
 		animated(animated)
+	{
+		image.loadFromFile(imageLocation);
+		sprite.setTexture(image);
+		sprite.setPosition(position);
+		sprite.setScale(size);
+	}
+
+	GameObject(const GameObject& r) :
+		imageLocation(r.imageLocation),
+		position(r.position),
+		size(r.size),
+		acceleration(r.acceleration),
+		velocity(r.velocity),
+		weight(r.weight),
+		isStatic(r.isStatic),
+		isActive(r.isActive),
+		rectSourceSprite(r.rectSourceSprite)
 	{
 		image.loadFromFile(imageLocation);
 		sprite.setTexture(image);
@@ -90,7 +109,7 @@ public:
 	}
 
 	sf::FloatRect getGlobalBounds() {
-		sprite.getGlobalBounds();
+		return sprite.getGlobalBounds();
 	}
 
 	template <class T>

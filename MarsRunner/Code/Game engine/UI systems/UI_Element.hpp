@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <functional>
+#include <iostream>
 
 class UIElement {
 protected:
@@ -16,12 +17,24 @@ public:
 		onClickFunc(onClickFunc)
 	{}
 
-	virtual void draw(sf::RenderWindow& window) = 0;
+	UIElement(const UIElement& a) :
+		position(a.position),
+		size(a.size),
+		onClickFunc(a.onClickFunc) {}
+
+	virtual void draw(sf::RenderWindow& window) { std::cout << "Wrong draw called" << std::endl; };
 	virtual void onHover() {}
 	virtual void onClick() {
 		onClickFunc();
 	}
-	virtual sf::FloatRect getGlobalBounds() = 0;
+	virtual sf::FloatRect getGlobalBounds() {
+		return sf::FloatRect(0.0f, 0.0f, 0.0f, 0.0f);
+	};
+	virtual void setOrigin(sf::Vector2f origin) {};
+	virtual void centerOrigin() {};
+	virtual void jump(sf::Vector2f newPos) {};
+
+	virtual UIElement* clone() const = 0;
 };
 
 
