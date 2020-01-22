@@ -4,9 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
+#include "../World Speed Systems/view.hpp"
 #include <vector>
-#include <chrono>
-#include <thread>
 
 #include "GameObject.hpp"
 
@@ -68,12 +67,12 @@ public:
 	void update() {
 		this->isOnGround(false);
 
+		this->move(sf::Vector2f{ getViewMoveSpeed() + 0.4F, 0 });
+
 		for (auto& groundObject : groundObjects) {
 
 			if (isObjOnGround(*this, *groundObject)) {
 				this->isOnGround(true);
-				std::cout << "GROUND DETECTED";
-				//std::this_thread::sleep_for(std::chrono::milliseconds(100));
 			}
 		}
 

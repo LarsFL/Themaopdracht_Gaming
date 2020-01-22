@@ -125,7 +125,7 @@ int main() {
                 objectThing->draw(window);
             }
 
-            player.draw(window); //volgens mij onnodig, wordt al in player.update() aangeroepen
+            player.draw(window);
 
             window.display();
 

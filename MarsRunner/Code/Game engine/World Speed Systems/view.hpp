@@ -1,6 +1,9 @@
+#ifndef VIEW_HPP
+#define VIEW_HPP
+
 #include <SFML/Graphics.hpp>
 
-static float speedCalculatedByFunciton = 0.0;
+static float speedCalculatedByFunction = 0.0;
 
 void move_object_with_view(GameObject& object, float& amount, float& minSpeed) {
     /// Move the background at the ame speed as the view.    
@@ -30,11 +33,11 @@ void update_view_position(sf::View& view, sf::RenderWindow& window, float& minSp
     }
 
     window.setView(view);
-    speedCalculatedByFunciton = increaseValue / devideValue;
+    speedCalculatedByFunction = increaseValue / devideValue;
 }
 
 float getViewMoveSpeed() {
-    return speedCalculatedByFunciton;
+    return speedCalculatedByFunction;
 }
 
 sf::FloatRect getViewBounds(const sf::View& view) {
@@ -46,3 +49,5 @@ sf::FloatRect getViewBounds(const sf::View& view) {
     rt.height = view.getSize().y;
     return rt;
 }
+
+#endif // VIEW_HPP
