@@ -62,18 +62,21 @@ int main() {
         unsigned int i = 0;
         auto previous = std::chrono::system_clock::now();
         auto lag = 0.0;
+        float msPerLoop = 16.33;
+        float minSpeed = 0.5;
 
         while (window.isOpen()) {
-            // Always take the same time step per loop. (should work)
+            // Always take the same time step per loop. (should work now)
             auto current = std::chrono::system_clock::now();
-            std::chrono::duration<float> elapsed = current - previous;
+            std::chrono::duration<float, std::milli> elapsed = current - previous;
             previous = current;
             lag += elapsed.count();
 
-            while (lag >= elapsed.count()) {
+            while (lag >= msPerLoop) {
                 // Move the view at an ever increasing speed and move the background along with the same speed.
-                float viewMoveSpeed = update_view_position(mainView, window, elapsed.count());
-                move_object_with_view(background, viewMoveSpeed);
+                update_view_position(mainView, window, minSpeed);
+                float viewMoveSpeed = getViewMoveSpeed();
+                move_object_with_view(background, viewMoveSpeed, minSpeed);
 
                 // Check if selected object is within the bouns of the selected view
                 sf::FloatRect view2 = getViewBounds(mainView);
@@ -103,7 +106,7 @@ int main() {
 
                 player.update();
 
-                lag -= elapsed.count();
+                lag -= msPerLoop;
             }
 
             window.clear();
