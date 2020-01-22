@@ -47,7 +47,9 @@ public:
 		weight(r.weight),
 		isStatic(r.isStatic),
 		isActive(r.isActive),
-		rectSourceSprite(r.rectSourceSprite)
+		rectSourceSprite(r.rectSourceSprite),
+		animated(r.animated),
+		animations(r.animations)
 	{
 		image.loadFromFile(imageLocation);
 		sprite.setTexture(image);
