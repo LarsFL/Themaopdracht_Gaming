@@ -25,6 +25,7 @@ int main() {
     sf::View mainView;
 
     InitializePlayerAnimations(animationsMap);
+    InitializeSmallAlienAnimations(animationsMap);
     bool escapeUp = true;
 
     mainView.setCenter(sf::Vector2f(600.f, 384.f));
@@ -73,6 +74,16 @@ int main() {
     auto lag = 0.0;
     float msPerLoop = 16.33;
     float minSpeed = 0.5;
+
+    std::string smallAlienSprite = "../Assets/Objects/smallAlien.png";
+    GameObject smallAlien(smallAlienSprite, sf::Vector2f(500, 300), sf::Vector2f(5, 5), 200.0, false, true);
+    smallAlien.setAnimationStates(&animationsMap["smallAlien"]);
+
+    std::string smallAstronautSprite = "../Assets/Objects/smallAstronaut.png";
+    GameObject smallAstronaut(smallAstronautSprite, sf::Vector2f(700, 300), sf::Vector2f(5, 5), 200.0, false, true);
+    smallAstronaut.setAnimationStates(&animationsMap["player"]);
+
+    animationsMap["smallAlien"].setState(PossibleStates::DEATH);
 
     std::string testPlaatje = "../Assets/Test/testplaatje.png";
     Player player{ testPlaatje, sf::Vector2f{0,250}, sf::Vector2f{.1,.1}, 5, false, window, groundObjectList };
@@ -139,6 +150,9 @@ int main() {
         player.draw(window);
         window.setView(fixed);
         state.draw(window);
+
+        smallAlien.draw(window);
+        smallAstronaut.draw(window);
 
         window.display();
         window.setView(mainView);

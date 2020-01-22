@@ -45,5 +45,32 @@ void InitializePlayerAnimations(std::map<std::string, AnimationStates> &animatio
 	smallAstronaut.addAnimation(PossibleStates::DEATH, Death);
 
 	animationsMap["player"] = smallAstronaut;
-} 
+}
+
+
+void InitializeSmallAlienAnimations(std::map<std::string, AnimationStates>& animationsMap) {
+	AnimationStates smallAlien(150);
+	
+	//IDLE
+	sf::IntRect idleLoc(569, 183, 30, 40);
+	Animation Idle(idleLoc, 8, 31, true, true);
+	smallAlien.addAnimation(PossibleStates::IDLE, Idle);
+
+	//WALK
+	sf::IntRect walkLoc(569, 227, 30, 40);
+	Animation Walk(walkLoc, 9, 31, true, true);
+	smallAlien.addAnimation(PossibleStates::WALK, Walk);
+
+	//ATTAC
+	sf::IntRect attacLoc(569, 272, 30, 40);
+	Animation Attac(attacLoc, 11, 31, true, true);
+	smallAlien.addAnimation(PossibleStates::SHOOT, Attac);
+
+	//DEATH
+	sf::IntRect deathLoc(569, 317, 30, 40);
+	Animation Death(deathLoc, 16, 31, true, true);
+	smallAlien.addAnimation(PossibleStates::DEATH, Death);
+
+	animationsMap["smallAlien"] = smallAlien;
+}
 #endif

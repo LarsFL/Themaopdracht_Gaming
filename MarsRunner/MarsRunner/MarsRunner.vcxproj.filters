@@ -84,6 +84,9 @@
     <ClInclude Include="..\Code\Game engine\Physics systems\physics.hpp">
       <Filter>Code\Game engine\Physics systems</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Object systems\Player.hpp">
+      <Filter>Code\Game engine\Object systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Font Include="..\Assets\Fonts\Mars.otf">

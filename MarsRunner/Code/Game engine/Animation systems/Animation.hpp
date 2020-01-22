@@ -14,13 +14,22 @@ private:
 	int currentFrame = 0;
 
 	bool loop;
+	bool backwards;
 
 public:
-	Animation(sf::IntRect firstFrameLoc = { 0,0,0,0 }, int nFrames = 0, int distToNextFrame = 0, bool loop = true) :
+	/*Animation(sf::IntRect firstFrameLoc = { 0,0,0,0 }, int nFrames = 0, int distToNextFrame = 0, bool loop = true) :
 		firstFrameLoc(firstFrameLoc),
 		nFrames(nFrames),
 		distToNextFrame(distToNextFrame),
 		loop(loop)
+	{}*/
+
+	Animation(sf::IntRect firstFrameLoc = { 0,0,0,0 }, int nFrames = 0, int distToNextFrame = 0, bool loop = true, bool backwards = false) :
+		firstFrameLoc(firstFrameLoc),
+		nFrames(nFrames),
+		distToNextFrame(distToNextFrame),
+		loop(loop),
+		backwards(backwards)
 	{}
 
 	Animation(const Animation& r):
@@ -28,7 +37,8 @@ public:
 		nFrames(r.nFrames),
 		distToNextFrame(r.distToNextFrame),
 		currentFrame(r.currentFrame),
-		loop(r.loop)
+		loop(r.loop),
+		backwards(r.backwards)
 	{}
 
 	void goToNextFrame() {
@@ -41,10 +51,18 @@ public:
 	}
 
 	sf::IntRect getFrame() {
-		sf::IntRect currentFrameRect = firstFrameLoc;
-		currentFrameRect.left += (distToNextFrame * currentFrame);
+		if (backwards) {
+			sf::IntRect currentFrameRect = firstFrameLoc;
+			currentFrameRect.left -= (distToNextFrame * currentFrame);
 
-		return currentFrameRect;
+			return currentFrameRect;
+		}
+		else {
+			sf::IntRect currentFrameRect = firstFrameLoc;
+			currentFrameRect.left += (distToNextFrame * currentFrame);
+
+			return currentFrameRect;
+		}
 	}
 };
 #endif //_ANIMATION_HPP
