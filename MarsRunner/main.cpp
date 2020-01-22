@@ -62,6 +62,8 @@ int main() {
     auto previous = std::chrono::system_clock::now();
     auto lag = 0.0;
     float msPerLoop = 16.33;
+    float minSpeed = 0.5;
+
     std::string testPlaatje = "../Assets/Test/testplaatje.png";
     Player player{ testPlaatje, sf::Vector2f{0,250}, sf::Vector2f{.1,.1}, 5, false, window, groundObjectList };
     player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
@@ -82,8 +84,8 @@ int main() {
         while (lag >= msPerLoop) {
             if (state.getState() == game_states::PLAYING) {
                 // Move the view at an ever increasing speed and move the background along with the same speed.
-                float viewMoveSpeed = update_view_position(mainView, window, elapsed.count());
-                move_object_with_view(background, viewMoveSpeed);
+                float viewMoveSpeed = update_view_position(mainView, window, minSpeed);
+                move_object_with_view(background, viewMoveSpeed, minSpeed);
 
                 // Check if selected object is within the bouns of the selected view
                 sf::FloatRect view2 = getViewBounds(mainView);
