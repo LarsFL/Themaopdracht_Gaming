@@ -31,7 +31,6 @@ float update_view_position(sf::View& view, sf::RenderWindow& window, float amoun
     else {
         view.move(increaseValue / devideValue, 0);
     }
-
     window.setView(view);
     return increaseValue / devideValue;
 }

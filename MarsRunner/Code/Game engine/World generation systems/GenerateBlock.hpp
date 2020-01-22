@@ -21,8 +21,7 @@ public:
 	}
 
 	ObjectBlock generate() {
-		auto tmp = possibleBlocks[rand() % possibleBlocks.size()];
-		return tmp;
+		return possibleBlocks[rand() % possibleBlocks.size()];;
 	}
 };
 

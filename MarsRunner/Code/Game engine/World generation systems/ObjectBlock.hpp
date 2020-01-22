@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 #include <array>
+#include <iostream>
 
 #include "../Object systems/GameObject.hpp"
 
@@ -14,7 +15,9 @@ public:
 	ObjectBlock() {};
 	ObjectBlock(const ObjectBlock& r) :
 		objects(r.objects)
-	{}
+	{
+		std::cout << "Copy constructor called" << std::endl;
+	}
 
 	void addObject(sf::Vector2i position, GameObject object);
 	void draw(sf::RenderWindow& window);

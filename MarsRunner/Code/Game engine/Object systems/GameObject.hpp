@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <iostream>
 
 class GameObject {
 protected:
@@ -17,20 +18,26 @@ protected:
 	bool isStatic = true;
 	bool isActive = true;
 	sf::IntRect rectSourceSprite = { 1, 2, 38, 42 };
+	bool useRectSprite = false;
 public:
 	GameObject() {}
 
-	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic = true) :
+	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic = true, sf::IntRect rectSprite = {0, 0, 0, 0}, bool useRectSprite = false) :
 		imageLocation(imageLocation),
 		position(position),
 		size(size),
 		weight(weight),
-		isStatic(isStatic)
+		isStatic(isStatic),
+		rectSourceSprite(rectSprite),
+		useRectSprite(useRectSprite)
 	{
 		image.loadFromFile(imageLocation);
 		sprite.setTexture(image);
 		sprite.setPosition(position);
 		sprite.setScale(size);
+		if (useRectSprite) {
+			sprite.setTextureRect(rectSourceSprite);
+		}
 	}
 
 	GameObject(const GameObject& r) :
@@ -42,12 +49,17 @@ public:
 		weight(r.weight),
 		isStatic(r.isStatic),
 		isActive(r.isActive),
-		rectSourceSprite(r.rectSourceSprite)
+		rectSourceSprite(r.rectSourceSprite),
+		useRectSprite(r.useRectSprite)
 	{
 		image.loadFromFile(imageLocation);
 		sprite.setTexture(image);
 		sprite.setPosition(position);
 		sprite.setScale(size);
+		if (useRectSprite) {
+			sprite.setTextureRect(rectSourceSprite);
+		}
+		std::cout << "GameObject copy contructor" << std::endl;
 	}
 
 	void draw(sf::RenderWindow& window) {

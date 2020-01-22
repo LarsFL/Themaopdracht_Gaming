@@ -2,6 +2,9 @@
 #include <vector>
 #include <chrono>
 #include <ctime>
+#include <deque>
+#include <memory>
+
 
 #include "Code/Game engine/UI systems/Button.hpp"
 #include "Code/Game engine/UI systems/Text.hpp"
@@ -19,11 +22,12 @@
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
+    window.setFramerateLimit(60);
     sf::View fixed = window.getView();
     sf::View mainView;
 
     bool escapeUp = true;
-
+    bool test = true;
     mainView.setCenter(sf::Vector2f(600.f, 384.f));
     mainView.setSize(sf::Vector2f(1280.f, 720.f));
     mainView.setViewport(sf::FloatRect(0, 0, 1, 1));
@@ -33,20 +37,19 @@ int main() {
     GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
 
     std::string pathGround = "../Assets/Test/green_button01.png";
-    std::vector<ObjectBlock> groundObjectList;
+    std::deque<std::shared_ptr<ObjectBlock>> groundObjectList;
 
     GenerateBlock generator = {};
 
     generateBlocks(generator);
 
-    float widthValue = -190;
+    float widthValue = 190;
     float widthG = 32;
 
     for (unsigned int i = 0; i < 5; i++) {
         ObjectBlock generatedBlock = generator.generate();
         generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
-        groundObjectList.push_back(generatedBlock);
-        //groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{widthValue, 675}, sf::Vector2f{1, 1}, 5, false });
+        groundObjectList.push_back(std::make_shared<ObjectBlock>(generatedBlock));
         widthValue += (widthG * 5);
     }
 
@@ -92,51 +95,41 @@ int main() {
 
         while (lag >= msPerLoop) {
             if (state.getState() == game_states::PLAYING) {
-            // Move the view at an ever increasing speed and move the background along with the same speed.
-            
-            // Check if selected object is within the bouns of the selected view
-            sf::FloatRect view2 = getViewBounds(mainView);
-            ObjectBlock firstGroundObject = groundObjectList[0];
-            ObjectBlock secondGroundObject = groundObjectList[1];
-            sf::FloatRect rectObject = groundObjectList[0].getGlobalBounds(); // Get global bounds van blok
-            static float minLengthGroundObjects = widthG * (groundObjectList.size() - 1);
-            if (!rectObject.intersects(view2)) {
+                // Move the view at an ever increasing speed and move the background along with the same speed.
                 float viewMoveSpeed = update_view_position(mainView, window, elapsed.count());
-            move_object_with_view(background, viewMoveSpeed);
-                firstGroundObject = secondGroundObject;
-                // Eigen functie om destructors aan te roepen
-                groundObjectList.erase(groundObjectList.begin());
+                move_object_with_view(background, viewMoveSpeed);
 
-                std::cout << "L: " << groundObjectList.size() << "\n";
-                std::cout << "WV: " << minLengthGroundObjects << "\n";
-                // Functie om alles toe te voegen
-                ObjectBlock generatedBlock = generator.generate();
-                generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
-                groundObjectList.push_back(generatedBlock);
-                //groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{minLengthGroundObjects, 675}, sf::Vector2f{1, 1}, 5, false });
-                minLengthGroundObjects += widthG;
-                widthValue += widthG;
+                // Check if selected object is within the bouns of the selected view
+                sf::FloatRect view2 = getViewBounds(mainView);
+                auto firstGroundObject = groundObjectList[0];
+                sf::FloatRect rectObject = firstGroundObject->getGlobalBounds(); // Get global bounds van blok
+                if (!(rectObject.intersects(view2))) {
+                    // Eigen functie om destructors aan te roepen
+                    groundObjectList.pop_front();
+                    if (test) {
+                        ObjectBlock generatedBlock = generator.generate();
+                        generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
+                        groundObjectList.push_back(std::make_shared<ObjectBlock>(generatedBlock));
+                        widthValue += (widthG * 5);
+                        //test = false;
+                    }
+                     //Functie om alles toe te voegen
 
-                    groundObjectList[(groundObjectList.size() - 1)].draw(window);
+                    //groundObjectList[(groundObjectList.size() - 1)].draw(window);
+
+                        //player.update();
                 }
-
-                player.update();
-
-                //std::cout << "n\n";
-            }    
-            
-            //player.update();
-            
+                 //player.update();
             }
-
             lag -= msPerLoop;
         }
+
 
         window.setView(mainView);
         background.draw(window);
 
-        for (ObjectBlock& current_object : groundObjectList) {
-            current_object.draw(window);
+        for (auto current_object : groundObjectList) {
+            current_object->draw(window);
         }
 
         auto mouse_pos = sf::Mouse::getPosition(window);
