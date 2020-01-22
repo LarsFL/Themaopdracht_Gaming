@@ -64,10 +64,18 @@ public:
 		isGround = setTo;
 	}
 
-	void update() {
+	void update(float & minSpeed) {
 		this->isOnGround(false);
 
-		this->move(sf::Vector2f{ getViewMoveSpeed() + 0.4F, 0 });
+		float viewMoveSpeed = getViewMoveSpeed();
+
+		if (viewMoveSpeed < minSpeed) {
+			this->move(sf::Vector2f{ 0.5, 0 });
+		}
+		else {
+			this->move(sf::Vector2f{ viewMoveSpeed, minSpeed });
+		}
+		
 
 		for (auto& groundObject : groundObjects) {
 

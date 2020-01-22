@@ -104,7 +104,7 @@ int main() {
 
                 testText.setText(std::to_string(i));
 
-                player.update();
+                player.update(minSpeed);
 
                 lag -= msPerLoop;
             }
