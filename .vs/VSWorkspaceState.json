@@ -2,7 +2,7 @@
   "ExpandedNodes": [
     "",
     "\\MarsRunner",
-    "\\MarsRunner\\Assets",
+    "\\MarsRunner\\Assets\\Objects",
     "\\MarsRunner\\Assets\\Test",
     "\\MarsRunner\\Code",
     "\\MarsRunner\\Code\\Game engine",
@@ -11,6 +11,6 @@
     "\\MarsRunner\\MarsRunner",
     "\\MarsRunner\\MarsRunner\\x64"
   ],
-  "SelectedNode": "\\MarsRunner\\Assets\\Test\\green_button01.png",
+  "SelectedNode": "\\MarsRunner\\Code\\Game engine\\Object systems\\Projectile.hpp",
   "PreviewInSolutionExplorer": false
 }

@@ -41,6 +41,9 @@
     <Filter Include="Code\Game engine\Object systems">
       <UniqueIdentifier>{ae5fbd5f-1136-490c-ba29-ad0f50e31411}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Projectile">
+      <UniqueIdentifier>{718a5dfd-b45c-4328-ae5c-a7fc324fc06e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp">
@@ -86,6 +89,12 @@
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\Object systems\Player.hpp">
       <Filter>Code\Game engine\Object systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Setup\InitializeBlocks.hpp">
+      <Filter>Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Object systems\Projectile.hpp">
+      <Filter>Projectile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
