@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <string>
+#include <map>
 #include <chrono>
 #include <ctime>
 
@@ -10,6 +12,8 @@
 #include "Code/Game engine/World Speed Systems/view.hpp"
 #include "Code/Game engine/Object systems/Player.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
+#include "Code/Setup/InitializeAnimations.hpp"
+#include "Code/Game engine/Animation systems/AnimationStates.hpp"
 
 #include "Code/Setup/GameState.hpp"
 #include "Code/Setup/InitializeUI.hpp"
@@ -17,8 +21,10 @@
 int main() {
     sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
     sf::View fixed = window.getView();
+    std::map<std::string, AnimationStates> animationsMap;
     sf::View mainView;
 
+    InitializePlayerAnimations(animationsMap);
     bool escapeUp = true;
 
     mainView.setCenter(sf::Vector2f(600.f, 384.f));
@@ -28,6 +34,10 @@ int main() {
 
     std::string pathBackground = "../Assets/Test/background2.png";
     GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
+
+    std::string imgLoc = "../Assets/Objects/smallAstronaut.png";
+    GameObject testObject(imgLoc, sf::Vector2f(500, 100), sf::Vector2f(15, 15), 200.0, false, true);
+    testObject.setAnimationStates(&animationsMap["player"]);
 
     std::string pathGround = "../Assets/Test/green_button01.png";
     std::vector<GameObject> groundObjectList;
@@ -47,7 +57,7 @@ int main() {
         action(sf::Keyboard::Up,    [&]() { std::cout << "Up\n"; }),
         action(sf::Keyboard::Left,  [&]() { std::cout << "Left\n"; }),
         action(sf::Keyboard::Down,  [&]() { std::cout << "Down\n"; }),
-        action(sf::Keyboard::Right, [&]() { std::cout << "Right\n"; }),
+        action(sf::Keyboard::Right, [&]() { std::cout << "Right\n";}),
 
         action(sf::Keyboard::W,     [&]() { std::cout << "W\n"; }),
         action(sf::Keyboard::A,     [&]() { std::cout << "A\n"; }),
