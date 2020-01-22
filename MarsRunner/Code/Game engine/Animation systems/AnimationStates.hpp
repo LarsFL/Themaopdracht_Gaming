@@ -26,7 +26,7 @@ private:
 	std::string currentAnimation = "";
 
 	int timeToNextFrameInt = 0;
-	std::chrono::system_clock::time_point timeLastFrame;// = std::chrono::system_clock::now();
+	std::chrono::system_clock::time_point timeLastFrame;
 
 	PossibleStates state = PossibleStates::IDLE;
 public:

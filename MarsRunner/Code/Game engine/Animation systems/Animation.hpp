@@ -43,8 +43,7 @@ public:
 	sf::IntRect getFrame() {
 		sf::IntRect currentFrameRect = firstFrameLoc;
 		currentFrameRect.left += (distToNextFrame * currentFrame);
-		//currentFrameRect.width = currentFrameRect.width * -1;
-		//std::cout << currentFrameRect.left << std::endl;
+
 		return currentFrameRect;
 	}
 };

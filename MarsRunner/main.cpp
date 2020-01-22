@@ -34,6 +34,7 @@ int main() {
 
     std::string pathBackground = "../Assets/Test/background2.png";
     GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
+
     std::string imgLoc = "../Assets/Objects/smallAstronaut.png";
     GameObject testObject(imgLoc, sf::Vector2f(500, 100), sf::Vector2f(15, 15), 200.0, false, true);
     testObject.setAnimationStates(&animationsMap["player"]);
