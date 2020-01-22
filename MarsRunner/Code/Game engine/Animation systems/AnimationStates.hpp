@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <iostream>
 #include <chrono>
 
 #include "Animation.hpp"
@@ -20,18 +21,35 @@ enum PossibleStates {
 
 class AnimationStates {
 private:
-
 	std::map<PossibleStates, Animation> animations = {};
 	int nAnimations = 0;
-	std::string currentAnimation;
+	std::string currentAnimation = "";
 
-	std::chrono::milliseconds timeToNextFrame;
-	std::chrono::system_clock::time_point timeLastFrame;
+	int timeToNextFrameInt = 0;
+	std::chrono::system_clock::time_point timeLastFrame;// = std::chrono::system_clock::now();
 
 	PossibleStates state = PossibleStates::IDLE;
 public:
-	AnimationStates(int timeToNextFrameInt){
-		timeToNextFrame = timeToNextFrame;
+	AnimationStates() {
+		timeLastFrame = std::chrono::system_clock::now();
+		std::cout << "Default constructor" << std::endl;
+	}
+
+	AnimationStates(int timeToNextFrameInt) :
+		timeToNextFrameInt(timeToNextFrameInt)
+	{
+		std::cout << "Normal constructor" << std::endl;
+	}
+
+	AnimationStates(const AnimationStates& r) :
+		animations(r.animations),
+		nAnimations(r.nAnimations),
+		currentAnimation(r.currentAnimation),
+		timeToNextFrameInt(r.timeToNextFrameInt),
+		timeLastFrame(r.timeLastFrame),
+		state(r.state)
+	{
+		std::cout << "Copy constructor" << std::endl;
 	}
 
 	void addAnimation(PossibleStates state, Animation newAnimation) {
@@ -49,11 +67,14 @@ public:
 
 	sf::IntRect getFrame() {
 		auto current = std::chrono::system_clock::now();
-		if (timeLastFrame + timeToNextFrame > current) {
+
+		auto temp = std::chrono::duration_cast<std::chrono::milliseconds>(current - timeLastFrame);
+		if(temp.count() > timeToNextFrameInt){
 			animations[state].goToNextFrame();
+			timeLastFrame = std::chrono::system_clock::now();
 		}
 
-		timeLastFrame = std::chrono::system_clock::now();
+		std::cout << state << std::endl;
 		return animations[state].getFrame();
 	}
 };

@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+#include <iostream>
 class Animation {
 private:
 	sf::IntRect firstFrameLoc; //left, top, width, height
@@ -12,18 +13,29 @@ private:
 
 	int currentFrame = 0;
 
+	bool loop;
+
 public:
-	Animation(sf::IntRect firstFrameLoc = { 0,0,0,0 }, int nFrames = 0, int distToNextFrame = 0) :
+	Animation(sf::IntRect firstFrameLoc = { 0,0,0,0 }, int nFrames = 0, int distToNextFrame = 0, bool loop = true) :
 		firstFrameLoc(firstFrameLoc),
 		nFrames(nFrames),
-		distToNextFrame(distToNextFrame)
+		distToNextFrame(distToNextFrame),
+		loop(loop)
+	{}
+
+	Animation(const Animation& r):
+		firstFrameLoc(r.firstFrameLoc),
+		nFrames(r.nFrames),
+		distToNextFrame(r.distToNextFrame),
+		currentFrame(r.currentFrame),
+		loop(r.loop)
 	{}
 
 	void goToNextFrame() {
-		if (currentFrame + 1 < nFrames) {
+		if (currentFrame + 1 <= nFrames) {
 			currentFrame++;
 		}
-		else {
+		else if(loop){
 			currentFrame = 0;
 		}
 	}
@@ -31,6 +43,7 @@ public:
 	sf::IntRect getFrame() {
 		sf::IntRect currentFrameRect = firstFrameLoc;
 		currentFrameRect.left += (distToNextFrame * currentFrame);
+		//std::cout << currentFrameRect.left << std::endl;
 		return currentFrameRect;
 	}
 };
