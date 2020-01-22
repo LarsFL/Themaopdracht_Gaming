@@ -39,6 +39,11 @@ public:
 	void draw(sf::RenderWindow& window) {
 		if (animated) {
 			sprite.setTextureRect(animations->getFrame());
+
+			/*flipping a texture
+			sf::IntRect temp = sprite.getTextureRect();
+			temp.width = temp.width * -1;
+			sprite.setTextureRect(temp);*/
 		}
 		if (isActive) {
 			if (!isStatic) {
