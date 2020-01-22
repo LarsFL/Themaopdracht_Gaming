@@ -31,9 +31,6 @@ int main() {
     std::string pathBackground = "../Assets/Test/background2.png";
     GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
 
-    //std::vector<Projectile> projectiles;
-    //projectiles.push_back(Projectile("../Assets/Test/testplaatje.png", sf::Vector2f(250, 250), sf::Vector2f(.05, .05), sf::Vector2f(0, 0)));
-
     std::string pathGround = "../Assets/Test/green_button01.png";
     std::vector<GameObject> groundObjectList;
     float widthValue = -190;
