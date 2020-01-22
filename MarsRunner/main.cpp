@@ -10,12 +10,14 @@
 #include "Code/Game engine/World Speed Systems/view.hpp"
 #include "Code/Game engine/Object systems/Player.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
+#include "Code/Game engine/Object systems/Projectile.hpp"
 
 #include "Code/Setup/GameState.hpp"
 #include "Code/Setup/InitializeUI.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
+    window.setFramerateLimit(60);
     sf::View fixed = window.getView();
     sf::View mainView;
 
@@ -29,6 +31,9 @@ int main() {
     std::string pathBackground = "../Assets/Test/background2.png";
     GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
 
+    //std::vector<Projectile> projectiles;
+    //projectiles.push_back(Projectile("../Assets/Test/testplaatje.png", sf::Vector2f(250, 250), sf::Vector2f(.05, .05), sf::Vector2f(0, 0)));
+
     std::string pathGround = "../Assets/Test/green_button01.png";
     std::vector<GameObject> groundObjectList;
     float widthValue = -190;
@@ -38,6 +43,7 @@ int main() {
         groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{widthValue, 675}, sf::Vector2f{1, 1}, 5, false });
         widthValue += widthG;
     }
+    groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{widthValue, 500}, sf::Vector2f{1, 1}, 5, false });
 
     GameState state{};
 
@@ -107,9 +113,7 @@ int main() {
 
                     groundObjectList[(groundObjectList.size() - 1)].draw(window);
                 }
-
                 player.update();
-
             }
 
             lag -= msPerLoop;
@@ -121,6 +125,8 @@ int main() {
         for (GameObject& current_object : groundObjectList) {
             current_object.draw(window);
         }
+        
+        player.drawProjectiles();
 
         auto mouse_pos = sf::Mouse::getPosition(window);
         auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);

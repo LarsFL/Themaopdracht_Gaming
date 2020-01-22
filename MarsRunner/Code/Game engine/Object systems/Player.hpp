@@ -4,8 +4,10 @@
 #include <SFML/Graphics.hpp>
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
+#include "Code/Game engine/Object systems/Projectile.hpp"
 #include <vector>
 #include <iostream>
+#include <deque>
 
 #include "GameObject.hpp"
 
@@ -14,6 +16,8 @@ protected:
 	bool isGround = false;
 	sf::RenderWindow& window;
 	std::vector<GameObject>& groundObjects;
+	std::vector<Projectile> projectiles;
+	bool spacePressed = false;
 
 	std::vector<action> actions = {
 		action(sf::Keyboard::Up,
@@ -39,7 +43,8 @@ protected:
 		}),
 
 		action(sf::Keyboard::Right, [&]() { if (!isRightIntersecting(*this, groundObjects[0])) { this->move(sf::Vector2f(1, 0)); } }),
-
+		action(sf::Keyboard::Space, [&]() { if (!spacePressed) { projectiles.push_back(Projectile("../Assets/Objects/bullet.png", position, sf::Vector2f(1,1), sf::Vector2f(10,0))); spacePressed = true; } }),
+		action([&]() { return !sf::Keyboard::isKeyPressed(sf::Keyboard::Space); }, [&]() { spacePressed = false; })
 	};
 
 public:
@@ -87,7 +92,22 @@ public:
 		{
 			this->setVelocity(sf::Vector2f{ 0.0, 0.0 });
 		}
+
+		unsigned int count = 0;
+		for (auto& projectile : projectiles) {
+			if (projectile.update(groundObjects)) {
+				projectiles.erase(projectiles.begin() + count);
+			}
+			count++;
+		}
+
 		this->draw(window);
+	}
+
+	void drawProjectiles() {
+		for (auto& projectile : projectiles) {
+			projectile.draw(window);
+		}
 	}
 
 };

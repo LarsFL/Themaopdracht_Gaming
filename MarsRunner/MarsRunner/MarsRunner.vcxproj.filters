@@ -34,6 +34,9 @@
     <Filter Include="Physics">
       <UniqueIdentifier>{5b06461c-e151-40a4-938d-3d8b1b638e7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Projectile">
+      <UniqueIdentifier>{718a5dfd-b45c-4328-ae5c-a7fc324fc06e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp">
@@ -76,6 +79,12 @@
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\Physics systems\physics.hpp">
       <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Setup\InitializeBlocks.hpp">
+      <Filter>Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Object systems\Projectile.hpp">
+      <Filter>Projectile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
