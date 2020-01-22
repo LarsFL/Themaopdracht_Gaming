@@ -50,17 +50,17 @@ int main() {
     InitializeUI(window, fixed, state);
 
     action actions[] = {
-        action(sf::Keyboard::Up,    [&]() { std::cout << "Up\n"; }),
-        action(sf::Keyboard::Left,  [&]() { std::cout << "Left\n"; }),
-        action(sf::Keyboard::Down,  [&]() { std::cout << "Down\n"; }),
-        action(sf::Keyboard::Right, [&]() { std::cout << "Right\n"; }),
+        //action(sf::Keyboard::Up,    [&]() { std::cout << "Up\n"; }),
+        //action(sf::Keyboard::Left,  [&]() { std::cout << "Left\n"; }),
+        //action(sf::Keyboard::Down,  [&]() { std::cout << "Down\n"; }),
+        //action(sf::Keyboard::Right, [&]() { std::cout << "Right\n"; }),
 
-        action(sf::Keyboard::W,     [&]() { std::cout << "W\n"; }),
-        action(sf::Keyboard::A,     [&]() { std::cout << "A\n"; }),
-        action(sf::Keyboard::S,     [&]() { std::cout << "S\n"; }),
-        action(sf::Keyboard::D,     [&]() { std::cout << "D\n"; }),
+        //action(sf::Keyboard::W,     [&]() { std::cout << "W\n"; }),
+        //action(sf::Keyboard::A,     [&]() { std::cout << "A\n"; }),
+        //action(sf::Keyboard::S,     [&]() { std::cout << "S\n"; }),
+        //action(sf::Keyboard::D,     [&]() { std::cout << "D\n"; }),
 
-        action(sf::Mouse::Left,     [&]() { std::cout << "Mouse\n"; }),
+        //action(sf::Mouse::Left,     [&]() { std::cout << "Mouse\n"; }),
         action(sf::Keyboard::Escape,[&]() { if (escapeUp) { state.handleEscape(); escapeUp = false; } }),
         action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape); }, [&]() { escapeUp = true; })
     };
@@ -126,7 +126,8 @@ int main() {
             current_object.draw(window);
         }
         
-        player.drawProjectiles();
+        auto bounds = getViewBounds(mainView);
+        player.drawProjectiles(bounds);
 
         auto mouse_pos = sf::Mouse::getPosition(window);
         auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
