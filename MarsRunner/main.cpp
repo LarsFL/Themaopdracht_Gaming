@@ -25,6 +25,8 @@
 #include "Code/Setup/InitializeUI.hpp"
 #include "Code/Setup/InitializeBlocks.hpp"
 
+#include "Code/Game engine/Tile systems/TextureManager.hpp";
+
 int main() {
     sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
     window.setFramerateLimit(60);
@@ -48,22 +50,22 @@ int main() {
     GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
 
     std::string pathGround = "../Assets/Test/green_button01.png";
-    std::deque<std::shared_ptr<ObjectBlock>> groundObjectList;
+    std::deque<ObjectBlock> groundObjectList;
 
     GenerateBlock generator = {};
+    TextureManager manager = {};
 
-    generateBlocks(generator);
+    generateBlocks(generator, manager);
 
-    float widthValue = 190;
+    float widthValue = -190;
     float widthG = 32;
 
-    for (unsigned int i = 0; i < 5; i++) {
+    for (unsigned int i = 0; i < 15; i++) {
         ObjectBlock generatedBlock = generator.generate();
         generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
-        groundObjectList.push_back(std::make_shared<ObjectBlock>(generatedBlock));
+        groundObjectList.push_back(generatedBlock);
         widthValue += (widthG * 5);
     }
-    groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{widthValue, 500}, sf::Vector2f{1, 1}, 5, false });
 
     GameState state{};
 
@@ -81,10 +83,10 @@ int main() {
 
 
     std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
-    Player player{ playerSpriteSheet, sf::Vector2f{0,250}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList };
-    player.setAnimationStates(&animationsMap["player"]);
-    animationsMap["player"].setState(PossibleStates::WALK);
-    player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
+    //Player player{ playerSpriteSheet, sf::Vector2f{0,250}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList };
+    //player.setAnimationStates(&animationsMap["player"]);
+    //animationsMap["player"].setState(PossibleStates::WALK);
+    //player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
 
     while (window.isOpen()) {
         // Always take the same time step per loop. (should work now)
@@ -109,26 +111,19 @@ int main() {
                 // Check if selected object is within the bouns of the selected view
                 sf::FloatRect view2 = getViewBounds(mainView);
                 auto firstGroundObject = groundObjectList[0];
-                sf::FloatRect rectObject = firstGroundObject->getGlobalBounds(); // Get global bounds van blok
+                sf::FloatRect rectObject = firstGroundObject.getGlobalBounds(); // Get global bounds van blok
                 if (!(rectObject.intersects(view2))) {
                     // Eigen functie om destructors aan te roepen
                     groundObjectList.pop_front();
                     if (test) {
                         ObjectBlock generatedBlock = generator.generate();
                         generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
-                        groundObjectList.push_back(std::make_shared<ObjectBlock>(generatedBlock));
+                        groundObjectList.push_back(generatedBlock);
                         widthValue += (widthG * 5);
                         //test = false;
                     }
-                     //Functie om alles toe te voegen
-
-                    groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{minLengthGroundObjects, 675}, sf::Vector2f{1, 1}, 5, false });
-                    minLengthGroundObjects += widthG;
-                    widthValue += widthG;
-
-                    groundObjectList[(groundObjectList.size() - 1)].draw(window);
                 }
-                player.update(minSpeed);
+                //player.update(minSpeed);
 
                 lag -= msPerLoop;
             }
@@ -136,18 +131,18 @@ int main() {
             window.setView(mainView);
             background.draw(window);
 
-            for (GameObject& current_object : groundObjectList) {
+            for (auto& current_object : groundObjectList) {
                 current_object.draw(window);
             }
 
             auto bounds = getViewBounds(mainView);
-            player.drawProjectiles(bounds);
+            //player.drawProjectiles(bounds);
 
             auto mouse_pos = sf::Mouse::getPosition(window);
             auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
             state.updateUI(translated_pos);
 
-            player.draw(window);
+            //player.draw(window);
             window.setView(fixed);
             state.draw(window);
 

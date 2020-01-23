@@ -62,7 +62,7 @@ public:
 	}
 
 	Player(const Player& a) :
-		GameObject(a.imageLocation, a.position, a.size, a.weight, a.isStatic),
+		GameObject(a.imageLocation, a.position, a.size, a.weight, a.isStatic, a.animated),
 		window(a.window),
 		groundObjects(a.groundObjects)
 	{}

@@ -22,9 +22,19 @@ protected:
 	sf::IntRect rectSourceSprite = { 1, 2, 38, 42 };
 
 	bool animated;
+	bool staticObject = false;
 	AnimationStates* animations = nullptr;
 
 public:
+	GameObject() :
+		imageLocation(""),
+		animated(false),
+		isActive(false)
+	{
+		image.loadFromFile("../Assets/Test/green_button01.png");
+		sprite.setTexture(image);
+	}
+
 	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic = true, bool animated = false) :
 		imageLocation(imageLocation),
 		position(position),
@@ -35,6 +45,21 @@ public:
 	{
 		image.loadFromFile(imageLocation);
 		sprite.setTexture(image);
+		sprite.setPosition(position);
+		sprite.setScale(size);
+	}
+
+	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, sf::IntRect spriteRect) :
+		imageLocation(imageLocation),
+		position(position),
+		size(size),
+		animated(false),
+		rectSourceSprite(spriteRect),
+		staticObject(true)
+	{
+		image.loadFromFile(imageLocation);
+		sprite.setTexture(image);
+		sprite.setTextureRect(rectSourceSprite);
 		sprite.setPosition(position);
 		sprite.setScale(size);
 	}
@@ -50,18 +75,21 @@ public:
 		isActive(r.isActive),
 		rectSourceSprite(r.rectSourceSprite),
 		animated(r.animated),
-		animations(r.animations)
+		animations(r.animations),
+		staticObject(r.staticObject)
 	{
 		image.loadFromFile(imageLocation);
 		sprite.setTexture(image);
 		sprite.setPosition(position);
 		sprite.setScale(size);
+		if (staticObject) {
+			sprite.setTextureRect(rectSourceSprite);
+		}
 	}
 
 	void draw(sf::RenderWindow& window) {
 		if (animated) {
 			sprite.setTextureRect(animations->getFrame());
-
 		}
 		if (isActive) {
 			if (!isStatic) {
