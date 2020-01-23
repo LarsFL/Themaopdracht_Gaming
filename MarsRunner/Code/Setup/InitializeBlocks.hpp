@@ -125,6 +125,58 @@ void generateBlocks(GenerateBlock& generator, TextureManager& manager) {
 	var2PlatformBlock.addObject(sf::Vector2i(3, 23), solidGroundTile);
 	var2PlatformBlock.addObject(sf::Vector2i(4, 23), solidGroundTile);
 	generator.addBlock(var2PlatformBlock);
+
+	ObjectBlock var3PlatformBlock = {};
+	var3PlatformBlock.addObject(sf::Vector2i(2, 17), platformTile);
+	var3PlatformBlock.addObject(sf::Vector2i(3, 17), platformTile);
+	var3PlatformBlock.addObject(sf::Vector2i(0, 20), boring1GroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(1, 20), boringGroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(2, 20), boringGroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(3, 20), boringGroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(4, 20), boring1GroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(0, 21), solidGroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(1, 21), solidGroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(2, 21), solidGroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(3, 21), solidGroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(4, 21), solidGroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(0, 22), solidGroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(1, 22), solidGroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(2, 22), solidGroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(3, 22), solidGroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(4, 22), solidGroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(0, 23), solidGroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(1, 23), solidGroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(2, 23), solidGroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(3, 23), solidGroundTile);
+	var3PlatformBlock.addObject(sf::Vector2i(4, 23), solidGroundTile);
+	generator.addBlock(var3PlatformBlock);
+
+	ObjectBlock var4PlatformBlock = {};
+	var4PlatformBlock.addObject(sf::Vector2i(1, 18), platformTile);
+	var4PlatformBlock.addObject(sf::Vector2i(2, 18), platformTile);
+	var4PlatformBlock.addObject(sf::Vector2i(4, 14), platformTile);
+	var4PlatformBlock.addObject(sf::Vector2i(5, 14), platformTile);
+	var4PlatformBlock.addObject(sf::Vector2i(0, 20), boring1GroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(1, 20), boringGroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(2, 20), boringGroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(3, 20), boringGroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(4, 20), boring1GroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(0, 21), solidGroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(1, 21), solidGroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(2, 21), solidGroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(3, 21), solidGroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(4, 21), solidGroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(0, 22), solidGroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(1, 22), solidGroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(2, 22), solidGroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(3, 22), solidGroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(4, 22), solidGroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(0, 23), solidGroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(1, 23), solidGroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(2, 23), solidGroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(3, 23), solidGroundTile);
+	var4PlatformBlock.addObject(sf::Vector2i(4, 23), solidGroundTile);
+	generator.addBlock(var4PlatformBlock);
 }
 
 #endif

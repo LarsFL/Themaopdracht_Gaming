@@ -6,6 +6,7 @@
 #include "Code/Game engine/Physics systems/physics.hpp"
 #include "Code/Game engine/Object systems/Projectile.hpp"
 #include "../World Speed Systems/view.hpp"
+#include "Code/Game engine/Tile systems/Tile.hpp"
 #include <vector>
 #include <iostream>
 
