@@ -74,7 +74,7 @@ public:
 			timeLastFrame = std::chrono::system_clock::now();
 		}
 
-		std::cout << state << std::endl;
+		//std::cout << state << std::endl;
 		return animations[state].getFrame();
 	}
 };

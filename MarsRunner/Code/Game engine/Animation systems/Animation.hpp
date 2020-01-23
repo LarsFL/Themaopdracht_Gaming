@@ -17,12 +17,6 @@ private:
 	bool backwards;
 
 public:
-	/*Animation(sf::IntRect firstFrameLoc = { 0,0,0,0 }, int nFrames = 0, int distToNextFrame = 0, bool loop = true) :
-		firstFrameLoc(firstFrameLoc),
-		nFrames(nFrames),
-		distToNextFrame(distToNextFrame),
-		loop(loop)
-	{}*/
 
 	Animation(sf::IntRect firstFrameLoc = { 0,0,0,0 }, int nFrames = 0, int distToNextFrame = 0, bool loop = true, bool backwards = false) :
 		firstFrameLoc(firstFrameLoc),

@@ -26,6 +26,9 @@ int main() {
 
     InitializePlayerAnimations(animationsMap);
     InitializeSmallAlienAnimations(animationsMap);
+    InitializeGreenAlienAnimations(animationsMap);
+    InitializeSateliteAnimations(animationsMap);
+
     bool escapeUp = true;
 
     mainView.setCenter(sf::Vector2f(600.f, 384.f));
@@ -35,10 +38,6 @@ int main() {
 
     std::string pathBackground = "../Assets/Test/background2.png";
     GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
-
-    std::string imgLoc = "../Assets/Objects/smallAstronaut.png";
-    GameObject testObject(imgLoc, sf::Vector2f(500, 100), sf::Vector2f(15, 15), 200.0, false, true);
-    testObject.setAnimationStates(&animationsMap["player"]);
 
     std::string pathGround = "../Assets/Test/green_button01.png";
     std::vector<GameObject> groundObjectList;
@@ -75,18 +74,26 @@ int main() {
     float msPerLoop = 16.33;
     float minSpeed = 0.5;
 
-    std::string smallAlienSprite = "../Assets/Objects/smallAlien.png";
-    GameObject smallAlien(smallAlienSprite, sf::Vector2f(500, 300), sf::Vector2f(5, 5), 200.0, false, true);
-    smallAlien.setAnimationStates(&animationsMap["smallAlien"]);
+    /*std::string smallaliensprite = "../assets/objects/smallalien.png";
+    gameobject smallalien(smallaliensprite, sf::vector2f(500, 300), sf::vector2f(5, 5), 200.0, false, true);
+    smallalien.setanimationstates(&animationsmap["smallalien"]);
 
-    std::string smallAstronautSprite = "../Assets/Objects/smallAstronaut.png";
-    GameObject smallAstronaut(smallAstronautSprite, sf::Vector2f(700, 300), sf::Vector2f(5, 5), 200.0, false, true);
-    smallAstronaut.setAnimationStates(&animationsMap["player"]);
+    std::string smallastronautsprite = "../assets/objects/smallastronaut.png";
+    gameobject smallastronaut(smallastronautsprite, sf::vector2f(700, 300), sf::vector2f(5, 5), 200.0, false, true);
+    smallastronaut.setanimationstates(&animationsmap["player"]);
 
-    animationsMap["smallAlien"].setState(PossibleStates::DEATH);
+    animationsmap["smallalien"].setstate(possiblestates::death);
 
-    std::string testPlaatje = "../Assets/Test/testplaatje.png";
-    Player player{ testPlaatje, sf::Vector2f{0,250}, sf::Vector2f{.1,.1}, 5, false, window, groundObjectList };
+    std::string greenAlienSprite = "../Assets/Objects/smallGreenAlien.png";
+    GameObject greenAlien(greenAlienSprite, sf::Vector2f(700, 300), sf::Vector2f(2, 2), 200.0, false, true);
+    greenAlien.setAnimationStates(&animationsMap["greenAlien"]);
+    animationsMap["greenAlien"].setState(PossibleStates::DEATH);*/
+
+
+    std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
+    Player player{ playerSpriteSheet, sf::Vector2f{0,250}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList };
+    player.setAnimationStates(&animationsMap["player"]);
+    animationsMap["player"].setState(PossibleStates::WALK);
     player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
 
     while (window.isOpen()) {
@@ -151,8 +158,6 @@ int main() {
         window.setView(fixed);
         state.draw(window);
 
-        smallAlien.draw(window);
-        smallAstronaut.draw(window);
 
         window.display();
         window.setView(mainView);

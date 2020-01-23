@@ -44,9 +44,9 @@ protected:
 
 public:
 	Player(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight,
-		bool isStatic, sf::RenderWindow& window, std::vector<GameObject>& groundObjects) :
+		bool isStatic, bool animated, sf::RenderWindow& window, std::vector<GameObject>& groundObjects) :
 
-		GameObject(imageLocation, position, size, weight, isStatic),
+		GameObject(imageLocation, position, size, weight, isStatic, animated),
 		window(window),
 		groundObjects(groundObjects) {}
 

@@ -73,4 +73,41 @@ void InitializeSmallAlienAnimations(std::map<std::string, AnimationStates>& anim
 
 	animationsMap["smallAlien"] = smallAlien;
 }
+
+void InitializeGreenAlienAnimations(std::map<std::string, AnimationStates>& animationsMap) {
+	AnimationStates GreenAlien(300);
+
+	//IDLE
+	sf::IntRect idleLoc(7, 2, 18, 24);
+	Animation Idle(idleLoc, 1, 32);
+	GreenAlien.addAnimation(PossibleStates::IDLE, Idle);
+
+	//WALK (beetje raar)
+	sf::IntRect walkLoc(7, 35, 18, 24);
+	Animation Walk(walkLoc, 2, 32);
+	GreenAlien.addAnimation(PossibleStates::WALK, Walk);
+
+	//DAMAGED
+	sf::IntRect damagedLoc(7, 67, 18, 24);
+	Animation Damaged(damagedLoc, 2, 32);
+	GreenAlien.addAnimation(PossibleStates::DAMAGED, Damaged);
+
+	//DEATH
+	sf::IntRect deathLoc(7, 99, 18, 24);
+	Animation Death(deathLoc, 2, 32, false);
+	GreenAlien.addAnimation(PossibleStates::DEATH, Death);
+
+	animationsMap["greenAlien"] = GreenAlien;
+}
+
+void InitializeSateliteAnimations(std::map<std::string, AnimationStates>& animationsMap) {
+	AnimationStates satellite(500);
+
+	//IDLE
+	sf::IntRect idleLoc(10, 0, 92, 49);
+	Animation Idle(idleLoc, 7, 121);
+	satellite.addAnimation(PossibleStates::IDLE, Idle);
+
+	animationsMap["satellite"] = satellite;
+}
 #endif
