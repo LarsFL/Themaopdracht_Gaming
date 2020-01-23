@@ -5,6 +5,8 @@
 #include <string>
 #include <iostream>
 
+#include "../Animation systems/AnimationStates.hpp"
+
 class GameObject {
 protected:
 	std::string imageLocation;
@@ -18,26 +20,23 @@ protected:
 	bool isStatic = true;
 	bool isActive = true;
 	sf::IntRect rectSourceSprite = { 1, 2, 38, 42 };
-	bool useRectSprite = false;
-public:
-	GameObject() {}
 
-	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic = true, sf::IntRect rectSprite = {0, 0, 0, 0}, bool useRectSprite = false) :
+	bool animated;
+	AnimationStates* animations = nullptr;
+
+public:
+	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic = true, bool animated = false) :
 		imageLocation(imageLocation),
 		position(position),
 		size(size),
 		weight(weight),
 		isStatic(isStatic),
-		rectSourceSprite(rectSprite),
-		useRectSprite(useRectSprite)
+		animated(animated)
 	{
 		image.loadFromFile(imageLocation);
 		sprite.setTexture(image);
 		sprite.setPosition(position);
 		sprite.setScale(size);
-		if (useRectSprite) {
-			sprite.setTextureRect(rectSourceSprite);
-		}
 	}
 
 	GameObject(const GameObject& r) :
@@ -50,25 +49,30 @@ public:
 		isStatic(r.isStatic),
 		isActive(r.isActive),
 		rectSourceSprite(r.rectSourceSprite),
-		useRectSprite(r.useRectSprite)
+		animated(r.animated),
+		animations(r.animations)
 	{
 		image.loadFromFile(imageLocation);
 		sprite.setTexture(image);
 		sprite.setPosition(position);
 		sprite.setScale(size);
-		if (useRectSprite) {
-			sprite.setTextureRect(rectSourceSprite);
-		}
-		std::cout << "GameObject copy contructor" << std::endl;
 	}
 
 	void draw(sf::RenderWindow& window) {
+		if (animated) {
+			sprite.setTextureRect(animations->getFrame());
+
+		}
 		if (isActive) {
 			if (!isStatic) {
 				sprite.setPosition(position);
 			}
 			window.draw(sprite);
 		}
+	}
+
+	void setAnimationStates(AnimationStates* newAnimations) {
+		animations = newAnimations;
 	}
 
 	void move(sf::Vector2f delta) {

@@ -5,34 +5,44 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Code">
+      <UniqueIdentifier>{ae750eca-695d-4864-8a94-5dbf3d271c95}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Code\Game engine">
+      <UniqueIdentifier>{e55695dd-7936-40f1-ac51-670b01dba2f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject">
-      <UniqueIdentifier>{9084f051-9f12-4fb0-964a-1dae5e1be698}</UniqueIdentifier>
+    <Filter Include="Code\Game engine\input systems">
+      <UniqueIdentifier>{3329ed4b-6a47-4611-90f4-e4fd883bb440}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Input">
-      <UniqueIdentifier>{b080df37-84c1-4c48-9944-cc81c4bb4797}</UniqueIdentifier>
+    <Filter Include="Code\Game engine\UI systems">
+      <UniqueIdentifier>{7465677c-57e4-4d06-b0a0-94a7d15fe9a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI">
-      <UniqueIdentifier>{5389279c-f37f-4138-9a8c-151a49b04de3}</UniqueIdentifier>
+    <Filter Include="Code\setup">
+      <UniqueIdentifier>{24cb04e0-224d-4e3d-8398-de1c4515f9e8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Setup">
-      <UniqueIdentifier>{16517712-0201-4e65-88a2-eeb37a24231d}</UniqueIdentifier>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{7303a35f-ca18-4bdd-9212-061acaf2ec6d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="World speed">
-      <UniqueIdentifier>{9f74bf39-c368-441c-bd54-0e1f99422335}</UniqueIdentifier>
+    <Filter Include="Assets\Fonts">
+      <UniqueIdentifier>{c0f78d7b-786d-4905-9de0-e465e6169eee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Player">
-      <UniqueIdentifier>{79d52760-27fc-4074-a869-1882ffbfcb0a}</UniqueIdentifier>
+    <Filter Include="Assets\Objects">
+      <UniqueIdentifier>{cc09739d-d0de-4d2e-9f0e-bb21a668fcb2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Physics">
-      <UniqueIdentifier>{5b06461c-e151-40a4-938d-3d8b1b638e7c}</UniqueIdentifier>
+    <Filter Include="Assets\Test">
+      <UniqueIdentifier>{8385eb6b-7ba1-4ca9-848a-2d4cca70ec8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Game engine\Animation systems">
+      <UniqueIdentifier>{0e18e948-c885-4f48-af7b-63af040eed13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Game engine\Physics systems">
+      <UniqueIdentifier>{f8d56576-6285-4f62-aa59-14680d88ab24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Game engine\Object systems">
+      <UniqueIdentifier>{ae5fbd5f-1136-490c-ba29-ad0f50e31411}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Projectile">
+      <UniqueIdentifier>{718a5dfd-b45c-4328-ae5c-a7fc324fc06e}</UniqueIdentifier>
     </Filter>
     <Filter Include="World generation">
       <UniqueIdentifier>{6fd96c62-80ca-4585-911d-6aa09b3a522a}</UniqueIdentifier>
@@ -43,45 +53,54 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Game engine\Physics systems\physics.cpp">
-      <Filter>Physics</Filter>
+      <Filter>Code\Game engine\Physics systems</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Game engine\World generation systems\ObjectBlock.cpp">
       <Filter>World generation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Code\Game engine\Object systems\GameObject.hpp">
-      <Filter>GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="..\Code\Game engine\Input systems\input.hpp">
-      <Filter>Input</Filter>
+      <Filter>Code\Game engine\input systems</Filter>
     </ClInclude>
-    <ClInclude Include="..\Code\Game engine\UI systems\UI_Element.hpp">
-      <Filter>UI</Filter>
+    <ClInclude Include="..\Code\Game engine\Object systems\GameObject.hpp">
+      <Filter>Code\Game engine\Object systems</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\UI systems\Button.hpp">
-      <Filter>UI</Filter>
+      <Filter>Code\Game engine\UI systems</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\UI systems\Text.hpp">
-      <Filter>UI</Filter>
+      <Filter>Code\Game engine\UI systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\UI systems\UI_Element.hpp">
+      <Filter>Code\Game engine\UI systems</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\UI systems\UI_State.hpp">
-      <Filter>UI</Filter>
+      <Filter>Code\Game engine\UI systems</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Setup\GameState.hpp">
-      <Filter>Setup</Filter>
+      <Filter>Code\setup</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Setup\InitializeUI.hpp">
-      <Filter>Setup</Filter>
+      <Filter>Code\setup</Filter>
     </ClInclude>
-    <ClInclude Include="..\Code\Game engine\World Speed Systems\view.hpp">
-      <Filter>World speed</Filter>
+    <ClInclude Include="..\Code\Game engine\Animation systems\Animation.hpp">
+      <Filter>Code\Game engine\Animation systems</Filter>
     </ClInclude>
-    <ClInclude Include="..\Code\Game engine\Object systems\Player.hpp">
-      <Filter>Player</Filter>
+    <ClInclude Include="..\Code\Setup\InitializeAnimations.hpp">
+      <Filter>Code\setup</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\Physics systems\physics.hpp">
-      <Filter>Physics</Filter>
+      <Filter>Code\Game engine\Physics systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Object systems\Player.hpp">
+      <Filter>Code\Game engine\Object systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Setup\InitializeBlocks.hpp">
+      <Filter>Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Object systems\Projectile.hpp">
+      <Filter>Projectile</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\World generation systems\ObjectBlock.hpp">
       <Filter>World generation</Filter>
@@ -92,5 +111,74 @@
     <ClInclude Include="..\Code\Setup\InitializeBlocks.hpp">
       <Filter>Setup</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\Assets\Fonts\Mars.otf">
+      <Filter>Assets\Fonts</Filter>
+    </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Assets\Test\Astronaut.png">
+      <Filter>Assets\Test</Filter>
+    </Image>
+    <Image Include="..\Assets\Test\Astronaut_idle.png">
+      <Filter>Assets\Test</Filter>
+    </Image>
+    <Image Include="..\Assets\Test\green_button01.png">
+      <Filter>Assets\Test</Filter>
+    </Image>
+    <Image Include="..\Assets\Test\grey_button01.png">
+      <Filter>Assets\Test</Filter>
+    </Image>
+    <Image Include="..\Assets\Test\testplaatje.png">
+      <Filter>Assets\Test</Filter>
+    </Image>
+    <Image Include="..\Assets\Objects\astronaut.jpg">
+      <Filter>Assets\Objects</Filter>
+    </Image>
+    <Image Include="..\Assets\Objects\BadShips.png">
+      <Filter>Assets\Objects</Filter>
+    </Image>
+    <Image Include="..\Assets\Objects\brokenPurpleRobot.png">
+      <Filter>Assets\Objects</Filter>
+    </Image>
+    <Image Include="..\Assets\Objects\Celular-gigante.png">
+      <Filter>Assets\Objects</Filter>
+    </Image>
+    <Image Include="..\Assets\Objects\coin.jpg">
+      <Filter>Assets\Objects</Filter>
+    </Image>
+    <Image Include="..\Assets\Objects\GreenGasPlanet.png">
+      <Filter>Assets\Objects</Filter>
+    </Image>
+    <Image Include="..\Assets\Objects\ground.png">
+      <Filter>Assets\Objects</Filter>
+    </Image>
+    <Image Include="..\Assets\Objects\metalPlatforms.png">
+      <Filter>Assets\Objects</Filter>
+    </Image>
+    <Image Include="..\Assets\Objects\Satélite.png">
+      <Filter>Assets\Objects</Filter>
+    </Image>
+    <Image Include="..\Assets\Objects\smallAlien.png">
+      <Filter>Assets\Objects</Filter>
+    </Image>
+    <Image Include="..\Assets\Objects\smallAstronaut.png">
+      <Filter>Assets\Objects</Filter>
+    </Image>
+    <Image Include="..\Assets\Objects\smallGreenAlien.png">
+      <Filter>Assets\Objects</Filter>
+    </Image>
+    <Image Include="..\Assets\Objects\spaceSoldier.png">
+      <Filter>Assets\Objects</Filter>
+    </Image>
+    <Image Include="..\Assets\Objects\spaceTiledBackground.png">
+      <Filter>Assets\Objects</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Code\Game engine\Animation systems\AnimationStates.hpp">
+      <Filter>Code\Game engine\Animation systems</Filter>
+    </None>
   </ItemGroup>
 </Project>

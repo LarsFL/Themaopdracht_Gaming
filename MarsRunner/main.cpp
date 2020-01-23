@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <string>
+#include <map>
 #include <chrono>
 #include <ctime>
 #include <deque>
@@ -15,6 +17,9 @@
 #include "Code/Game engine/World generation systems/GenerateBlock.hpp"
 #include "Code/Game engine/Object systems/Player.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
+#include "Code/Setup/InitializeAnimations.hpp"
+#include "Code/Game engine/Animation systems/AnimationStates.hpp"
+#include "Code/Game engine/Object systems/Projectile.hpp"
 
 #include "Code/Setup/GameState.hpp"
 #include "Code/Setup/InitializeUI.hpp"
@@ -24,7 +29,13 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
     window.setFramerateLimit(60);
     sf::View fixed = window.getView();
+    std::map<std::string, AnimationStates> animationsMap;
     sf::View mainView;
+
+    InitializePlayerAnimations(animationsMap);
+    InitializeSmallAlienAnimations(animationsMap);
+    InitializeGreenAlienAnimations(animationsMap);
+    InitializeSateliteAnimations(animationsMap);
 
     bool escapeUp = true;
     bool test = true;
@@ -52,23 +63,13 @@ int main() {
         groundObjectList.push_back(std::make_shared<ObjectBlock>(generatedBlock));
         widthValue += (widthG * 5);
     }
+    groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{widthValue, 500}, sf::Vector2f{1, 1}, 5, false });
 
     GameState state{};
 
     InitializeUI(window, fixed, state);
 
     action actions[] = {
-        action(sf::Keyboard::Up,    [&]() { std::cout << "Up\n"; }),
-        action(sf::Keyboard::Left,  [&]() { std::cout << "Left\n"; }),
-        action(sf::Keyboard::Down,  [&]() { std::cout << "Down\n"; }),
-        action(sf::Keyboard::Right, [&]() { std::cout << "Right\n"; }),
-
-        action(sf::Keyboard::W,     [&]() { std::cout << "W\n"; }),
-        action(sf::Keyboard::A,     [&]() { std::cout << "A\n"; }),
-        action(sf::Keyboard::S,     [&]() { std::cout << "S\n"; }),
-        action(sf::Keyboard::D,     [&]() { std::cout << "D\n"; }),
-
-        action(sf::Mouse::Left,     [&]() { std::cout << "Mouse\n"; }),
         action(sf::Keyboard::Escape,[&]() { if (escapeUp) { state.handleEscape(); escapeUp = false; } }),
         action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape); }, [&]() { escapeUp = true; })
     };
@@ -76,9 +77,14 @@ int main() {
     auto previous = std::chrono::system_clock::now();
     auto lag = 0.0;
     float msPerLoop = 16.33;
-    std::string testPlaatje = "../Assets/Test/testplaatje.png";
-    //Player player{ testPlaatje, sf::Vector2f{0,250}, sf::Vector2f{.1,.1}, 5, false, window, groundObjectList };
-    //player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
+    float minSpeed = 0.5;
+
+
+    std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
+    Player player{ playerSpriteSheet, sf::Vector2f{0,250}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList };
+    player.setAnimationStates(&animationsMap["player"]);
+    animationsMap["player"].setState(PossibleStates::WALK);
+    player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
 
     while (window.isOpen()) {
         // Always take the same time step per loop. (should work now)
@@ -96,8 +102,9 @@ int main() {
         while (lag >= msPerLoop) {
             if (state.getState() == game_states::PLAYING) {
                 // Move the view at an ever increasing speed and move the background along with the same speed.
-                float viewMoveSpeed = update_view_position(mainView, window, elapsed.count());
-                move_object_with_view(background, viewMoveSpeed);
+                update_view_position(mainView, window, minSpeed);
+                float viewMoveSpeed = getViewMoveSpeed();
+                move_object_with_view(background, viewMoveSpeed, minSpeed);
 
                 // Check if selected object is within the bouns of the selected view
                 sf::FloatRect view2 = getViewBounds(mainView);
@@ -115,41 +122,48 @@ int main() {
                     }
                      //Functie om alles toe te voegen
 
-                    //groundObjectList[(groundObjectList.size() - 1)].draw(window);
+                    groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{minLengthGroundObjects, 675}, sf::Vector2f{1, 1}, 5, false });
+                    minLengthGroundObjects += widthG;
+                    widthValue += widthG;
 
-                        //player.update();
+                    groundObjectList[(groundObjectList.size() - 1)].draw(window);
                 }
-                 //player.update();
+                player.update(minSpeed);
+
+                lag -= msPerLoop;
             }
-            lag -= msPerLoop;
-        }
 
+            window.setView(mainView);
+            background.draw(window);
 
-        window.setView(mainView);
-        background.draw(window);
-
-        for (auto current_object : groundObjectList) {
-            current_object->draw(window);
-        }
-
-        auto mouse_pos = sf::Mouse::getPosition(window);
-        auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
-        state.updateUI(translated_pos);
-
-        //player.draw(window);
-        window.setView(fixed);
-        state.draw(window);
-
-        window.display();
-        window.setView(mainView);
-
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed || state.closeGame) {
-                window.close();
+            for (GameObject& current_object : groundObjectList) {
+                current_object.draw(window);
             }
-        }
 
+            auto bounds = getViewBounds(mainView);
+            player.drawProjectiles(bounds);
+
+            auto mouse_pos = sf::Mouse::getPosition(window);
+            auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
+            state.updateUI(translated_pos);
+
+            player.draw(window);
+            window.setView(fixed);
+            state.draw(window);
+
+
+            window.display();
+            window.setView(mainView);
+
+            sf::Event event;
+            while (window.pollEvent(event)) {
+                if (event.type == sf::Event::Closed || state.closeGame) {
+                    window.close();
+                }
+            }
+
+
+        }
     }
-    return 0;
+        return 0;
 }
