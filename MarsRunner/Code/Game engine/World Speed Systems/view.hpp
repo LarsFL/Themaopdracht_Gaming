@@ -19,7 +19,7 @@ void update_game_object_speed(GameObject& object) {
     object.move(sf::Vector2f{ 0.1, 0.1 });
 }
 
-void update_view_position(sf::View& view, sf::RenderWindow& window, float& minSpeed) {
+float update_view_position(sf::View& view, sf::RenderWindow& window, float & minSpeed) {
     /// Move the selected view in a slowly accelerating motion.
     float devideValue = 5000.0;
     static float increaseValue = minSpeed;
@@ -33,7 +33,7 @@ void update_view_position(sf::View& view, sf::RenderWindow& window, float& minSp
     }
 
     window.setView(view);
-    speedCalculatedByFunction = increaseValue / devideValue;
+    return increaseValue / devideValue;
 }
 
 float getViewMoveSpeed() {

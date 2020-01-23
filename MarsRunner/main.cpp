@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <string>
+#include <map>
 #include <chrono>
 #include <ctime>
 
@@ -10,135 +12,166 @@
 #include "Code/Game engine/World Speed Systems/view.hpp"
 #include "Code/Game engine/Object systems/Player.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
+#include "Code/Setup/InitializeAnimations.hpp"
+#include "Code/Game engine/Animation systems/AnimationStates.hpp"
+#include "Code/Game engine/Object systems/Projectile.hpp"
+
+#include "Code/Setup/GameState.hpp"
+#include "Code/Setup/InitializeUI.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
-
+    window.setFramerateLimit(60);
+    sf::View fixed = window.getView();
+    std::map<std::string, AnimationStates> animationsMap;
     sf::View mainView;
+
+    InitializePlayerAnimations(animationsMap);
+    InitializeSmallAlienAnimations(animationsMap);
+    InitializeGreenAlienAnimations(animationsMap);
+    InitializeSateliteAnimations(animationsMap);
+
+    bool escapeUp = true;
+
     mainView.setCenter(sf::Vector2f(600.f, 384.f));
     mainView.setSize(sf::Vector2f(1280.f, 720.f));
     mainView.setViewport(sf::FloatRect(0, 0, 1, 1));
     window.setView(mainView);
 
-    sf::CircleShape shape(50.f);
-    shape.setPosition(sf::Vector2f(840, 260));
-    shape.setFillColor(sf::Color::Green);
+    std::string pathBackground = "../Assets/Test/background2.png";
+    GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
 
-    std::string thing = "../Assets/Test/Astronaut_idle.png";
-    GameObject object{ thing, sf::Vector2f{1200, 500}, sf::Vector2f{2,2}, 5 };
+    std::string pathGround = "../Assets/Test/green_button01.png";
+    std::vector<GameObject> groundObjectList;
+    float widthValue = -190;
+    float widthG = 190;
 
-    std::string path = "../Assets/Test/background2.png";
-    GameObject background{ path, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
+    for (unsigned int i = 0; i < 10; i++) {
+        groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{widthValue, 675}, sf::Vector2f{1, 1}, 5, false });
+        widthValue += widthG;
+    }
+    groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{widthValue, 500}, sf::Vector2f{1, 1}, 5, false });
 
-    std::string button = "../Assets/Test/grey_button01.png";
-    std::string replaceButton = "../Assets/Test/green_button01.png";
-    Button testButton{ button, replaceButton, sf::Vector2f { 0, 0}, sf::Vector2f{1,1.5 }, [&] {std::cout << "Test"; } };
+    GameState state{};
 
-    std::string fontLocation = "../Assets/Fonts/Mars.otf";
-    std::string textext = "Hallo123";
-    Text testText{ fontLocation, textext, sf::Vector2f{500,200}, sf::Vector2f{1,1}, [&] {std::cout << "Text clicc"; } };
+    InitializeUI(window, fixed, state);
 
-    std::vector<UIElement*> UIElements = { &testButton, &testText };
-    GameObject game_objects[] = { object };
+    action actions[] = {
+        //action(sf::Keyboard::Up,    [&]() { std::cout << "Up\n"; }),
+        //action(sf::Keyboard::Left,  [&]() { std::cout << "Left\n"; }),
+        //action(sf::Keyboard::Down,  [&]() { std::cout << "Down\n"; }),
+        //action(sf::Keyboard::Right, [&]() { std::cout << "Right\n"; }),
 
-    std::string testPlaatje = "../Assets/Test/testplaatje.png";
+        //action(sf::Keyboard::W,     [&]() { std::cout << "W\n"; }),
+        //action(sf::Keyboard::A,     [&]() { std::cout << "A\n"; }),
+        //action(sf::Keyboard::S,     [&]() { std::cout << "S\n"; }),
+        //action(sf::Keyboard::D,     [&]() { std::cout << "D\n"; }),
 
-    GameObject ground{ testPlaatje, sf::Vector2f{100,250}, sf::Vector2f{0.1,0.1}, 5, false };
-    GameObject ground1{ testPlaatje, sf::Vector2f{0,400}, sf::Vector2f{0.1,0.1}, 5, false };
-    GameObject ground2{ testPlaatje, sf::Vector2f{82,400}, sf::Vector2f{0.1,0.1}, 5, false };
-    GameObject ground3{ testPlaatje, sf::Vector2f{164,400}, sf::Vector2f{0.1,0.1}, 5, false };
-    GameObject ground4{ testPlaatje, sf::Vector2f{246,400}, sf::Vector2f{0.1,0.1}, 5, false };
-    GameObject ground5{ testPlaatje, sf::Vector2f{328,400}, sf::Vector2f{0.1,0.1}, 5, false };
-    GameObject ground6{ testPlaatje, sf::Vector2f{410,400}, sf::Vector2f{0.1,0.1}, 5, false };
-    GameObject ground7{ testPlaatje, sf::Vector2f{250,100}, sf::Vector2f{0.1,0.1}, 5, false };
+        //action(sf::Mouse::Left,     [&]() { std::cout << "Mouse\n"; }),
+        action(sf::Keyboard::Escape,[&]() { if (escapeUp) { state.handleEscape(); escapeUp = false; } }),
+        action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape); }, [&]() { escapeUp = true; })
+    };
 
-    std::vector<GameObject*> groundObjects = { &ground, &ground1, &ground2 ,&ground3, &ground4, &ground5, &ground6, &ground7 };
+    auto previous = std::chrono::system_clock::now();
+    auto lag = 0.0;
+    float msPerLoop = 16.33;
+    float minSpeed = 0.5;
 
-    Player player{ testPlaatje, sf::Vector2f{0,250}, sf::Vector2f{0.1,0.1}, 5, false, window, groundObjects };
+    /*std::string smallaliensprite = "../assets/objects/smallalien.png";
+    gameobject smallalien(smallaliensprite, sf::vector2f(500, 300), sf::vector2f(5, 5), 200.0, false, true);
+    smallalien.setanimationstates(&animationsmap["smallalien"]);
+
+    std::string smallastronautsprite = "../assets/objects/smallastronaut.png";
+    gameobject smallastronaut(smallastronautsprite, sf::vector2f(700, 300), sf::vector2f(5, 5), 200.0, false, true);
+    smallastronaut.setanimationstates(&animationsmap["player"]);
+
+    animationsmap["smallalien"].setstate(possiblestates::death);
+
+    std::string greenAlienSprite = "../Assets/Objects/smallGreenAlien.png";
+    GameObject greenAlien(greenAlienSprite, sf::Vector2f(700, 300), sf::Vector2f(2, 2), 200.0, false, true);
+    greenAlien.setAnimationStates(&animationsMap["greenAlien"]);
+    animationsMap["greenAlien"].setState(PossibleStates::DEATH);*/
+
+
+    std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
+    Player player{ playerSpriteSheet, sf::Vector2f{0,250}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList };
+    player.setAnimationStates(&animationsMap["player"]);
+    animationsMap["player"].setState(PossibleStates::WALK);
     player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
 
     while (window.isOpen()) {
+        // Always take the same time step per loop. (should work now)
+        auto current = std::chrono::system_clock::now();
+        std::chrono::duration<float, std::milli> elapsed = current - previous;
+        previous = current;
+        lag += elapsed.count();
 
-        unsigned int i = 0;
-        auto previous = std::chrono::system_clock::now();
-        auto lag = 0.0;
-        float msPerLoop = 16.33;
-        float minSpeed = 0.5;
+        for (auto& action : actions) {
+            action();
+        }
 
-        while (window.isOpen()) {
-            // Always take the same time step per loop. (should work now)
-            auto current = std::chrono::system_clock::now();
-            std::chrono::duration<float, std::milli> elapsed = current - previous;
-            previous = current;
-            lag += elapsed.count();
+        window.clear();
 
-            while (lag >= msPerLoop) {
+        while (lag >= msPerLoop) {
+            if (state.getState() == game_states::PLAYING) {
                 // Move the view at an ever increasing speed and move the background along with the same speed.
-                update_view_position(mainView, window, minSpeed);
-                float viewMoveSpeed = getViewMoveSpeed();
+                float viewMoveSpeed = update_view_position(mainView, window, minSpeed);
                 move_object_with_view(background, viewMoveSpeed, minSpeed);
 
                 // Check if selected object is within the bouns of the selected view
                 sf::FloatRect view2 = getViewBounds(mainView);
-                auto rect = object.getGlobalBounds();
+                GameObject firstGroundObject = groundObjectList[0];
+                GameObject secondGroundObject = groundObjectList[1];
+                sf::FloatRect rectObject = groundObjectList[0].getGlobalBounds();
+                static float minLengthGroundObjects = widthG * (groundObjectList.size() - 1);
 
-                if (rect.intersects(view2)) {
+                if (rectObject.intersects(view2)) {
                     //std::cout << "y\n";
                 }
                 else {
-                    //std::cout << "n\n";
+                    firstGroundObject = secondGroundObject;
+                    groundObjectList.erase(groundObjectList.begin());
+
+                    groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{minLengthGroundObjects, 675}, sf::Vector2f{1, 1}, 5, false });
+                    minLengthGroundObjects += widthG;
+                    widthValue += widthG;
+
+                    groundObjectList[(groundObjectList.size() - 1)].draw(window);
                 }
-
-                auto mouse_pos = sf::Mouse::getPosition(window);
-                auto translated_pos = window.mapPixelToCoords(mouse_pos);
-                for (auto& object : UIElements) {
-                    if (object->getGlobalBounds().contains(translated_pos)) {
-                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                            object->onClick();
-                        }
-                        else {
-                            object->onHover();
-                        }
-                    }
-                }
-
-                testText.setText(std::to_string(i));
-
                 player.update(minSpeed);
 
-                lag -= msPerLoop;
-            }
-
-            window.clear();
-
-            background.draw(window);
-
-            for (auto& current_object : game_objects) {
-                current_object.draw(window);
-            }
-
-            for (UIElement* current_object : UIElements) {
-                current_object->draw(window);
-            }
-
-            for (auto& objectThing : groundObjects) {
-                objectThing->draw(window);
-            }
-
-            player.draw(window);
-
-            window.display();
-
-            sf::Event event;
-            while (window.pollEvent(event)) {
-                if (event.type == sf::Event::Closed) {
-                    window.close();
-                }
-            }
-
-            i++;
+            lag -= msPerLoop;
         }
 
-        return 0;
+        window.setView(mainView);
+        background.draw(window);
+
+        for (GameObject& current_object : groundObjectList) {
+            current_object.draw(window);
+        }
+        
+        auto bounds = getViewBounds(mainView);
+        player.drawProjectiles(bounds);
+
+        auto mouse_pos = sf::Mouse::getPosition(window);
+        auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
+        state.updateUI(translated_pos);
+
+        player.draw(window);
+        window.setView(fixed);
+        state.draw(window);
+
+
+        window.display();
+        window.setView(mainView);
+
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed || state.closeGame) {
+                window.close();
+            }
+        }
+
     }
+    return 0;
 }
