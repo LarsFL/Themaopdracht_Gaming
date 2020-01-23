@@ -55,6 +55,7 @@ public:
 
 	void setState(PossibleStates newState) {
 		tempState = newState;
+		//state = newState;
 	}
 
 	Animation getAnimation() {
@@ -63,8 +64,17 @@ public:
 
 	sf::IntRect getFrame() {
 		auto current = std::chrono::system_clock::now();
-		//if()
-		if (!animations[state].getBusy() ) {
+
+		if (state == PossibleStates::SHOOT) {
+			std::cout << "=============================shootAnimatie\n";
+		}
+
+		if (animations[state].getBlocking() ) {
+			if (!animations[state].getBusy() ) {
+				state = tempState;
+			}
+		}
+		else if(!animations[state].getBlocking() ){
 			state = tempState;
 		}
 
@@ -75,6 +85,13 @@ public:
 		}
 
 		return animations[state].getFrame();
+	}
+
+	bool getBusy() {
+		return animations[tempState].getBusy();
+	}
+	bool getBlocking() {
+		return animations[tempState].getBlocking();
 	}
 };
 #endif

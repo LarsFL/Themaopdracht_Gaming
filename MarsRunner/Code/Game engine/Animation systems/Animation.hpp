@@ -43,13 +43,20 @@ public:
 	{}
 
 	void goToNextFrame() {
+		if (currentFrame == nFrames) {
+			busy = false;
+		}
+		else {
+			busy = true;
+		}
+		
 		if (currentFrame + 1 <= nFrames) {
 			currentFrame++;
-			busy = true;
+			//busy = true;
 		}
 		else if(loop){
 			currentFrame = 0;
-			busy = false;
+			//busy = false;
 		}
 	}
 

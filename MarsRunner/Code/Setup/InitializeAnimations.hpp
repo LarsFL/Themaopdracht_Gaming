@@ -41,7 +41,7 @@ void InitializePlayerAnimations(std::map<std::string, AnimationStates> &animatio
 
 	//JUMP START IMPACT
 	sf::IntRect jstLoc(1, 181, 37, 41);
-	Animation Jump_Start_Impact(jstLoc, 4, 39, 150);
+	Animation Jump_Start_Impact(jstLoc, 4, 39, 150, true, false, true);
 	smallAstronaut.addAnimation(PossibleStates::JUMP_START_IMPACT, Jump_Start_Impact);
 
 	//DAMAGED

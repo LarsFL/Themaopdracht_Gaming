@@ -64,9 +64,10 @@ protected:
 		action(sf::Keyboard::Space, [&]() { if (!spacePressed) { 
 			projectiles.push_back(Projectile("../Assets/Objects/bullet.png", position, sf::Vector2f(1,1), sf::Vector2f(10,0)));
 			spacePressed = true;
-			playerStates state = playerStates::SHOOT;
 		} }),
-		action([&]() { return !sf::Keyboard::isKeyPressed(sf::Keyboard::Space); }, [&]() { spacePressed = false; })
+		action([&]() { return !sf::Keyboard::isKeyPressed(sf::Keyboard::Space); }, [&]() { spacePressed = false; }),
+
+		action(sf::Keyboard::Space, [&]() {state = playerStates::SHOOT; })
 	};
 	playerStates state = playerStates::IDLE;
 
@@ -98,7 +99,7 @@ public:
 	}
 
 	void update(float & minSpeed) {
-		//state = playerStates::WALK;
+		state = playerStates::WALK;
 		this->isOnGround(false);
 
 		float viewMoveSpeed = getViewMoveSpeed();
@@ -172,7 +173,9 @@ public:
 				break;
 			}
 			case(playerStates::WALK): {
-				animationsMap["player"].setState(PossibleStates::WALK);
+				//if ( !(animationsMap["player"].getBusy() ) || !(animationsMap["player"].getBlocking() ) ) {
+					animationsMap["player"].setState(PossibleStates::WALK);
+				//}
 				break;
 			}
 			case(playerStates::WALK_LEFT): {
@@ -190,6 +193,7 @@ public:
 				break;
 			}
 			case(playerStates::SHOOT): {
+				//std::cout << "player state shoot\n";
 				animationsMap["player"].setState(PossibleStates::SHOOT);
 				break;
 			}
