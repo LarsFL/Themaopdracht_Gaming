@@ -2,13 +2,18 @@
 #include <vector>
 #include <chrono>
 #include <ctime>
+#include <random>
+#include <iterator>
+#include <deque>
 
 #include "Code/Game engine/UI systems/Button.hpp"
 #include "Code/Game engine/UI systems/Text.hpp"
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Object systems/GameObject.hpp"
 #include "Code/Game engine/World Speed Systems/view.hpp"
+#include "Code/Game engine/Object systems/randomNumber.hpp"
 #include "Code/Game engine/Object systems/Player.hpp"
+#include "Code/Game engine/Object systems/PickUp.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
 
 #include "Code/Setup/GameState.hpp"
@@ -68,12 +73,18 @@ int main() {
     Player player{ testPlaatje, sf::Vector2f{0,250}, sf::Vector2f{.1,.1}, 5, false, window, groundObjectList };
     player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
 
+    std::deque<PickUp> coinList;
+    std::string coinImage = "../Assets/Objects/coin.png";
+
+    coinList.push_back(PickUp{ coinImage, sf::Vector2f{getRandomNumber(200, 800), 500.f}, sf::Vector2f{.05,.05}, 1, true, window });
+
     while (window.isOpen()) {
         // Always take the same time step per loop. (should work now)
         auto current = std::chrono::system_clock::now();
         std::chrono::duration<float, std::milli> elapsed = current - previous;
         previous = current;
         lag += elapsed.count();
+        float increaseValue = mainView.getCenter().x;
 
         for (auto& action : actions) {
             action();
@@ -84,7 +95,8 @@ int main() {
         while (lag >= msPerLoop) {
             if (state.getState() == game_states::PLAYING) {
                 // Move the view at an ever increasing speed and move the background along with the same speed.
-                float viewMoveSpeed = update_view_position(mainView, window, minSpeed);
+                update_view_position(mainView, window, minSpeed);
+                float viewMoveSpeed = getViewMoveSpeed();
                 move_object_with_view(background, viewMoveSpeed, minSpeed);
 
                 // Check if selected object is within the bouns of the selected view
@@ -110,6 +122,9 @@ int main() {
 
                 player.update();
 
+                if (coinList.size() > 0) {
+                    coinList[0].destroyObjectOnInteract(coinList, coinImage, player, increaseValue, mainView);
+                }
             }
 
             lag -= msPerLoop;
@@ -120,7 +135,14 @@ int main() {
 
         for (GameObject& current_object : groundObjectList) {
             current_object.draw(window);
+        }   
+
+        if (coinList.size() > 0) {
+            for (PickUp& current_object : coinList) {
+                current_object.draw(window);
+            }
         }
+
 
         auto mouse_pos = sf::Mouse::getPosition(window);
         auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);

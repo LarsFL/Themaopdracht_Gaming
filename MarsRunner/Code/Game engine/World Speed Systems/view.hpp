@@ -1,4 +1,9 @@
+#ifndef VIEW_HPP
+#define VIEW_HPP
+
 #include <SFML/Graphics.hpp>
+
+static float speedCalculatedByFunciton = 0.0;
 
 void move_object_with_view(GameObject& object, float& amount, float & minSpeed) {
     /// Move the background at the ame speed as the view.    
@@ -14,7 +19,7 @@ void update_game_object_speed(GameObject& object) {
     object.move(sf::Vector2f{ 0.1, 0.1 });
 }
 
-float update_view_position(sf::View& view, sf::RenderWindow& window, float & minSpeed) {
+void update_view_position(sf::View& view, sf::RenderWindow& window, float & minSpeed) {
     /// Move the selected view in a slowly accelerating motion.
     float devideValue = 5000.0;
     static float increaseValue = minSpeed;
@@ -28,7 +33,11 @@ float update_view_position(sf::View& view, sf::RenderWindow& window, float & min
     }
 
     window.setView(view);
-    return increaseValue / devideValue;
+    speedCalculatedByFunciton = increaseValue / devideValue;
+}
+
+float getViewMoveSpeed() {
+    return speedCalculatedByFunciton;
 }
 
 sf::FloatRect getViewBounds(const sf::View& view) {
@@ -40,3 +49,5 @@ sf::FloatRect getViewBounds(const sf::View& view) {
     rt.height = view.getSize().y;
     return rt;
 }
+
+#endif // VIEW_HPP
