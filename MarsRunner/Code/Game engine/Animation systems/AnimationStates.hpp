@@ -8,7 +8,7 @@
 
 #include "Animation.hpp"
 
-enum PossibleStates {
+enum class PossibleStates {
 	CROUCH,
 	DAMAGED,
 	DEATH,
@@ -16,7 +16,9 @@ enum PossibleStates {
 	JUMP_START_IMPACT,
 	SHOOT,
 	START_SHOOT_WALK,
-	WALK
+	WALK,
+	WALK_LEFT,
+	WALK_RIGHT
 };
 
 class AnimationStates {
@@ -25,8 +27,9 @@ private:
 	int nAnimations = 0;
 	std::string currentAnimation = "";
 
-	int timeToNextFrameInt = 0;
 	std::chrono::system_clock::time_point timeLastFrame;
+
+	PossibleStates tempState = PossibleStates::IDLE;
 
 	PossibleStates state = PossibleStates::IDLE;
 public:
@@ -35,30 +38,23 @@ public:
 		std::cout << "Default constructor" << std::endl;
 	}
 
-	AnimationStates(int timeToNextFrameInt) :
-		timeToNextFrameInt(timeToNextFrameInt)
-	{
-		std::cout << "Normal constructor" << std::endl;
-	}
-
 	AnimationStates(const AnimationStates& r) :
 		animations(r.animations),
 		nAnimations(r.nAnimations),
 		currentAnimation(r.currentAnimation),
-		timeToNextFrameInt(r.timeToNextFrameInt),
 		timeLastFrame(r.timeLastFrame),
 		state(r.state)
 	{
 		std::cout << "Copy constructor" << std::endl;
 	}
 
-	void addAnimation(PossibleStates state, Animation newAnimation) {
+	void addAnimation(PossibleStates state, Animation &newAnimation) {
 		animations[state] = newAnimation;
 		nAnimations++;
 	}
 
 	void setState(PossibleStates newState) {
-		state = newState;
+		tempState = newState;
 	}
 
 	Animation getAnimation() {
@@ -67,14 +63,17 @@ public:
 
 	sf::IntRect getFrame() {
 		auto current = std::chrono::system_clock::now();
+		if()
+		if (!animations[state].getBusy() ) {
+			state = tempState;
+		}
 
 		auto temp = std::chrono::duration_cast<std::chrono::milliseconds>(current - timeLastFrame);
-		if(temp.count() > timeToNextFrameInt){
+		if(temp.count() > animations[state].getTimeToNextFrame() ){
 			animations[state].goToNextFrame();
 			timeLastFrame = std::chrono::system_clock::now();
 		}
 
-		//std::cout << state << std::endl;
 		return animations[state].getFrame();
 	}
 };

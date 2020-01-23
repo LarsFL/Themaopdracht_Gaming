@@ -57,17 +57,6 @@ int main() {
     InitializeUI(window, fixed, state);
 
     action actions[] = {
-        //action(sf::Keyboard::Up,    [&]() { std::cout << "Up\n"; }),
-        //action(sf::Keyboard::Left,  [&]() { std::cout << "Left\n"; }),
-        //action(sf::Keyboard::Down,  [&]() { std::cout << "Down\n"; }),
-        //action(sf::Keyboard::Right, [&]() { std::cout << "Right\n"; }),
-
-        //action(sf::Keyboard::W,     [&]() { std::cout << "W\n"; }),
-        //action(sf::Keyboard::A,     [&]() { std::cout << "A\n"; }),
-        //action(sf::Keyboard::S,     [&]() { std::cout << "S\n"; }),
-        //action(sf::Keyboard::D,     [&]() { std::cout << "D\n"; }),
-
-        //action(sf::Mouse::Left,     [&]() { std::cout << "Mouse\n"; }),
         action(sf::Keyboard::Escape,[&]() { if (escapeUp) { state.handleEscape(); escapeUp = false; } }),
         action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape); }, [&]() { escapeUp = true; })
     };
@@ -76,21 +65,6 @@ int main() {
     auto lag = 0.0;
     float msPerLoop = 16.33;
     float minSpeed = 0.5;
-
-    /*std::string smallaliensprite = "../assets/objects/smallalien.png";
-    gameobject smallalien(smallaliensprite, sf::vector2f(500, 300), sf::vector2f(5, 5), 200.0, false, true);
-    smallalien.setanimationstates(&animationsmap["smallalien"]);
-
-    std::string smallastronautsprite = "../assets/objects/smallastronaut.png";
-    gameobject smallastronaut(smallastronautsprite, sf::vector2f(700, 300), sf::vector2f(5, 5), 200.0, false, true);
-    smallastronaut.setanimationstates(&animationsmap["player"]);
-
-    animationsmap["smallalien"].setstate(possiblestates::death);
-
-    std::string greenAlienSprite = "../Assets/Objects/smallGreenAlien.png";
-    GameObject greenAlien(greenAlienSprite, sf::Vector2f(700, 300), sf::Vector2f(2, 2), 200.0, false, true);
-    greenAlien.setAnimationStates(&animationsMap["greenAlien"]);
-    animationsMap["greenAlien"].setState(PossibleStates::DEATH);*/
 
 
     std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
@@ -138,6 +112,7 @@ int main() {
 
                     groundObjectList[(groundObjectList.size() - 1)].draw(window);
                 }
+                player.setPlayerAnimationState(animationsMap);
                 player.update();
             }
 

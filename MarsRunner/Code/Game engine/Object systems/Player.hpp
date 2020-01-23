@@ -10,6 +10,17 @@
 
 #include "GameObject.hpp"
 
+enum class playerStates {
+	IDLE,
+	WALK,
+	WALK_LEFT,
+	WALK_RIGHT,
+	JUMP,
+	SHOOT,
+	DAMAGE,
+	DEATH
+};
+
 class Player : public GameObject {
 protected:
 	bool isGround = false;
@@ -25,11 +36,15 @@ protected:
 			this->isOnGround(false);
 			this->setAcceleration(sf::Vector2f{ 0.0, 0.3 });
 			this->setVelocity(sf::Vector2f{ 0.0, -10.0 });
+			state = playerStates::JUMP;
 		}
 		}),
 
 
-		action(sf::Keyboard::Left,  [&]() { if (!isLeftIntersecting(*this, groundObjects[0])) { this->move(sf::Vector2f(-1, 0)); } }),
+		action(sf::Keyboard::Left,  [&]() { if (!isLeftIntersecting(*this, groundObjects[0])) { 
+			this->move(sf::Vector2f(-5, 0));
+			state = playerStates::WALK_LEFT;
+		} }),
 
 		action(sf::Keyboard::Down,
 		[&]() {
@@ -41,10 +56,18 @@ protected:
 		this->move(sf::Vector2f(0, 1));
 		}),
 
-		action(sf::Keyboard::Right, [&]() { if (!isRightIntersecting(*this, groundObjects[0])) { this->move(sf::Vector2f(1, 0)); } }),
-		action(sf::Keyboard::Space, [&]() { if (!spacePressed) { projectiles.push_back(Projectile("../Assets/Objects/bullet.png", position, sf::Vector2f(1,1), sf::Vector2f(10,0))); spacePressed = true; } }),
+		action(sf::Keyboard::Right, [&]() { if (!isRightIntersecting(*this, groundObjects[0])) { 
+			this->move(sf::Vector2f(5, 0));
+			state = playerStates::WALK_RIGHT;
+		} }),
+		action(sf::Keyboard::Space, [&]() { if (!spacePressed) { 
+			projectiles.push_back(Projectile("../Assets/Objects/bullet.png", position, sf::Vector2f(1,1), sf::Vector2f(10,0)));
+			spacePressed = true;
+			playerStates state = playerStates::SHOOT;
+		} }),
 		action([&]() { return !sf::Keyboard::isKeyPressed(sf::Keyboard::Space); }, [&]() { spacePressed = false; })
 	};
+	playerStates state = playerStates::IDLE;
 
 public:
 	Player(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight,
@@ -69,6 +92,7 @@ public:
 	}
 
 	void update() {
+		//state = playerStates::WALK;
 		this->isOnGround(false);
 
 		for (auto& groundObject : groundObjects) {
@@ -118,6 +142,46 @@ public:
 		}
 
 	}
+
+	void setPlayerAnimationState(std::map<std::string, AnimationStates>& animationsMap){
+		switch (state) {
+			case(playerStates::IDLE): {
+				animationsMap["player"].setState(PossibleStates::IDLE);
+				break;
+			}
+			case(playerStates::WALK): {
+				animationsMap["player"].setState(PossibleStates::WALK);
+				break;
+			}
+			case(playerStates::WALK_LEFT): {
+				animationsMap["player"].setState(PossibleStates::WALK_LEFT);
+				break;
+			}
+			case(playerStates::WALK_RIGHT): {
+				animationsMap["player"].setState(PossibleStates::WALK_RIGHT);
+				break;
+			}
+			case(playerStates::JUMP): {
+				//niet zeker
+				animationsMap["player"].setState(PossibleStates::JUMP_START_IMPACT);
+				
+				break;
+			}
+			case(playerStates::SHOOT): {
+				animationsMap["player"].setState(PossibleStates::SHOOT);
+				break;
+			}
+			case(playerStates::DAMAGE): {
+				animationsMap["player"].setState(PossibleStates::DAMAGED);
+				break;
+			}
+			case(playerStates::DEATH): {
+				animationsMap["player"].setState(PossibleStates::DEATH);
+				break;
+			}
+		}
+	}
+
 
 };
 
