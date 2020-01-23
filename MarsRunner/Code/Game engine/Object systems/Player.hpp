@@ -84,7 +84,7 @@ public:
 			this->move(sf::Vector2f{ 0.5, 0 });
 		}
 		else {
-			this->move(sf::Vector2f{ viewMoveSpeed, minSpeed });
+			this->move(sf::Vector2f{ viewMoveSpeed, 0 });
 		}
 		
 
@@ -143,7 +143,6 @@ public:
 	}
 
 };
-
 
 
 #endif //PLAYER_HPP
