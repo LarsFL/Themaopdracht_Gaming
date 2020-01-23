@@ -113,6 +113,7 @@ int main() {
 
                     groundObjectList[(groundObjectList.size() - 1)].draw(window);
                 }
+
                 player.update(minSpeed);
 
                 lag -= msPerLoop;
