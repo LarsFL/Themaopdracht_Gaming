@@ -89,7 +89,8 @@ int main() {
         while (lag >= msPerLoop) {
             if (state.getState() == game_states::PLAYING) {
                 // Move the view at an ever increasing speed and move the background along with the same speed.
-                float viewMoveSpeed = update_view_position(mainView, window, minSpeed);
+                update_view_position(mainView, window, minSpeed);
+                float viewMoveSpeed = getViewMoveSpeed();
                 move_object_with_view(background, viewMoveSpeed, minSpeed);
 
                 // Check if selected object is within the bouns of the selected view
@@ -113,41 +114,43 @@ int main() {
                     groundObjectList[(groundObjectList.size() - 1)].draw(window);
                 }
                 player.setPlayerAnimationState(animationsMap);
-                player.update();
+                player.update(minSpeed);
             }
 
-            lag -= msPerLoop;
-        }
-
-        window.setView(mainView);
-        background.draw(window);
-
-        for (GameObject& current_object : groundObjectList) {
-            current_object.draw(window);
-        }
-        
-        auto bounds = getViewBounds(mainView);
-        player.drawProjectiles(bounds);
-
-        auto mouse_pos = sf::Mouse::getPosition(window);
-        auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
-        state.updateUI(translated_pos);
-
-        player.draw(window);
-        window.setView(fixed);
-        state.draw(window);
-
-
-        window.display();
-        window.setView(mainView);
-
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed || state.closeGame) {
-                window.close();
+                lag -= msPerLoop;
             }
-        }
 
+            window.setView(mainView);
+            background.draw(window);
+
+            for (GameObject& current_object : groundObjectList) {
+                current_object.draw(window);
+            }
+
+            auto bounds = getViewBounds(mainView);
+            player.drawProjectiles(bounds);
+
+            auto mouse_pos = sf::Mouse::getPosition(window);
+            auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
+            state.updateUI(translated_pos);
+
+            player.draw(window);
+            window.setView(fixed);
+            state.draw(window);
+
+
+            window.display();
+            window.setView(mainView);
+
+            sf::Event event;
+            while (window.pollEvent(event)) {
+                if (event.type == sf::Event::Closed || state.closeGame) {
+                    window.close();
+                }
+            }
+
+
+        }
     }
-    return 0;
+        return 0;
 }

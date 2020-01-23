@@ -63,7 +63,7 @@ public:
 
 	sf::IntRect getFrame() {
 		auto current = std::chrono::system_clock::now();
-		if()
+		//if()
 		if (!animations[state].getBusy() ) {
 			state = tempState;
 		}
