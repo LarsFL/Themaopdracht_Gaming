@@ -33,6 +33,7 @@ public:
 	virtual void setOrigin(sf::Vector2f origin) {};
 	virtual void centerOrigin() {};
 	virtual void jump(sf::Vector2f newPos) {};
+	virtual void setText(std::string text) {};
 
 	virtual UIElement* clone() const = 0;
 };

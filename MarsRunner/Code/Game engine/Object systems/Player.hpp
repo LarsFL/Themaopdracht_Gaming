@@ -89,8 +89,6 @@ public:
 
 		points = maxX_points / 3;
 
-		std::cout << points << std::endl;
-
 		this->isOnGround(false);
 
 		viewMoveSpeed = getViewMoveSpeed();
