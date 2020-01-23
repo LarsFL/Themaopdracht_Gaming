@@ -140,38 +140,40 @@ int main() {
                 }
                 player.update(minSpeed);
 
-            lag -= msPerLoop;
-        }
-
-        window.setView(mainView);
-        background.draw(window);
-
-        for (GameObject& current_object : groundObjectList) {
-            current_object.draw(window);
-        }
-        
-        auto bounds = getViewBounds(mainView);
-        player.drawProjectiles(bounds);
-
-        auto mouse_pos = sf::Mouse::getPosition(window);
-        auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
-        state.updateUI(translated_pos);
-
-        player.draw(window);
-        window.setView(fixed);
-        state.draw(window);
-
-
-        window.display();
-        window.setView(mainView);
-
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed || state.closeGame) {
-                window.close();
+                lag -= msPerLoop;
             }
-        }
 
+            window.setView(mainView);
+            background.draw(window);
+
+            for (GameObject& current_object : groundObjectList) {
+                current_object.draw(window);
+            }
+
+            auto bounds = getViewBounds(mainView);
+            player.drawProjectiles(bounds);
+
+            auto mouse_pos = sf::Mouse::getPosition(window);
+            auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
+            state.updateUI(translated_pos);
+
+            player.draw(window);
+            window.setView(fixed);
+            state.draw(window);
+
+
+            window.display();
+            window.setView(mainView);
+
+            sf::Event event;
+            while (window.pollEvent(event)) {
+                if (event.type == sf::Event::Closed || state.closeGame) {
+                    window.close();
+                }
+            }
+
+
+        }
     }
-    return 0;
+        return 0;
 }
