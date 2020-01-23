@@ -57,17 +57,6 @@ int main() {
     InitializeUI(window, fixed, state);
 
     action actions[] = {
-        //action(sf::Keyboard::Up,    [&]() { std::cout << "Up\n"; }),
-        //action(sf::Keyboard::Left,  [&]() { std::cout << "Left\n"; }),
-        //action(sf::Keyboard::Down,  [&]() { std::cout << "Down\n"; }),
-        //action(sf::Keyboard::Right, [&]() { std::cout << "Right\n"; }),
-
-        //action(sf::Keyboard::W,     [&]() { std::cout << "W\n"; }),
-        //action(sf::Keyboard::A,     [&]() { std::cout << "A\n"; }),
-        //action(sf::Keyboard::S,     [&]() { std::cout << "S\n"; }),
-        //action(sf::Keyboard::D,     [&]() { std::cout << "D\n"; }),
-
-        //action(sf::Mouse::Left,     [&]() { std::cout << "Mouse\n"; }),
         action(sf::Keyboard::Escape,[&]() { if (escapeUp) { state.handleEscape(); escapeUp = false; } }),
         action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape); }, [&]() { escapeUp = true; })
     };
@@ -76,21 +65,6 @@ int main() {
     auto lag = 0.0;
     float msPerLoop = 16.33;
     float minSpeed = 0.5;
-
-    /*std::string smallaliensprite = "../assets/objects/smallalien.png";
-    gameobject smallalien(smallaliensprite, sf::vector2f(500, 300), sf::vector2f(5, 5), 200.0, false, true);
-    smallalien.setanimationstates(&animationsmap["smallalien"]);
-
-    std::string smallastronautsprite = "../assets/objects/smallastronaut.png";
-    gameobject smallastronaut(smallastronautsprite, sf::vector2f(700, 300), sf::vector2f(5, 5), 200.0, false, true);
-    smallastronaut.setanimationstates(&animationsmap["player"]);
-
-    animationsmap["smallalien"].setstate(possiblestates::death);
-
-    std::string greenAlienSprite = "../Assets/Objects/smallGreenAlien.png";
-    GameObject greenAlien(greenAlienSprite, sf::Vector2f(700, 300), sf::Vector2f(2, 2), 200.0, false, true);
-    greenAlien.setAnimationStates(&animationsMap["greenAlien"]);
-    animationsMap["greenAlien"].setState(PossibleStates::DEATH);*/
 
 
     std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
@@ -115,7 +89,8 @@ int main() {
         while (lag >= msPerLoop) {
             if (state.getState() == game_states::PLAYING) {
                 // Move the view at an ever increasing speed and move the background along with the same speed.
-                float viewMoveSpeed = update_view_position(mainView, window, minSpeed);
+                update_view_position(mainView, window, minSpeed);
+                float viewMoveSpeed = getViewMoveSpeed();
                 move_object_with_view(background, viewMoveSpeed, minSpeed);
 
                 // Check if selected object is within the bouns of the selected view
@@ -138,41 +113,42 @@ int main() {
 
                     groundObjectList[(groundObjectList.size() - 1)].draw(window);
                 }
-                player.update();
+                player.update(minSpeed);
+
+                lag -= msPerLoop;
             }
 
-            lag -= msPerLoop;
-        }
+            window.setView(mainView);
+            background.draw(window);
 
-        window.setView(mainView);
-        background.draw(window);
-
-        for (GameObject& current_object : groundObjectList) {
-            current_object.draw(window);
-        }
-        
-        auto bounds = getViewBounds(mainView);
-        player.drawProjectiles(bounds);
-
-        auto mouse_pos = sf::Mouse::getPosition(window);
-        auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
-        state.updateUI(translated_pos);
-
-        player.draw(window);
-        window.setView(fixed);
-        state.draw(window);
-
-
-        window.display();
-        window.setView(mainView);
-
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed || state.closeGame) {
-                window.close();
+            for (GameObject& current_object : groundObjectList) {
+                current_object.draw(window);
             }
-        }
 
+            auto bounds = getViewBounds(mainView);
+            player.drawProjectiles(bounds);
+
+            auto mouse_pos = sf::Mouse::getPosition(window);
+            auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
+            state.updateUI(translated_pos);
+
+            player.draw(window);
+            window.setView(fixed);
+            state.draw(window);
+
+
+            window.display();
+            window.setView(mainView);
+
+            sf::Event event;
+            while (window.pollEvent(event)) {
+                if (event.type == sf::Event::Closed || state.closeGame) {
+                    window.close();
+                }
+            }
+
+
+        }
     }
-    return 0;
+        return 0;
 }

@@ -5,6 +5,7 @@
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
 #include "Code/Game engine/Object systems/Projectile.hpp"
+#include "../World Speed Systems/view.hpp"
 #include <vector>
 #include <iostream>
 
@@ -23,13 +24,13 @@ protected:
 		[&]() {
 		if (this->isOnGround()) {
 			this->isOnGround(false);
-			this->setAcceleration(sf::Vector2f{ 0.0, 0.3 });
-			this->setVelocity(sf::Vector2f{ 0.0, -10.0 });
+			this->setAcceleration(sf::Vector2f{ 0.0, 0.35 });
+			this->setVelocity(sf::Vector2f{ 0.0, -12.0 });
 		}
 		}),
 
 
-		action(sf::Keyboard::Left,  [&]() { if (!isLeftIntersecting(*this, groundObjects[0])) { this->move(sf::Vector2f(-1, 0)); } }),
+		action(sf::Keyboard::Left,  [&]() { if (!isLeftIntersecting(*this, groundObjects[0])) { this->move(sf::Vector2f(-2, 0)); } }),
 
 		action(sf::Keyboard::Down,
 		[&]() {
@@ -38,10 +39,11 @@ protected:
 			if (isObjOnGround(*this, groundObject)) { return; }
 		}
 
-		this->move(sf::Vector2f(0, 1));
+		this->move(sf::Vector2f(0, 2));
 		}),
 
-		action(sf::Keyboard::Right, [&]() { if (!isRightIntersecting(*this, groundObjects[0])) { this->move(sf::Vector2f(1, 0)); } }),
+		action(sf::Keyboard::Right, [&]() { if (!isRightIntersecting(*this, groundObjects[0])) { this->move(sf::Vector2f(2, 0)); } }),
+
 		action(sf::Keyboard::Space, [&]() { if (!spacePressed) { projectiles.push_back(Projectile("../Assets/Objects/bullet.png", position, sf::Vector2f(1,1), sf::Vector2f(10,0))); spacePressed = true; } }),
 		action([&]() { return !sf::Keyboard::isKeyPressed(sf::Keyboard::Space); }, [&]() { spacePressed = false; })
 	};
@@ -52,7 +54,12 @@ public:
 
 		GameObject(imageLocation, position, size, weight, isStatic, animated),
 		window(window),
-		groundObjects(groundObjects) {}
+		groundObjects(groundObjects) {
+		image.loadFromFile(imageLocation);
+		sprite.setTexture(image);
+		sprite.setPosition(position);
+		sprite.setScale(size);
+	}
 
 	Player(const Player& a) :
 		GameObject(a.imageLocation, a.position, a.size, a.weight, a.isStatic),
@@ -68,8 +75,18 @@ public:
 		isGround = setTo;
 	}
 
-	void update() {
+	void update(float & minSpeed) {
 		this->isOnGround(false);
+
+		float viewMoveSpeed = getViewMoveSpeed();
+
+		if (viewMoveSpeed < minSpeed) {
+			this->move(sf::Vector2f{ 0.5, 0 });
+		}
+		else {
+			this->move(sf::Vector2f{ viewMoveSpeed, 0 });
+		}
+		
 
 		for (auto& groundObject : groundObjects) {
 			if (isObjOnGround(*this, groundObject)) {
@@ -89,9 +106,17 @@ public:
 		}
 		else
 		{
-			this->setVelocity(sf::Vector2f{ 0.0, 0.0 });
+			if (this->getVelocity().y < 0.0) {
+				sf::Vector2f velocity = this->getVelocity();
+				velocity += this->getAcceleration();
+				this->setVelocity(velocity);
+				this->move(this->getVelocity());
+			}
+			
+			else {
+				this->setVelocity(sf::Vector2f{ 0.0, 0.0 });
+			}
 		}
-
 		unsigned int count = 0;
 		for (auto& projectile : projectiles) {
 			if (projectile.update(groundObjects)) {
@@ -99,8 +124,6 @@ public:
 			}
 			count++;
 		}
-
-		this->draw(window);
 	}
 
 	void drawProjectiles(sf::FloatRect& view) {
@@ -120,7 +143,6 @@ public:
 	}
 
 };
-
 
 
 #endif //PLAYER_HPP
