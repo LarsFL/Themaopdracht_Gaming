@@ -65,8 +65,8 @@ public:
 	sf::IntRect getFrame() {
 		auto current = std::chrono::system_clock::now();
 
-		if (state == PossibleStates::SHOOT) {
-			std::cout << "=============================shootAnimatie\n";
+		if (state == PossibleStates::WALK_RIGHT) {
+			//std::cout << "=============================\n";
 		}
 
 		if (animations[state].getBlocking() ) {
@@ -74,7 +74,7 @@ public:
 				state = tempState;
 			}
 		}
-		else if(!animations[state].getBlocking() ){
+		else{
 			state = tempState;
 		}
 

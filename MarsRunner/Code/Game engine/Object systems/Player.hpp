@@ -47,7 +47,10 @@ protected:
 		}),
 
 
-		action(sf::Keyboard::Left,  [&]() { if (!isLeftIntersecting(*this, groundObjects[0])) { this->move(sf::Vector2f((viewMoveSpeed + 6) * -1, 0)); } }),
+		action(sf::Keyboard::Left,  [&]() { if (!isLeftIntersecting(*this, groundObjects[0])) { 
+			this->move(sf::Vector2f((viewMoveSpeed + 6) * -1, 0));
+			state = playerStates::WALK_LEFT;
+		} }),
 
 		action(sf::Keyboard::Down,
 		[&]() {
@@ -59,10 +62,22 @@ protected:
 		this->move(sf::Vector2f(0, 2));
 		}),
 
-		action(sf::Keyboard::Right, [&]() { if (!isRightIntersecting(*this, groundObjects[0])) { this->move(sf::Vector2f(viewMoveSpeed + 6, 0)); } }),
+		action(sf::Keyboard::Right, [&]() { if (!isRightIntersecting(*this, groundObjects[0])) { 
+			this->move(sf::Vector2f(viewMoveSpeed + 6, 0));
+			state = playerStates::WALK_RIGHT;
+		} }),
 
-		action(sf::Keyboard::Space, [&]() { if (!spacePressed) { projectiles.push_back(Projectile("../Assets/Objects/bullet.png", position, sf::Vector2f(1,1), sf::Vector2f(10,0))); spacePressed = true; } }),
-		action([&]() { return !sf::Keyboard::isKeyPressed(sf::Keyboard::Space); }, [&]() { spacePressed = false; })
+			
+		
+		
+			//make projectile
+			action(sf::Keyboard::Space, [&]() { if (!spacePressed) { projectiles.push_back(Projectile("../Assets/Objects/bullet.png", position, sf::Vector2f(1,1), sf::Vector2f(10,0))); spacePressed = true; } }),
+			action([&]() { return !sf::Keyboard::isKeyPressed(sf::Keyboard::Space); }, [&]() { spacePressed = false; }),
+
+
+			//shoot animation
+			action(sf::Keyboard::Space, [&]() {state = playerStates::SHOOT; })
+		
 	};
 	playerStates state = playerStates::IDLE;
 
@@ -183,9 +198,7 @@ public:
 				break;
 			}
 			case(playerStates::WALK): {
-				//if ( !(animationsMap["player"].getBusy() ) || !(animationsMap["player"].getBlocking() ) ) {
-					animationsMap["player"].setState(PossibleStates::WALK);
-				//}
+				animationsMap["player"].setState(PossibleStates::WALK);
 				break;
 			}
 			case(playerStates::WALK_LEFT): {
@@ -199,11 +212,9 @@ public:
 			case(playerStates::JUMP): {
 				//niet zeker
 				animationsMap["player"].setState(PossibleStates::JUMP_START_IMPACT);
-				
 				break;
 			}
 			case(playerStates::SHOOT): {
-				//std::cout << "player state shoot\n";
 				animationsMap["player"].setState(PossibleStates::SHOOT);
 				break;
 			}

@@ -95,6 +95,14 @@ int main() {
                 action();
             }
 
+            //qualety of life for us, in main game?
+            if (state.getState() == game_states::MAIN_MENU && sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+                while (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+                    
+                }
+                state.setState(game_states::PLAYING);
+            }
+
             if (state.getState() == game_states::PLAYING) {
                 // Move the view at an ever increasing speed and move the background along with the same speed.
                 update_view_position(mainView, window, minSpeed);
