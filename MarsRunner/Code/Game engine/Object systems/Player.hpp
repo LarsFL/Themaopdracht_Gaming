@@ -167,7 +167,7 @@ public:
 				projectiles.erase(projectiles.begin() + count);
 			}
 			count++;
-		}*/
+		}*/ //@Lars, wat moet hiermee gebeuren?
 	}
 
 	void drawProjectiles(sf::FloatRect& view) {

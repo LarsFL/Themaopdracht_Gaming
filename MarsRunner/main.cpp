@@ -28,8 +28,8 @@
 #include "Code/Game engine/Tile systems/TextureManager.hpp";
 
 int main() {
-    int width = sf::VideoMode::getDesktopMode().width;
-    int height = sf::VideoMode::getDesktopMode().height;
+    int width = sf::VideoMode::getDesktopMode().width / 2;
+    int height = sf::VideoMode::getDesktopMode().height / 2;
     //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
     sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Default);
     window.setFramerateLimit(60);
@@ -139,7 +139,7 @@ int main() {
                         //test = false;
                     }
                 }
-                else {
+                /*else {
                     firstGroundObject = secondGroundObject;
                     groundObjectList.erase(groundObjectList.begin());
 
@@ -148,7 +148,7 @@ int main() {
                     widthValue += widthG;
 
                     groundObjectList[(groundObjectList.size() - 1)].draw(window);
-                }
+                }*/ //@Lars, wat moet hiermee gebeuren?
                 player.update(minSpeed);
                 player.setPlayerAnimationState(animationsMap);
             }
