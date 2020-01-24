@@ -29,6 +29,11 @@ protected:
 	std::vector<GameObject>& groundObjects;
 	std::vector<Projectile> projectiles;
 	bool spacePressed = false;
+	float viewMoveSpeed = 0.f;
+
+	int points = 0;
+
+	float maxX_points = 0.f;
 
 	std::vector<action> actions = {
 		action(sf::Keyboard::Up,
@@ -42,10 +47,7 @@ protected:
 		}),
 
 
-		action(sf::Keyboard::Left,  [&]() { if (!isLeftIntersecting(*this, groundObjects[0])) { 
-			this->move(sf::Vector2f(-5, 0));
-			state = playerStates::WALK_LEFT;
-		} }),
+		action(sf::Keyboard::Left,  [&]() { if (!isLeftIntersecting(*this, groundObjects[0])) { this->move(sf::Vector2f((viewMoveSpeed + 6) * -1, 0)); } }),
 
 		action(sf::Keyboard::Down,
 		[&]() {
@@ -57,17 +59,10 @@ protected:
 		this->move(sf::Vector2f(0, 2));
 		}),
 
-		action(sf::Keyboard::Right, [&]() { if (!isRightIntersecting(*this, groundObjects[0])) { 
-			this->move(sf::Vector2f(5, 0));
-			state = playerStates::WALK_RIGHT;
-		} }),
-		action(sf::Keyboard::Space, [&]() { if (!spacePressed) { 
-			projectiles.push_back(Projectile("../Assets/Objects/bullet.png", position, sf::Vector2f(1,1), sf::Vector2f(10,0)));
-			spacePressed = true;
-		} }),
-		action([&]() { return !sf::Keyboard::isKeyPressed(sf::Keyboard::Space); }, [&]() { spacePressed = false; }),
+		action(sf::Keyboard::Right, [&]() { if (!isRightIntersecting(*this, groundObjects[0])) { this->move(sf::Vector2f(viewMoveSpeed + 6, 0)); } }),
 
-		action(sf::Keyboard::Space, [&]() {state = playerStates::SHOOT; })
+		action(sf::Keyboard::Space, [&]() { if (!spacePressed) { projectiles.push_back(Projectile("../Assets/Objects/bullet.png", position, sf::Vector2f(1,1), sf::Vector2f(10,0))); spacePressed = true; } }),
+		action([&]() { return !sf::Keyboard::isKeyPressed(sf::Keyboard::Space); }, [&]() { spacePressed = false; })
 	};
 	playerStates state = playerStates::IDLE;
 
@@ -99,10 +94,19 @@ public:
 	}
 
 	void update(float & minSpeed) {
+
+		if (maxX_points < this->getGlobalBounds().left)
+		{
+			maxX_points = this->getGlobalBounds().left;
+		}
+
+		points = maxX_points / 3;
+
 		state = playerStates::WALK;
+
 		this->isOnGround(false);
 
-		float viewMoveSpeed = getViewMoveSpeed();
+		viewMoveSpeed = getViewMoveSpeed();
 
 		if (viewMoveSpeed < minSpeed) {
 			this->move(sf::Vector2f{ 0.5, 0 });
@@ -164,6 +168,12 @@ public:
 			projectile.draw(window);
 		}
 
+	}
+
+
+	int getPoints()
+	{
+		return points;
 	}
 
 	void setPlayerAnimationState(std::map<std::string, AnimationStates>& animationsMap){

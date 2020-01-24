@@ -63,8 +63,8 @@ int main() {
     InitializeUI(window, fixed, state);
 
     action actions[] = {
-        action(sf::Keyboard::Escape,[&]() { if (escapeUp) { state.handleEscape(); escapeUp = false; } }),
-        action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape); }, [&]() { escapeUp = true; })
+        action(sf::Keyboard::Escape,[&]() { if (escapeUp) { state.handleEscape(); escapeUp = false;} }),
+        action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape); }, [&]() { escapeUp = true;})
     };
 
     auto previous = std::chrono::system_clock::now();
@@ -74,10 +74,10 @@ int main() {
 
 
     std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
-    Player player{ playerSpriteSheet, sf::Vector2f{0,250}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList };
+    Player player{ playerSpriteSheet, sf::Vector2f{0,400}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList };
     player.setAnimationStates(&animationsMap["player"]);
     animationsMap["player"].setState(PossibleStates::WALK);
-    player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
+    player.setVelocity(sf::Vector2f{ 0.0, 2 });
 
     while (window.isOpen()) {
         // Always take the same time step per loop. (should work now)
@@ -86,13 +86,15 @@ int main() {
         previous = current;
         lag += elapsed.count();
 
-        for (auto& action : actions) {
-            action();
-        }
 
         window.clear();
 
         while (lag >= msPerLoop) {
+
+            for (auto& action : actions) {
+                action();
+            }
+
             if (state.getState() == game_states::PLAYING) {
                 // Move the view at an ever increasing speed and move the background along with the same speed.
                 update_view_position(mainView, window, minSpeed);
@@ -107,7 +109,6 @@ int main() {
                 static float minLengthGroundObjects = widthG * (groundObjectList.size() - 1);
 
                 if (rectObject.intersects(view2)) {
-                    //std::cout << "y\n";
                 }
                 else {
                     firstGroundObject = secondGroundObject;
@@ -119,6 +120,7 @@ int main() {
 
                     groundObjectList[(groundObjectList.size() - 1)].draw(window);
                 }
+
                 player.update(minSpeed);
                 player.setPlayerAnimationState(animationsMap);
             }
@@ -139,6 +141,9 @@ int main() {
             auto mouse_pos = sf::Mouse::getPosition(window);
             auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
             state.updateUI(translated_pos);
+
+            state.updateUIElement(game_states::PLAYING, "ScoreValueText", std::to_string(player.getPoints()));
+            state.updateUIElement(game_states::PAUSED, "PausedScoreValueText", std::to_string(player.getPoints()));
 
             player.draw(window);
             window.setView(fixed);
