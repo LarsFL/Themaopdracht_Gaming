@@ -116,9 +116,11 @@ int main() {
                 }
 
                 player.update(minSpeed);
+                player.setPlayerAnimationState(animationsMap);
+            }
 
                 lag -= msPerLoop;
-            }
+        }
 
             window.setView(mainView);
             background.draw(window);
@@ -154,6 +156,6 @@ int main() {
 
 
         }
+    return 0;
     }
-        return 0;
-}
+ 

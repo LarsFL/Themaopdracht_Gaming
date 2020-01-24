@@ -11,6 +11,17 @@
 
 #include "GameObject.hpp"
 
+enum class playerStates {
+	IDLE,
+	WALK,
+	WALK_LEFT,
+	WALK_RIGHT,
+	JUMP,
+	SHOOT,
+	DAMAGE,
+	DEATH
+};
+
 class Player : public GameObject {
 protected:
 	bool isGround = false;
@@ -31,6 +42,7 @@ protected:
 			this->isOnGround(false);
 			this->setAcceleration(sf::Vector2f{ 0.0, 0.35 });
 			this->setVelocity(sf::Vector2f{ 0.0, -12.0 });
+			state = playerStates::JUMP;
 		}
 		}),
 
@@ -52,6 +64,7 @@ protected:
 		action(sf::Keyboard::Space, [&]() { if (!spacePressed) { projectiles.push_back(Projectile("../Assets/Objects/bullet.png", position, sf::Vector2f(1,1), sf::Vector2f(10,0))); spacePressed = true; } }),
 		action([&]() { return !sf::Keyboard::isKeyPressed(sf::Keyboard::Space); }, [&]() { spacePressed = false; })
 	};
+	playerStates state = playerStates::IDLE;
 
 public:
 	Player(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight,
@@ -88,6 +101,8 @@ public:
 		}
 
 		points = maxX_points / 3;
+
+		state = playerStates::WALK;
 
 		this->isOnGround(false);
 
@@ -155,11 +170,56 @@ public:
 
 	}
 
+
 	int getPoints()
 	{
 		return points;
 	}
 
+	void setPlayerAnimationState(std::map<std::string, AnimationStates>& animationsMap){
+		switch (state) {
+			case(playerStates::IDLE): {
+				animationsMap["player"].setState(PossibleStates::IDLE);
+				break;
+			}
+			case(playerStates::WALK): {
+				//if ( !(animationsMap["player"].getBusy() ) || !(animationsMap["player"].getBlocking() ) ) {
+					animationsMap["player"].setState(PossibleStates::WALK);
+				//}
+				break;
+			}
+			case(playerStates::WALK_LEFT): {
+				animationsMap["player"].setState(PossibleStates::WALK_LEFT);
+				break;
+			}
+			case(playerStates::WALK_RIGHT): {
+				animationsMap["player"].setState(PossibleStates::WALK_RIGHT);
+				break;
+			}
+			case(playerStates::JUMP): {
+				//niet zeker
+				animationsMap["player"].setState(PossibleStates::JUMP_START_IMPACT);
+				
+				break;
+			}
+			case(playerStates::SHOOT): {
+				//std::cout << "player state shoot\n";
+				animationsMap["player"].setState(PossibleStates::SHOOT);
+				break;
+			}
+			case(playerStates::DAMAGE): {
+				animationsMap["player"].setState(PossibleStates::DAMAGED);
+				break;
+			}
+			case(playerStates::DEATH): {
+				animationsMap["player"].setState(PossibleStates::DEATH);
+				break;
+			}
+		}
+	}
+
+
 };
+
 
 #endif //PLAYER_HPP
