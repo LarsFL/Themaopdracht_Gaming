@@ -23,20 +23,6 @@ void ObjectBlock::setPositions(sf::Vector2f startPos, float width) {
 }
 
 std::vector<sf::FloatRect> ObjectBlock::getGlobalBoundsFromTiles() {
-
-	/*int biggest = -5;
-	std::shared_ptr<Tile> highest = nullptr;
-	std::map<std::array<int, 2>, std::shared_ptr<Tile>>::iterator it;
-	for (it = objects.begin(); it != objects.end(); it++) {
-		if (it->first[0] > biggest) {
-			biggest = it->first[0];
-			highest = it->second;
-		}
-	}
-	if (highest != nullptr) {
-		return highest->getGlobalBounds();
-	}*/
-
 	std::vector<sf::FloatRect> GB;
 	for (auto& object : objects) {
 		GB.push_back(object.second->getGlobalBounds());
