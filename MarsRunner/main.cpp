@@ -20,7 +20,10 @@
 #include "Code/Setup/InitializeUI.hpp"
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
+    int width = sf::VideoMode::getDesktopMode().width;
+    int height = sf::VideoMode::getDesktopMode().height;
+    //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
+    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Default);
     window.setFramerateLimit(60);
     sf::View fixed = window.getView();
     std::map<std::string, AnimationStates> animationsMap;
@@ -38,8 +41,11 @@ int main() {
     mainView.setViewport(sf::FloatRect(0, 0, 1, 1));
     window.setView(mainView);
 
-    std::string pathBackground = "../Assets/Test/background2.png";
-    GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
+    //std::string pathBackground = "../Assets/Test/background2.png";
+    //GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
+    std::string pathBackground = "../Assets/Objects/newBackground.jpg";
+    GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{0.78, 1.4}, 5, false };
+
 
     std::string pathGround = "../Assets/Test/green_button01.png";
     std::vector<GameObject> groundObjectList;
