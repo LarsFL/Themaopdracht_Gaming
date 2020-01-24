@@ -57,8 +57,8 @@ int main() {
     InitializeUI(window, fixed, state);
 
     action actions[] = {
-        action(sf::Keyboard::Escape,[&]() { if (escapeUp) { state.handleEscape(); escapeUp = false; std::cout << "escape down" << std::endl; } }),
-        action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape); }, [&]() { escapeUp = true; std::cout << "escape up" << std::endl; })
+        action(sf::Keyboard::Escape,[&]() { if (escapeUp) { state.handleEscape(); escapeUp = false;} }),
+        action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape); }, [&]() { escapeUp = true;})
     };
 
     auto previous = std::chrono::system_clock::now();
@@ -103,7 +103,6 @@ int main() {
                 static float minLengthGroundObjects = widthG * (groundObjectList.size() - 1);
 
                 if (rectObject.intersects(view2)) {
-                    //std::cout << "y\n";
                 }
                 else {
                     firstGroundObject = secondGroundObject;
