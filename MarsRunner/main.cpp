@@ -86,17 +86,17 @@ int main() {
     float msPerLoop = 16.33;
     float minSpeed = 0.5;
 
-
     std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
-    Player player{playerSpriteSheet, sf::Vector2f{0,250}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList };
+    /*Player player{playerSpriteSheet, sf::Vector2f{0,250}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList };
     player.setAnimationStates(&animationsMap["player"]);
     animationsMap["player"].setState(PossibleStates::WALK);
-    player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
+    player.setVelocity(sf::Vector2f{ 0.0, 1.1 });*/
 
     std::deque<PickUp> coinList;
     std::string coinImage = "../Assets/Objects/coin.png";
 
-    coinList.push_back(PickUp{ coinImage, sf::Vector2f{getRandomNumber(200, 800), 500.f}, sf::Vector2f{.05,.05}, 1, true, window });
+    coinList.push_back(PickUp{ manager, 0, sf::Vector2f{getRandomNumber(200, 800), 500.f}, sf::Vector2f{.05,.05}, 1, true, false, window });
+    coinList[0].setPickUpTexture(coinImage);
 
     while (window.isOpen()) {
         // Always take the same time step per loop. (should work now)
@@ -143,7 +143,8 @@ int main() {
             background.draw(window);
 
             if (coinList.size() > 0) {
-                coinList[0].destroyObjectOnInteract(coinList, coinImage, player, increaseValue, mainView);
+                coinList[0].destroyObjectOnInteract(coinList, manager, increaseValue, mainView);
+                //coinList[0].destroyObjectOnInteract(coinList, coinImage, player, increaseValue, mainView);
             }
             
             for (auto& current_object : groundObjectList) {

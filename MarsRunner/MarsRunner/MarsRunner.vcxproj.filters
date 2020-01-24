@@ -17,9 +17,6 @@
     <Filter Include="Code\Game engine\UI systems">
       <UniqueIdentifier>{7465677c-57e4-4d06-b0a0-94a7d15fe9a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\setup">
-      <UniqueIdentifier>{24cb04e0-224d-4e3d-8398-de1c4515f9e8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets">
       <UniqueIdentifier>{7303a35f-ca18-4bdd-9212-061acaf2ec6d}</UniqueIdentifier>
     </Filter>
@@ -44,6 +41,18 @@
     <Filter Include="Projectile">
       <UniqueIdentifier>{718a5dfd-b45c-4328-ae5c-a7fc324fc06e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\Game engine\Tile systems">
+      <UniqueIdentifier>{60aa990c-5fff-4438-ad6d-f74c331a42f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Game engine\World generation systems">
+      <UniqueIdentifier>{cf5714ad-e709-4e54-be7f-6964a701b682}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Game engine\World Speed Systems">
+      <UniqueIdentifier>{a01e1f96-0cf0-40af-aa90-b455f50bc55d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Setup">
+      <UniqueIdentifier>{24cb04e0-224d-4e3d-8398-de1c4515f9e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp">
@@ -51,6 +60,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Game engine\Physics systems\physics.cpp">
       <Filter>Code\Game engine\Physics systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Game engine\World generation systems\ObjectBlock.cpp">
+      <Filter>Code\Game engine\World generation systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -60,5 +72,73 @@
     <ClInclude Include="..\Code\Game engine\Object systems\Player.hpp">
       <Filter>Code\Game engine\Object systems</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Object systems\GameObject.hpp">
+      <Filter>Code\Game engine\Object systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Object systems\Projectile.hpp">
+      <Filter>Code\Game engine\Object systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\UI systems\Button.hpp">
+      <Filter>Code\Game engine\UI systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\UI systems\Text.hpp">
+      <Filter>Code\Game engine\UI systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\UI systems\UI_Element.hpp">
+      <Filter>Code\Game engine\UI systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\UI systems\UI_State.hpp">
+      <Filter>Code\Game engine\UI systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Tile systems\Texture.hpp">
+      <Filter>Code\Game engine\Tile systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Tile systems\TextureManager.hpp">
+      <Filter>Code\Game engine\Tile systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Tile systems\Tile.hpp">
+      <Filter>Code\Game engine\Tile systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Input systems\input.hpp">
+      <Filter>Code\Game engine\input systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Animation systems\Animation.hpp">
+      <Filter>Code\Game engine\Animation systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Animation systems\AnimationStates.hpp">
+      <Filter>Code\Game engine\Animation systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\World Speed Systems\view.hpp">
+      <Filter>Code\Game engine\World Speed Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\World generation systems\GenerateBlock.hpp">
+      <Filter>Code\Game engine\World generation systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\World generation systems\ObjectBlock.hpp">
+      <Filter>Code\Game engine\World generation systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Object systems\PickUp.hpp">
+      <Filter>Code\Game engine\Object systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Object systems\randomNumber.hpp">
+      <Filter>Code\Game engine\Object systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Setup\GameState.hpp">
+      <Filter>Code\Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Setup\InitializeAnimations.hpp">
+      <Filter>Code\Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Setup\InitializeBlocks.hpp">
+      <Filter>Code\Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Setup\InitializeUI.hpp">
+      <Filter>Code\Setup</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Assets\Objects\coin.png">
+      <Filter>Assets\Objects</Filter>
+    </Image>
   </ItemGroup>
 </Project>

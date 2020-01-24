@@ -8,7 +8,7 @@
 #include <memory>
 
 #include "../Object systems/GameObject.hpp"
-#include "Code/Game engine/Tile systems/Tile.hpp"
+#include "../Tile systems/Tile.hpp"
 
 class ObjectBlock {
 private:

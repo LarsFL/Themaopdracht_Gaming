@@ -8,6 +8,7 @@
 #include "../World Speed Systems/view.hpp"
 #include <vector>
 #include <iostream>
+#include <deque>
 
 #include "GameObject.hpp"
 
@@ -15,7 +16,7 @@ class Player : public GameObject {
 protected:
 	bool isGround = false;
 	sf::RenderWindow& window;
-	std::vector<GameObject>& groundObjects;
+	std::deque<GameObject>& groundObjects;
 	std::vector<Projectile> projectiles;
 	bool spacePressed = false;
 
@@ -50,7 +51,7 @@ protected:
 
 public:
 	Player(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight,
-		bool isStatic, bool animated, sf::RenderWindow& window, std::vector<GameObject>& groundObjects) :
+		bool isStatic, bool animated, sf::RenderWindow& window, std::deque<GameObject>& groundObjects) :
 
 		GameObject(imageLocation, position, size, weight, isStatic, animated),
 		window(window),

@@ -48,3 +48,4 @@ MarsRunner/MarsRunner/MarsRunner.vcxproj
 *.sqlite-journal
 
 .vs/ProjectSettings.json
+MarsRunner/MarsRunner/MarsRunner.vcxproj.filters
