@@ -15,4 +15,14 @@ bool isRightIntersecting(GameObject& movingObj, GameObject& staticObj);
 
 bool isTopIntersecting(GameObject& movingObj, GameObject& staticObj);
 
+bool intersects(GameObject& rhs, ObjectBlock& lhs);
+
+bool isObjOnGround(GameObject& movingObj, ObjectBlock& staticObj);
+
+bool isLeftIntersecting(GameObject& movingObj, ObjectBlock& staticObj);
+
+bool isRightIntersecting(GameObject& movingObj, ObjectBlock& staticObj);
+
+bool isTopIntersecting(GameObject& movingObj, ObjectBlock& staticObj);
+
 #endif //PHYSICS_HPP

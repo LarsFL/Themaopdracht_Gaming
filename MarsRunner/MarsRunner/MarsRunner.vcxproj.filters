@@ -44,6 +44,12 @@
     <Filter Include="Projectile">
       <UniqueIdentifier>{718a5dfd-b45c-4328-ae5c-a7fc324fc06e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\Game engine\World Generation Systems">
+      <UniqueIdentifier>{c54b6074-2e70-44b7-938e-90ff0162d352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Game engine\Tile systems">
+      <UniqueIdentifier>{596b77e3-d5d6-46ef-b882-90a3a67eee0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp">
@@ -53,33 +59,12 @@
       <Filter>Code\Game engine\Physics systems</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Game engine\World generation systems\ObjectBlock.cpp">
-      <Filter>Code\Game engine</Filter>
+      <Filter>Code\Game engine\World Generation Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Code\Game engine\Input systems\input.hpp">
-      <Filter>Code\Game engine\input systems</Filter>
-    </ClInclude>
     <ClInclude Include="..\Code\Game engine\Object systems\GameObject.hpp">
       <Filter>Code\Game engine\Object systems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Game engine\UI systems\Button.hpp">
-      <Filter>Code\Game engine\UI systems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Game engine\UI systems\Text.hpp">
-      <Filter>Code\Game engine\UI systems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Game engine\UI systems\UI_Element.hpp">
-      <Filter>Code\Game engine\UI systems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Game engine\UI systems\UI_State.hpp">
-      <Filter>Code\Game engine\UI systems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Setup\GameState.hpp">
-      <Filter>Code\setup</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Setup\InitializeUI.hpp">
-      <Filter>Code\setup</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\Physics systems\physics.hpp">
       <Filter>Code\Game engine\Physics systems</Filter>
@@ -87,25 +72,21 @@
     <ClInclude Include="..\Code\Game engine\Object systems\Player.hpp">
       <Filter>Code\Game engine\Object systems</Filter>
     </ClInclude>
-    <ClInclude Include="..\Code\Game engine\Object systems\Projectile.hpp">
-      <Filter>Projectile</Filter>
-    </ClInclude>
     <ClInclude Include="..\Code\Game engine\World Speed Systems\view.hpp" />
-    <ClInclude Include="..\Code\Setup\InitializeBlocks.hpp" />
     <ClInclude Include="..\Code\Game engine\World generation systems\GenerateBlock.hpp">
-      <Filter>Code\Game engine</Filter>
+      <Filter>Code\Game engine\World Generation Systems</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\World generation systems\ObjectBlock.hpp">
-      <Filter>Code\Game engine</Filter>
+      <Filter>Code\Game engine\World Generation Systems</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\Tile systems\Texture.hpp">
-      <Filter>Code</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Game engine\Tile systems\Tile.hpp">
-      <Filter>Code</Filter>
+      <Filter>Code\Game engine\Tile systems</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\Tile systems\TextureManager.hpp">
-      <Filter>Code</Filter>
+      <Filter>Code\Game engine\Tile systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Tile systems\Tile.hpp">
+      <Filter>Code\Game engine\Tile systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

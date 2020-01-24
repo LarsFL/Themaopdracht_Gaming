@@ -83,10 +83,10 @@ int main() {
 
 
     std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
-    //Player player{ playerSpriteSheet, sf::Vector2f{0,250}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList };
-    //player.setAnimationStates(&animationsMap["player"]);
-    //animationsMap["player"].setState(PossibleStates::WALK);
-    //player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
+    Player player( playerSpriteSheet, sf::Vector2f{0,250}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList );
+    player.setAnimationStates(&animationsMap["player"]);
+    animationsMap["player"].setState(PossibleStates::WALK);
+    player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
 
     while (window.isOpen()) {
         // Always take the same time step per loop. (should work now)
@@ -123,7 +123,7 @@ int main() {
                         //test = false;
                     }
                 }
-                //player.update(minSpeed);
+                player.update(minSpeed);
 
                 lag -= msPerLoop;
             }
@@ -136,13 +136,13 @@ int main() {
             }
 
             auto bounds = getViewBounds(mainView);
-            //player.drawProjectiles(bounds);
+           player.drawProjectiles(bounds);
 
             auto mouse_pos = sf::Mouse::getPosition(window);
             auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
             state.updateUI(translated_pos);
 
-            //player.draw(window);
+            player.draw(window);
             window.setView(fixed);
             state.draw(window);
 

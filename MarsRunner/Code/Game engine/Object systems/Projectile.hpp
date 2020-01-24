@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
+#include <deque>
 #include <vector>
 #include "Code/Game engine/Physics systems/physics.hpp"
 
@@ -19,7 +20,7 @@ public:
 		velocity = velocitySet;
 	}
 
-	bool update(std::vector<GameObject>& objects) {
+	bool update(std::deque<GameObject>& objects) {
 		move(velocity);
 		for (auto& object : objects) {
 			if (intersects(*this, object)) {
