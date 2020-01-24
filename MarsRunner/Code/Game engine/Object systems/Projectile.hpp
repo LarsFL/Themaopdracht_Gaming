@@ -23,10 +23,10 @@ public:
 	bool update(std::deque<GameObject>& objects) {
 		move(velocity);
 		for (auto& object : objects) {
-			if (intersects(*this, object)) {
-				object.callLamba([&] {std::cout << "You've been hit"; });
-				return true;
-			}
+			//if (intersects(*this, object)) {
+				//object.callLamba([&] {std::cout << "You've been hit"; });
+				//return true;
+			//}
 		}
 		return false;
 	}
