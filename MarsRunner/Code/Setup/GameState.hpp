@@ -36,6 +36,10 @@ public:
 		UIStates[newState] = new UI_State(stateUI);
 	}
 
+	void updateUIElement(game_states state, std::string identifier, std::string newValue) {
+		UIStates[state]->updateUIElement(identifier, newValue);
+	}
+
 	void draw(sf::RenderWindow& window) {
 		UIStates[state]->draw(window);
 	}

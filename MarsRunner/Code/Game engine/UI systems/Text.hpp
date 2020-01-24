@@ -64,7 +64,7 @@ public:
 		window.draw(text);
 	}
 
-	void setText(std::string newText) {
+	void setText(std::string newText) override {
 		text.setString(newText);
 	}
 
