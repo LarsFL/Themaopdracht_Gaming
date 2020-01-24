@@ -3,6 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <iostream>
+
+#include "../Animation systems/AnimationStates.hpp"
 
 class GameObject {
 protected:
@@ -17,16 +20,46 @@ protected:
 	bool isStatic = true;
 	bool isActive = true;
 	sf::IntRect rectSourceSprite = { 1, 2, 38, 42 };
+
+	bool animated;
+	bool staticObject = false;
+	AnimationStates* animations = nullptr;
+
 public:
-	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic = true) :
+	GameObject() :
+		imageLocation(""),
+		animated(false),
+		isActive(false)
+	{
+		image.loadFromFile("../Assets/Test/green_button01.png");
+		sprite.setTexture(image);
+	}
+
+	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic = true, bool animated = false) :
 		imageLocation(imageLocation),
 		position(position),
 		size(size),
 		weight(weight),
-		isStatic(isStatic)
+		isStatic(isStatic),
+		animated(animated)
 	{
 		image.loadFromFile(imageLocation);
 		sprite.setTexture(image);
+		sprite.setPosition(position);
+		sprite.setScale(size);
+	}
+
+	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, sf::IntRect spriteRect) :
+		imageLocation(imageLocation),
+		position(position),
+		size(size),
+		animated(false),
+		rectSourceSprite(spriteRect),
+		staticObject(true)
+	{
+		image.loadFromFile(imageLocation);
+		sprite.setTexture(image);
+		sprite.setTextureRect(rectSourceSprite);
 		sprite.setPosition(position);
 		sprite.setScale(size);
 	}
@@ -40,21 +73,34 @@ public:
 		weight(r.weight),
 		isStatic(r.isStatic),
 		isActive(r.isActive),
-		rectSourceSprite(r.rectSourceSprite)
+		rectSourceSprite(r.rectSourceSprite),
+		animated(r.animated),
+		animations(r.animations),
+		staticObject(r.staticObject)
 	{
 		image.loadFromFile(imageLocation);
 		sprite.setTexture(image);
 		sprite.setPosition(position);
 		sprite.setScale(size);
+		if (staticObject) {
+			sprite.setTextureRect(rectSourceSprite);
+		}
 	}
 
 	void draw(sf::RenderWindow& window) {
+		if (animated) {
+			sprite.setTextureRect(animations->getFrame());
+		}
 		if (isActive) {
 			if (!isStatic) {
 				sprite.setPosition(position);
 			}
 			window.draw(sprite);
 		}
+	}
+
+	void setAnimationStates(AnimationStates* newAnimations) {
+		animations = newAnimations;
 	}
 
 	void move(sf::Vector2f delta) {

@@ -3,9 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 
-static float speedCalculatedByFunciton = 0.0;
+static float speedCalculatedByFunction = 0.0;
 
-void move_object_with_view(GameObject& object, float& amount, float & minSpeed) {
+void move_object_with_view(GameObject& object, float& amount, float& minSpeed) {
     /// Move the background at the ame speed as the view.    
     if (amount < minSpeed) {
         object.move(sf::Vector2f{ minSpeed, 0 });
@@ -31,13 +31,12 @@ void update_view_position(sf::View& view, sf::RenderWindow& window, float & minS
     } else {
         view.move(increaseValue / devideValue, 0);
     }
-
     window.setView(view);
-    speedCalculatedByFunciton = increaseValue / devideValue;
+    speedCalculatedByFunction = increaseValue / devideValue;
 }
 
 float getViewMoveSpeed() {
-    return speedCalculatedByFunciton;
+    return speedCalculatedByFunction;
 }
 
 sf::FloatRect getViewBounds(const sf::View& view) {
@@ -50,4 +49,4 @@ sf::FloatRect getViewBounds(const sf::View& view) {
     return rt;
 }
 
-#endif // VIEW_HPP
+#endif //VIEW_HPP
