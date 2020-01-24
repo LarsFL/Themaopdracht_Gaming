@@ -28,6 +28,7 @@ public:
 	void draw(sf::RenderWindow& window);
 	void remove() {};
 	void setPositions(sf::Vector2f startPos, float width);
+	std::vector<sf::FloatRect> getGlobalBoundsFromTiles();
 	sf::FloatRect getGlobalBounds();
 };
 
