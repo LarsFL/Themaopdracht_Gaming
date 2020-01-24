@@ -32,6 +32,9 @@ private:
 	PossibleStates tempState = PossibleStates::IDLE;
 
 	PossibleStates state = PossibleStates::IDLE;
+
+	float gameSpeed = 0.f;
+
 public:
 	AnimationStates() {
 		timeLastFrame = std::chrono::system_clock::now();
@@ -65,9 +68,7 @@ public:
 	sf::IntRect getFrame() {
 		auto current = std::chrono::system_clock::now();
 
-		if (state == PossibleStates::WALK_RIGHT) {
-			//std::cout << "=============================\n";
-		}
+		std::cout << gameSpeed << std::endl;
 
 		if (animations[state].getBlocking() ) {
 			if (!animations[state].getBusy() ) {
@@ -92,6 +93,10 @@ public:
 	}
 	bool getBlocking() {
 		return animations[tempState].getBlocking();
+	}
+
+	void setGameSpeed(float newGameSpeed) {
+		gameSpeed = newGameSpeed;
 	}
 };
 #endif
