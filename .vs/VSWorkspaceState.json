@@ -10,6 +10,6 @@
     "\\MarsRunner\\MarsRunner",
     "\\MarsRunner\\MarsRunner\\x64"
   ],
-  "SelectedNode": "\\MarsRunner\\Code\\Game engine\\Tile systems\\TextureManager.hpp",
+  "SelectedNode": "\\MarsRunner\\Code\\Game engine\\Object systems\\Projectile.hpp",
   "PreviewInSolutionExplorer": false
 }

@@ -14,6 +14,18 @@
 
 #include "GameObject.hpp"
 
+enum class playerStates {
+	IDLE,
+	WALK,
+	WALK_LEFT,
+	WALK_RIGHT,
+	JUMP,
+	DOWN,
+	SHOOT,
+	DAMAGE,
+	DEATH
+};
+
 class Player : public GameObject {
 protected:
 	bool isGround = false;
@@ -21,35 +33,54 @@ protected:
 	std::deque<ObjectBlock>& groundObjects;
 	std::vector<Projectile> projectiles;
 	bool spacePressed = false;
+	float viewMoveSpeed = 0.f;
+
+	int points = 0;
+
+	float maxX_points = 0.f;
+
 
 	std::vector<action> actions = {
-		action(sf::Keyboard::Up,
-		[&]() {
-		if (this->isOnGround()) {
-			this->isOnGround(false);
-			this->setAcceleration(sf::Vector2f{ 0.0, 0.35 });
-			this->setVelocity(sf::Vector2f{ 0.0, -12.0 });
-		}
-		}),
+
+		action(sf::Keyboard::Left,  [&]() { if (!isLeftIntersecting(*this, groundObjects[0])) {
+			lastState = state;
+			state = playerStates::WALK_LEFT;
+		} }),
 
 
-		action(sf::Keyboard::Left,  [&]() { if (!isLeftIntersecting(*this, groundObjects[0])) { this->move(sf::Vector2f(-2, 0)); } }),
+		action(sf::Keyboard::Right, [&]() { if (!isRightIntersecting(*this, groundObjects[0])) {
+			lastState = state;
+			state = playerStates::WALK_RIGHT;
+		} }),
+
 
 		action(sf::Keyboard::Down,
 		[&]() {
-		for (auto& groundObject : groundObjects)
-		{
-			if (isObjOnGround(*this, groundObject)) { return; }
-		}
-
-		this->move(sf::Vector2f(0, 2));
+			lastState = state;
+			state = playerStates::DOWN;
 		}),
 
-		action(sf::Keyboard::Right, [&]() { if (!isRightIntersecting(*this, groundObjects[0])) { this->move(sf::Vector2f(2, 0)); } }),
+		action(sf::Keyboard::Up,
+		[&]() {
+			if (this->isOnGround()) {
+				lastState = state;
+				state = playerStates::JUMP;
+			}
+		}),
 
-		action(sf::Keyboard::Space, [&]() { if (!spacePressed) { projectiles.push_back(Projectile("../Assets/Objects/bullet.png", position, sf::Vector2f(1,1), sf::Vector2f(10,0))); spacePressed = true; } }),
-		action([&]() { return !sf::Keyboard::isKeyPressed(sf::Keyboard::Space); }, [&]() { spacePressed = false; })
+		action([&]() { return !sf::Keyboard::isKeyPressed(sf::Keyboard::Space); },
+		[&]() {
+			spacePressed = false;
+		}),
+
+		action(sf::Keyboard::Space,
+		[&]() {
+			lastState = state;
+			state = playerStates::SHOOT;
+		})
 	};
+	playerStates state = playerStates::IDLE;
+	playerStates lastState = state;
 
 public:
 	Player(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight,
@@ -79,9 +110,19 @@ public:
 	}
 
 	void update(float & minSpeed) {
+
+		if (maxX_points < this->getGlobalBounds().left)
+		{
+			maxX_points = this->getGlobalBounds().left;
+		}
+
+		points = maxX_points / 3;
+
+		state = playerStates::WALK;
+
 		this->isOnGround(false);
 
-		float viewMoveSpeed = getViewMoveSpeed();
+		viewMoveSpeed = getViewMoveSpeed();
 
 		if (viewMoveSpeed < minSpeed) {
 			this->move(sf::Vector2f{ 0.5, 0 });
@@ -144,6 +185,98 @@ public:
 		}
 
 	}
+
+
+	int getPoints()
+	{
+		return points;
+	}
+
+	void setPlayerAnimationState(std::map<std::string, AnimationStates>& animationsMap){
+		switch (state) {
+			case(playerStates::IDLE): {
+				animationsMap["player"].setState(PossibleStates::IDLE);
+				break;
+			}
+
+			case(playerStates::WALK): {
+				animationsMap["player"].setState(PossibleStates::WALK);
+				break;
+			}
+
+			case(playerStates::WALK_LEFT): {
+				this->move(sf::Vector2f((viewMoveSpeed + 6) * -1, 0));
+
+				animationsMap["player"].setState(PossibleStates::WALK_LEFT);
+				break;
+			}
+
+			case(playerStates::WALK_RIGHT): {
+				this->move(sf::Vector2f(viewMoveSpeed + 6, 0));
+
+				animationsMap["player"].setGameSpeed(viewMoveSpeed);
+				animationsMap["player"].setState(PossibleStates::WALK_RIGHT);
+				break;
+			}
+
+			case(playerStates::JUMP): {
+				if (this->isOnGround()) {
+					this->isOnGround(false);
+					this->setAcceleration(sf::Vector2f{ 0.0, 0.35 });
+					this->setVelocity(sf::Vector2f{ 0.0, -12.0 });
+				}
+				//state = playerStates::IDLE;
+
+				//niet zeker of dit de goede animatie is
+				animationsMap["player"].setState(PossibleStates::JUMP_START_IMPACT);
+				break;
+			}
+
+			case(playerStates::DOWN): {
+				for (auto& groundObject : groundObjects)
+				{
+					if (isObjOnGround(*this, groundObject)) { return; }
+				}
+
+				this->move(sf::Vector2f(0, 10));//was 0,2
+				break;
+			}
+
+			case(playerStates::SHOOT): {
+				sf::Vector2f ProjectilePosition(position.x, position.y + 45);
+				if (lastState == playerStates::WALK_LEFT) {
+					//make projectile
+					if (!spacePressed) {
+						projectiles.push_back(Projectile("../assets/objects/bullet.png", ProjectilePosition, sf::Vector2f(1, 1), sf::Vector2f(-10, 0)));
+						spacePressed = true;
+
+					}
+				}
+				else {
+					//make projectile
+					if (!spacePressed) {
+						projectiles.push_back(Projectile("../assets/objects/bullet.png", ProjectilePosition, sf::Vector2f(1, 1), sf::Vector2f(10, 0)));
+						spacePressed = true;
+					}
+				}
+
+
+				animationsMap["player"].setState(PossibleStates::SHOOT);
+				break;
+			}
+
+			case(playerStates::DAMAGE): {
+				animationsMap["player"].setState(PossibleStates::DAMAGED);
+				break;
+			}
+
+			case(playerStates::DEATH): {
+				animationsMap["player"].setState(PossibleStates::DEATH);
+				break;
+			}
+		}
+	}
+
 
 };
 

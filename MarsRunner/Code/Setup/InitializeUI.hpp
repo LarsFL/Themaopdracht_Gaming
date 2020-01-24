@@ -29,43 +29,43 @@ void InitializeUI(sf::RenderWindow& window, sf::View & fixedView, GameState & st
 	Text TitleText{ fontLocation, titleText, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 100 };
 	TitleText.centerOrigin();
 	TitleText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 - (screenSize.y / 2.3f))));
-	mainMenuState.append(TitleText);
+	mainMenuState.append("TitleText", TitleText);
 
 	// Play button
 	Button PlayButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "CLICC" << std::endl; state.setState(game_states::PLAYING); } };
 	PlayButton.centerOrigin();
 	PlayButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 - (screenSize.y / 7))));
-	mainMenuState.append(PlayButton);
+	mainMenuState.append("PlayButton", PlayButton);
 
 	std::string playButtonText = "Play";
 	Text PlayText{ fontLocation, playButtonText, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 50, sf::Color::Black };
 	PlayText.centerOrigin();
 	PlayText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 - (screenSize.y / 6.2f))));
-	mainMenuState.append(PlayText);
+	mainMenuState.append("PlayText", PlayText);
 
 	// Leaderboard button
 	Button LeaderboardButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Leaderboard clicc" << std::endl; } };
 	LeaderboardButton.centerOrigin();
 	LeaderboardButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2)));
-	mainMenuState.append(LeaderboardButton);
+	mainMenuState.append("LeaderboardButton", LeaderboardButton);
 
 	std::string leaderboardButtonText = "Leaderboard";
 	Text LeaderboardText{ fontLocation, leaderboardButtonText, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 50, sf::Color::Black };
 	LeaderboardText.centerOrigin();
 	LeaderboardText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 - (screenSize.y / 50))));
-	mainMenuState.append(LeaderboardText);
+	mainMenuState.append("LeaderboardText", LeaderboardText);
 
 	// Quit button
 	Button QuitButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Quit clicc" << std::endl; /*state.closeGame = true;*/ } };
 	QuitButton.centerOrigin();
 	QuitButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 7))));
-	mainMenuState.append(QuitButton);
+	mainMenuState.append("QuitButton", QuitButton);
 
 	std::string quitButtonText = "Quit";
 	Text QuitText{ fontLocation, quitButtonText, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 50, sf::Color::Black };
 	QuitText.centerOrigin();
 	QuitText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 8.2f))));
-	mainMenuState.append(QuitText);
+	mainMenuState.append("QuitButtonText", QuitText);
 	
 	// Add state to UI states
 	state.addUIState(game_states::MAIN_MENU, mainMenuState);
@@ -79,12 +79,12 @@ void InitializeUI(sf::RenderWindow& window, sf::View & fixedView, GameState & st
 	// Score text
 	std::string scoreText = "Score. ";
 	Text ScoreText{ fontLocation, scoreText, sf::Vector2f(20,20), sf::Vector2f(1,1), [&] {}, 30 };
-	playingState.append(ScoreText);
+	playingState.append("ScoreText", ScoreText);
 
 
 	std::string tmpScore = "12345";
 	Text ScoreValueText{ fontLocation, tmpScore, sf::Vector2f(85, 20), sf::Vector2f(1,1), [&] {}, 30 };
-	playingState.append(ScoreValueText);
+	playingState.append("ScoreValueText", ScoreValueText);
 
 	// Add state to UI states
 	state.addUIState(game_states::PLAYING, playingState);
@@ -101,41 +101,41 @@ void InitializeUI(sf::RenderWindow& window, sf::View & fixedView, GameState & st
 	Text PausedText{ fontLocation, pausedText, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 100 };
 	PausedText.centerOrigin();
 	PausedText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 - (screenSize.y / 2.3f))));
-	pausedState.append(PausedText);
+	pausedState.append("PausedText", PausedText);
 
 
 	// Score text
 	Text PausedScoreText{ fontLocation, scoreText, sf::Vector2f(20,20), sf::Vector2f(1,1), [&] {}, 50 };
 	PausedScoreText.jump(sf::Vector2f((screenSize.x / 2) - 100, (screenSize.y / 2 - (screenSize.y / 6.2f))));
-	pausedState.append(PausedScoreText);
+	pausedState.append("PausedScoreText", PausedScoreText);
 
 	Text PausedScoreValueText{ fontLocation, tmpScore, sf::Vector2f(85, 20), sf::Vector2f(1,1), [&] {}, 30 };
 	PausedScoreValueText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 - (screenSize.y / 6.2f) + 18)));
-	pausedState.append(PausedScoreValueText);
+	pausedState.append("PausedScoreValueText", PausedScoreValueText);
 
 	// Resume button
 	Button ResumeButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Resume clicc" << std::endl; state.setState(game_states::PLAYING); } };
 	ResumeButton.centerOrigin();
 	ResumeButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2)));
-	pausedState.append(ResumeButton);
+	pausedState.append("ResumeButton", ResumeButton);
 
 	std::string resumeButtonText = "Resume";
 	Text ResumeButtonText{ fontLocation, resumeButtonText, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 50, sf::Color::Black };
 	ResumeButtonText.centerOrigin();
 	ResumeButtonText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 - (screenSize.y / 50))));
-	pausedState.append(ResumeButtonText);
+	pausedState.append("ResumeButtonText", ResumeButtonText);
 
 	// Back to menu button
 	Button BackToMenuButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Back to menu clicc" << std::endl; state.setState(game_states::MAIN_MENU); } };
 	BackToMenuButton.centerOrigin();
 	BackToMenuButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 7))));
-	pausedState.append(BackToMenuButton);
+	pausedState.append("BackToMenuButton", BackToMenuButton);
 
 	std::string backToMenuButtonText = "Back to menu";
 	Text BackToMenuButtonText{ fontLocation, backToMenuButtonText, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 50, sf::Color::Black };
 	BackToMenuButtonText.centerOrigin();
 	BackToMenuButtonText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 8.2f))));
-	pausedState.append(BackToMenuButtonText);
+	pausedState.append("BackToMenuButtonText", BackToMenuButtonText);
 
 
 	// Add state to UI states

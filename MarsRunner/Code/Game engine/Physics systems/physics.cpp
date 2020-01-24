@@ -13,7 +13,7 @@ bool isObjOnGround(GameObject& movingObj, GameObject& staticObj) {
 	sf::FloatRect globalBounds = movingObj.getGlobalBounds();
 	sf::FloatRect intersectionTester(globalBounds.left, globalBounds.top + globalBounds.height, globalBounds.width, 1);
 	sf::FloatRect globalBoundsStatic = staticObj.getGlobalBounds();
-	sf::FloatRect intersectionTesterStatic(globalBoundsStatic.left - 2 , globalBoundsStatic.top, globalBoundsStatic.width + 2, movingObj.getVelocity().y + 20.0);
+	sf::FloatRect intersectionTesterStatic(globalBoundsStatic.left, globalBoundsStatic.top, globalBoundsStatic.width, movingObj.getVelocity().y + 20.0);
 	return intersectionTester.intersects(intersectionTesterStatic);
 }
 

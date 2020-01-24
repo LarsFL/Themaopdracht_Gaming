@@ -28,7 +28,10 @@
 #include "Code/Game engine/Tile systems/TextureManager.hpp";
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!");
+    int width = sf::VideoMode::getDesktopMode().width;
+    int height = sf::VideoMode::getDesktopMode().height;
+    //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
+    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Default);
     window.setFramerateLimit(60);
     sf::View fixed = window.getView();
     std::map<std::string, AnimationStates> animationsMap;
@@ -46,8 +49,11 @@ int main() {
     mainView.setViewport(sf::FloatRect(0, 0, 1, 1));
     window.setView(mainView);
 
-    std::string pathBackground = "../Assets/Test/background2.png";
-    GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
+    //std::string pathBackground = "../Assets/Test/background2.png";
+    //GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
+    std::string pathBackground = "../Assets/Objects/newBackground.jpg";
+    GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{0.78, 1.4}, 5, false };
+
 
     std::string pathGround = "../Assets/Test/green_button01.png";
     std::deque<ObjectBlock> groundObjectList;
@@ -72,8 +78,8 @@ int main() {
     InitializeUI(window, fixed, state);
 
     action actions[] = {
-        action(sf::Keyboard::Escape,[&]() { if (escapeUp) { state.handleEscape(); escapeUp = false; } }),
-        action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape); }, [&]() { escapeUp = true; })
+        action(sf::Keyboard::Escape,[&]() { if (escapeUp) { state.handleEscape(); escapeUp = false;} }),
+        action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape); }, [&]() { escapeUp = true;})
     };
 
     auto previous = std::chrono::system_clock::now();
@@ -83,10 +89,10 @@ int main() {
 
 
     std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
-    Player player( playerSpriteSheet, sf::Vector2f{0,250}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList );
+    Player player{ playerSpriteSheet, sf::Vector2f{0,400}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList };
     player.setAnimationStates(&animationsMap["player"]);
     animationsMap["player"].setState(PossibleStates::WALK);
-    player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
+    player.setVelocity(sf::Vector2f{ 0.0, 2 });
 
     while (window.isOpen()) {
         // Always take the same time step per loop. (should work now)
@@ -95,13 +101,23 @@ int main() {
         previous = current;
         lag += elapsed.count();
 
-        for (auto& action : actions) {
-            action();
-        }
 
         window.clear();
 
         while (lag >= msPerLoop) {
+
+            for (auto& action : actions) {
+                action();
+            }
+
+            //qualety of life for us, in main game?
+            if (state.getState() == game_states::MAIN_MENU && sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+                while (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+                    
+                }
+                state.setState(game_states::PLAYING);
+            }
+
             if (state.getState() == game_states::PLAYING) {
                 // Move the view at an ever increasing speed and move the background along with the same speed.
                 update_view_position(mainView, window, minSpeed);
@@ -123,10 +139,22 @@ int main() {
                         //test = false;
                     }
                 }
+                else {
+                    firstGroundObject = secondGroundObject;
+                    groundObjectList.erase(groundObjectList.begin());
+
+                    groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{minLengthGroundObjects, 675}, sf::Vector2f{1, 1}, 5, false });
+                    minLengthGroundObjects += widthG;
+                    widthValue += widthG;
+
+                    groundObjectList[(groundObjectList.size() - 1)].draw(window);
+                }
                 player.update(minSpeed);
+                player.setPlayerAnimationState(animationsMap);
+            }
 
                 lag -= msPerLoop;
-            }
+        }
 
             window.setView(mainView);
             background.draw(window);
@@ -141,6 +169,9 @@ int main() {
             auto mouse_pos = sf::Mouse::getPosition(window);
             auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
             state.updateUI(translated_pos);
+
+            state.updateUIElement(game_states::PLAYING, "ScoreValueText", std::to_string(player.getPoints()));
+            state.updateUIElement(game_states::PAUSED, "PausedScoreValueText", std::to_string(player.getPoints()));
 
             player.draw(window);
             window.setView(fixed);
@@ -159,6 +190,6 @@ int main() {
 
 
         }
+    return 0;
     }
-        return 0;
-}
+ 
