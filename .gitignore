@@ -48,3 +48,9 @@ MarsRunner/MarsRunner/MarsRunner.vcxproj
 *.sqlite-journal
 
 .vs/ProjectSettings.json
+*.sarif
+MarsRunner/MarsRunner/x64/Debug/main.nativecodeanalysis.xml
+MarsRunner/MarsRunner/x64/Debug/ObjectBlock.nativecodeanalysis.xml
+MarsRunner/MarsRunner/x64/Debug/physics.nativecodeanalysis.xml
+MarsRunner/MarsRunner/x64/Debug/vc.nativecodeanalysis.all.xml
+MarsRunner/x64/Debug/MarsRunner.exe.lastcodeanalysissucceeded
