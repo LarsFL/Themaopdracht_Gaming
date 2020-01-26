@@ -162,12 +162,12 @@ public:
 			}
 		}
 		unsigned int count = 0;
-		/*for (auto& projectile : projectiles) {
+		for (auto& projectile : projectiles) {
 			if (projectile.update(groundObjects)) {
 				projectiles.erase(projectiles.begin() + count);
 			}
 			count++;
-		}*/ //@Lars, wat moet hiermee gebeuren?
+		}
 	}
 
 	void drawProjectiles(sf::FloatRect& view) {
@@ -176,9 +176,7 @@ public:
 			if (!projectile.getGlobalBounds().intersects(view)) {
 				projectiles.erase(projectiles.begin() + i);
 			}
-			else {
-				i++;
-			}
+			i++;
 		}
 		for (auto& projectile : projectiles) {
 			projectile.draw(window);

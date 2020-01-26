@@ -53,6 +53,11 @@ public:
 	sf::FloatRect getGlobalBounds() {
 		return sprite.getGlobalBounds();
 	}
+
+	template <class T>
+	void callLamba(T a) {
+		a();
+	}
 };
 
 #endif

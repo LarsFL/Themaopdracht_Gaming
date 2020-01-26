@@ -28,10 +28,10 @@
 #include "Code/Game engine/Tile systems/TextureManager.hpp";
 
 int main() {
-    int width = sf::VideoMode::getDesktopMode().width / 2;
-    int height = sf::VideoMode::getDesktopMode().height / 2;
-    //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
-    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Default);
+    int width = sf::VideoMode::getDesktopMode().width;
+    int height = sf::VideoMode::getDesktopMode().height;
+    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
+    //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Default);
     window.setFramerateLimit(60);
     sf::View fixed = window.getView();
     std::map<std::string, AnimationStates> animationsMap;

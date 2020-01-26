@@ -30,6 +30,9 @@ public:
 	void setPositions(sf::Vector2f startPos, float width);
 	std::vector<sf::FloatRect> getGlobalBoundsFromTiles();
 	sf::FloatRect getGlobalBounds();
+	std::map<std::array<int, 2>, std::shared_ptr<Tile>>& getObjects() {
+		return objects;
+	}
 };
 
 
