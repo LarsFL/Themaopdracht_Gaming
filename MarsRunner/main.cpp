@@ -4,6 +4,9 @@
 #include <map>
 #include <chrono>
 #include <ctime>
+#include <random>
+#include <iterator>
+#include <deque>
 #include <deque>
 #include <memory>
 
@@ -12,6 +15,7 @@
 #include "Code/Game engine/UI systems/Text.hpp"
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Object systems/GameObject.hpp"
+#include "Code/Game engine/Object systems/WorldObject.hpp"
 #include "Code/Game engine/World Speed Systems/view.hpp"
 #include "Code/Game engine/Object systems/randomNumber.hpp"
 #include "Code/Game engine/World generation systems/ObjectBlock.hpp"
@@ -84,16 +88,15 @@ int main() {
     float minSpeed = 0.5;
 
     std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
-    Player player( playerSpriteSheet, sf::Vector2f{0,250}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList );
+    /*Player player{playerSpriteSheet, sf::Vector2f{0,250}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList };
     player.setAnimationStates(&animationsMap["player"]);
     animationsMap["player"].setState(PossibleStates::WALK);
-    player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
+    player.setVelocity(sf::Vector2f{ 0.0, 1.1 });*/
     
-    std::deque<PickUp> coinList;
-    std::string coinImage = "../Assets/Objects/coin.png";
-
-    coinList.push_back(PickUp{ manager, 0, sf::Vector2f{getRandomNumber(200, 800), 500.f}, sf::Vector2f{.05,.05}, 1, true, false, window });
-    coinList[0].setPickUpTexture(coinImage);    
+    //std::deque<PickUp> coinList;
+    //std::string coinImage = "../Assets/Objects/coin.png";
+    //coinList.push_back(PickUp{ manager, 0, sf::Vector2f{getRandomNumber(200, 800), getRandomNumber(400, 500)}, sf::Vector2f{.05,.05}, 1, true, false, window });
+    //coinList[0].setPickUpTexture(coinImage);
 
     while (window.isOpen()) {
         // Always take the same time step per loop. (should work now)
@@ -131,7 +134,7 @@ int main() {
                         //test = false;
                     }
                 }
-                player.update(minSpeed);
+                //player.update(minSpeed);
 
                 lag -= msPerLoop;
             }
@@ -139,29 +142,36 @@ int main() {
             window.setView(mainView);
             background.draw(window);
 
-            if (coinList.size() > 0) {
-                coinList[0].destroyObjectOnInteract(coinList, manager, increaseValue, mainView);
-                //coinList[0].destroyObjectOnInteract(coinList, coinImage, player, increaseValue, mainView);
-            }
+            auto bounds = getViewBounds(mainView);
+            player.drawProjectiles(bounds);
+            player.draw(window);
+
+            //if (coinList.size() > 0) {
+            //    if (coinList[0].destroyObjectOnInteract(coinList, player, mainView)) {
+            //        std::cout << "Object destroyed.\n";
+            //        std::cout << increaseValue << std::endl;
+            //        coinList.push_back(PickUp{ manager, 0, sf::Vector2f{getRandomNumber(increaseValue + 700, increaseValue + 1200), getRandomNumber(400, 500)},
+            //                        sf::Vector2f{.05,.05}, 1, true, false, window });
+            //    }
+            //    else {
+            //        //std::cout << "Object NOT destroyed.\n";
+            //    }
+            //}]
             
             for (auto& current_object : groundObjectList) {
                 current_object.draw(window);
             }
 
-            auto bounds = getViewBounds(mainView);
-            player.drawProjectiles(bounds);
-
-            if (coinList.size() > 0) {
-                for (PickUp& current_object : coinList) {
-                    current_object.draw(window);
-                }
-            }
+            //if (coinList.size() > 0) {
+            //    for (PickUp& current_object : coinList) {
+            //        current_object.draw(window);
+            //    }
+            //}
 
             auto mouse_pos = sf::Mouse::getPosition(window);
             auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
             state.updateUI(translated_pos);
 
-            player.draw(window);
             window.setView(fixed);
             state.draw(window);
             window.display();

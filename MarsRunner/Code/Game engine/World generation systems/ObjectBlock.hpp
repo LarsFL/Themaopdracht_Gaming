@@ -8,27 +8,27 @@
 #include <memory>
 
 #include "../Object systems/GameObject.hpp"
-#include "../Tile systems/Tile.hpp"
+#include "../Object systems/WorldObject.hpp"
 
 class ObjectBlock {
 private:
-	std::map<std::array<int, 2>, std::shared_ptr<Tile>> objects;
+	std::map<std::array<int, 2>, std::shared_ptr<WorldObject>> objects;
 public:
 	ObjectBlock() {};
 	ObjectBlock(const ObjectBlock& r)
 	{
 		objects = r.objects;
-		std::map<std::array<int, 2>, std::shared_ptr<Tile>>::iterator it;
+		std::map<std::array<int, 2>, std::shared_ptr<WorldObject>>::iterator it;
 		for (it = objects.begin(); it != objects.end(); it++) {
-			it->second = std::make_shared<Tile>(*it->second);
+			it->second = std::make_shared<WorldObject>(*it->second);
 		}
 	}
 
-	void addObject(sf::Vector2i position, Tile& object);
+	template<typename T>
+	void addObject(sf::Vector2i position, T object);
 	void draw(sf::RenderWindow& window);
 	void remove() {};
 	void setPositions(sf::Vector2f startPos, float width);
-	std::vector<sf::FloatRect> getGlobalBoundsFromTiles();
 	sf::FloatRect getGlobalBounds();
 };
 

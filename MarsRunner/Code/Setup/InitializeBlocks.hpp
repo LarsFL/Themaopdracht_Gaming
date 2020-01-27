@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <deque>
 
 #include "Code/Game engine/World generation systems/GenerateBlock.hpp"
 #include "Code/Game engine/World generation systems/ObjectBlock.hpp"
@@ -12,7 +13,17 @@
 #include "Code/Game engine/Tile systems/TextureManager.hpp"
 #include "Code/Game engine/Tile systems/Tile.hpp"
 
+#include "Code/Game engine/Object systems/PickUp.hpp"
+
 void generateBlocks(GenerateBlock& generator, TextureManager& manager) {
+	// Test
+	std::string coin = "../Assets/Objects/coin.jpg";
+	Texture coinTex{ coin };
+	manager.addTexture(2, coinTex);
+	sf::IntRect coinRect = { 0, 0, 64, 64 };
+	Tile coinTile = { manager, 2, sf::Vector2f{0,0}, sf::Vector2f{1,1}, coinRect };
+	//coinList.push_back(PickUp{ coinTile, window });
+	
 	std::string futiristischPlatform = "../Assets/Objects/metalPlatforms.png";
 	Texture futiristischPlatformTex{ futiristischPlatform };
 	manager.addTexture(1, futiristischPlatformTex);
@@ -177,6 +188,30 @@ void generateBlocks(GenerateBlock& generator, TextureManager& manager) {
 	var4PlatformBlock.addObject(sf::Vector2i(3, 23), solidGroundTile);
 	var4PlatformBlock.addObject(sf::Vector2i(4, 23), solidGroundTile);
 	generator.addBlock(var4PlatformBlock);
+
+	//ObjectBlock var2Coin = {};
+	//var2Coin.addObject(sf::Vector2i(1, 14), coinTile);
+	//var2Coin.addObject(sf::Vector2i(0, 20), boring1GroundTile);
+	//var2Coin.addObject(sf::Vector2i(1, 20), boringGroundTile);
+	//var2Coin.addObject(sf::Vector2i(2, 20), boringGroundTile);
+	//var2Coin.addObject(sf::Vector2i(3, 20), boringGroundTile);
+	//var2Coin.addObject(sf::Vector2i(4, 20), boring1GroundTile);
+	//var2Coin.addObject(sf::Vector2i(0, 21), solidGroundTile);
+	//var2Coin.addObject(sf::Vector2i(1, 21), solidGroundTile);
+	//var2Coin.addObject(sf::Vector2i(2, 21), solidGroundTile);
+	//var2Coin.addObject(sf::Vector2i(3, 21), solidGroundTile);
+	//var2Coin.addObject(sf::Vector2i(4, 21), solidGroundTile);
+	//var2Coin.addObject(sf::Vector2i(0, 22), solidGroundTile);
+	//var2Coin.addObject(sf::Vector2i(1, 22), solidGroundTile);
+	//var2Coin.addObject(sf::Vector2i(2, 22), solidGroundTile);
+	//var2Coin.addObject(sf::Vector2i(3, 22), solidGroundTile);
+	//var2Coin.addObject(sf::Vector2i(4, 22), solidGroundTile);
+	//var2Coin.addObject(sf::Vector2i(0, 23), solidGroundTile);
+	//var2Coin.addObject(sf::Vector2i(1, 23), solidGroundTile);
+	//var2Coin.addObject(sf::Vector2i(2, 23), solidGroundTile);
+	//var2Coin.addObject(sf::Vector2i(3, 23), solidGroundTile);
+	//var2Coin.addObject(sf::Vector2i(4, 23), solidGroundTile);
+	//generator.addBlock(var2Coin);
 }
 
 #endif

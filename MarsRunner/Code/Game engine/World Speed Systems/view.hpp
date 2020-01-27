@@ -49,4 +49,4 @@ sf::FloatRect getViewBounds(const sf::View& view) {
     return rt;
 }
 
-#endif // VIEW_HPP
+#endif //VIEW_HPP

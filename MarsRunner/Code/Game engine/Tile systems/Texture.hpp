@@ -9,7 +9,9 @@ class Texture {
 public:
 	sf::Texture texture;
 	Texture(std::string imageLocation) {
-		texture.loadFromFile(imageLocation);
+		if (texture.loadFromFile(imageLocation)) {
+			std::cout << "Error: " << imageLocation << "\n";
+		}
 	}
 };
 
