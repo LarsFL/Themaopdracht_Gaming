@@ -2,6 +2,7 @@
 #define PHYSICS_HPP
 
 #include "../Object systems/GameObject.hpp"
+#include <SFML/Graphics.hpp>
 
 void updateVelocity(GameObject& obj);
 
@@ -24,5 +25,9 @@ bool isLeftIntersecting(GameObject& movingObj, ObjectBlock& staticObj);
 bool isRightIntersecting(GameObject& movingObj, ObjectBlock& staticObj);
 
 bool isTopIntersecting(GameObject& movingObj, ObjectBlock& staticObj);
+
+bool isLeftIntersecting(GameObject& movingObj, sf::FloatRect viewBounds);
+
+bool isRightIntersecting(GameObject& movingObj, sf::FloatRect viewBounds);
 
 #endif //PHYSICS_HPP
