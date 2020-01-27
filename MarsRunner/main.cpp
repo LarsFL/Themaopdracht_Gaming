@@ -46,14 +46,11 @@ int main() {
     InitializeSateliteAnimations(animationsMap);
 
     bool escapeUp = true;
-    bool test = true;
     mainView.setCenter(sf::Vector2f(600.f, 384.f));
     mainView.setSize(sf::Vector2f(1280.f, 720.f));
     mainView.setViewport(sf::FloatRect(0, 0, 1, 1));
     window.setView(mainView);
 
-    //std::string pathBackground = "../Assets/Test/background2.png";
-    //GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{1.2, 1.4}, 5, false };
     std::string pathBackground = "../Assets/Objects/newBackground.jpg";
     GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{0.78, 1.4}, 5, false };
 
@@ -140,28 +137,14 @@ int main() {
                 // Check if selected object is within the bouns of the selected view
                 sf::FloatRect view2 = getViewBounds(mainView);
                 auto firstGroundObject = groundObjectList[0];
-                sf::FloatRect rectObject = firstGroundObject.getGlobalBounds(); // Get global bounds van blok
+                sf::FloatRect rectObject = firstGroundObject.getGlobalBounds();
                 if (!(rectObject.intersects(view2))) {
-                    // Eigen functie om destructors aan te roepen
                     groundObjectList.pop_front();
-                    if (test) {
-                        ObjectBlock generatedBlock = generator.generate();
-                        generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
-                        groundObjectList.push_back(generatedBlock);
-                        widthValue += (widthG * 5);
-                        //test = false;
-                    }
+                    ObjectBlock generatedBlock = generator.generate();
+                    generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
+                    groundObjectList.push_back(generatedBlock);
+                    widthValue += (widthG * 5);
                 }
-                /*else {
-                    firstGroundObject = secondGroundObject;
-                    groundObjectList.erase(groundObjectList.begin());
-
-                    groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{minLengthGroundObjects, 675}, sf::Vector2f{1, 1}, 5, false });
-                    minLengthGroundObjects += widthG;
-                    widthValue += widthG;
-
-                    groundObjectList[(groundObjectList.size() - 1)].draw(window);
-                }*/ //@Lars, wat moet hiermee gebeuren?
                 
                 player.update(minSpeed);
                 player.setPlayerAnimationState(animationsMap);
