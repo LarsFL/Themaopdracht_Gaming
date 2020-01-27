@@ -24,14 +24,17 @@
 #include "Code/Setup/GameState.hpp"
 #include "Code/Setup/InitializeUI.hpp"
 #include "Code/Setup/InitializeBlocks.hpp"
+#include "Code/Setup/InitializeSounds.hpp"
 
 #include "Code/Game engine/Tile systems/TextureManager.hpp";
+
+#include "Code/Game engine/Audio systems/AudioManager.hpp";
 
 int main() {
     int width = sf::VideoMode::getDesktopMode().width;
     int height = sf::VideoMode::getDesktopMode().height;
-    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
-    //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Default);
+    //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
+    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Default);
     window.setFramerateLimit(60);
     sf::View fixed = window.getView();
     std::map<std::string, AnimationStates> animationsMap;
@@ -60,8 +63,10 @@ int main() {
 
     GenerateBlock generator = {};
     TextureManager manager = {};
+    AudioManager audio = {};
 
     generateBlocks(generator, manager);
+    initializeSounds(audio);
 
     float widthValue = -190;
     float widthG = 32;
@@ -89,7 +94,7 @@ int main() {
 
 
     std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
-    Player player{ playerSpriteSheet, sf::Vector2f{0,400}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList };
+    Player player{ playerSpriteSheet, sf::Vector2f{0,400}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList, audio };
     player.setAnimationStates(&animationsMap["player"]);
     animationsMap["player"].setState(PossibleStates::WALK);
     player.setVelocity(sf::Vector2f{ 0.0, 2 });

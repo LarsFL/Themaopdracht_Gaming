@@ -13,6 +13,7 @@
 #include <iostream>
 
 #include "GameObject.hpp"
+#include "Code/Game engine/Audio systems/AudioManager.hpp"
 
 enum class playerStates {
 	IDLE,
@@ -38,6 +39,7 @@ protected:
 	int points = 0;
 
 	float maxX_points = 0.f;
+	AudioManager& audio;
 
 
 	std::vector<action> actions = {
@@ -84,11 +86,14 @@ protected:
 
 public:
 	Player(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight,
-		bool isStatic, bool animated, sf::RenderWindow& window, std::deque<ObjectBlock>& groundObjects) :
+		bool isStatic, bool animated, sf::RenderWindow& window, std::deque<ObjectBlock>& groundObjects,
+		AudioManager& audio) :
 
 		GameObject(imageLocation, position, size, weight, isStatic, animated),
 		window(window),
-		groundObjects(groundObjects) {
+		groundObjects(groundObjects),
+		audio(audio)
+	{
 		image.loadFromFile(imageLocation);
 		sprite.setTexture(image);
 		sprite.setPosition(position);
@@ -98,7 +103,8 @@ public:
 	Player(const Player& a) :
 		GameObject(a.imageLocation, a.position, a.size, a.weight, a.isStatic, a.animated),
 		window(a.window),
-		groundObjects(a.groundObjects)
+		groundObjects(a.groundObjects),
+		audio(a.audio)
 	{}
 
 	bool isOnGround() {
@@ -246,14 +252,15 @@ public:
 					//make projectile
 					if (!spacePressed) {
 						projectiles.push_back(Projectile("../assets/objects/bullet.png", ProjectilePosition, sf::Vector2f(1, 1), sf::Vector2f(-10, 0)));
+						audio.playSound("pew");
 						spacePressed = true;
-
 					}
 				}
 				else {
 					//make projectile
 					if (!spacePressed) {
 						projectiles.push_back(Projectile("../assets/objects/bullet.png", ProjectilePosition, sf::Vector2f(1, 1), sf::Vector2f(10, 0)));
+						audio.playSound("pew");
 						spacePressed = true;
 					}
 				}

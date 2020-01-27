@@ -4,12 +4,13 @@
     "\\MarsRunner",
     "\\MarsRunner\\Code",
     "\\MarsRunner\\Code\\Game engine",
-    "\\MarsRunner\\Code\\Game engine\\Object systems",
-    "\\MarsRunner\\Code\\Game engine\\Tile systems",
-    "\\MarsRunner\\Code\\Game engine\\UI systems",
+    "\\MarsRunner\\Code\\Game engine\\Audio systems",
+    "\\MarsRunner\\Code\\Game engine\\Physics systems",
+    "\\MarsRunner\\Code\\Game engine\\World generation systems",
+    "\\MarsRunner\\Code\\Game engine\\World Speed Systems",
     "\\MarsRunner\\MarsRunner",
-    "\\MarsRunner\\MarsRunner\\x64"
+    "\\MarsRunner\\MarsRunner\\ARM"
   ],
-  "SelectedNode": "\\MarsRunner\\Code\\Game engine\\Object systems\\Projectile.hpp",
+  "SelectedNode": "\\MarsRunner\\Code\\Game engine\\Audio systems\\AudioManager.hpp",
   "PreviewInSolutionExplorer": false
 }
