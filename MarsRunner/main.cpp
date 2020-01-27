@@ -88,7 +88,7 @@ int main() {
     float minSpeed = 0.5;
 
 
-    std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
+    std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png"; //../Assets/Objects/smallAstronaut.png
     Player player{ playerSpriteSheet, sf::Vector2f{0,400}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList };
     player.setAnimationStates(&animationsMap["player"]);
     animationsMap["player"].setState(PossibleStates::WALK);
@@ -116,6 +116,14 @@ int main() {
                     
                 }
                 state.setState(game_states::PLAYING);
+            }
+
+            //freese palyer animation if paused
+            if (state.getState() == game_states::PAUSED) {
+                animationsMap["player"].setPaused(true);
+            }
+            else {
+                animationsMap["player"].setPaused(false);
             }
 
             if (state.getState() == game_states::PLAYING) {
@@ -149,6 +157,7 @@ int main() {
 
                     groundObjectList[(groundObjectList.size() - 1)].draw(window);
                 }*/ //@Lars, wat moet hiermee gebeuren?
+                
                 player.update(minSpeed);
                 player.setPlayerAnimationState(animationsMap);
             }
@@ -164,7 +173,7 @@ int main() {
             }
 
             auto bounds = getViewBounds(mainView);
-           player.drawProjectiles(bounds);
+            player.drawProjectiles(bounds);
 
             auto mouse_pos = sf::Mouse::getPosition(window);
             auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
