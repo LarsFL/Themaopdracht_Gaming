@@ -24,8 +24,11 @@
 #include "Code/Setup/GameState.hpp"
 #include "Code/Setup/InitializeUI.hpp"
 #include "Code/Setup/InitializeBlocks.hpp"
+#include "Code/Setup/InitializeSounds.hpp"
 
 #include "Code/Game engine/Tile systems/TextureManager.hpp";
+
+#include "Code/Game engine/Audio systems/AudioManager.hpp";
 
 int main() {
     int width = sf::VideoMode::getDesktopMode().width;
@@ -60,8 +63,10 @@ int main() {
 
     GenerateBlock generator = {};
     TextureManager manager = {};
+    AudioManager audio = {};
 
     generateBlocks(generator, manager);
+    initializeSounds(audio);
 
     float widthValue = -190;
     float widthG = 32;
@@ -88,7 +93,7 @@ int main() {
     float minSpeed = 0.5;
 
     std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
-    Player player{ playerSpriteSheet, sf::Vector2f{0,400}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList, mainView, state };
+    Player player{ playerSpriteSheet, sf::Vector2f{0,400}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList, mainView, state, audio };
 
     player.setAnimationStates(&animationsMap["player"]);
     animationsMap["player"].setState(PossibleStates::WALK);
