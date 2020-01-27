@@ -32,7 +32,6 @@ public:
 	GameState() {}
 
 	void addUIState(game_states newState, UI_State &stateUI) {
-		auto copyUI(stateUI);
 		UIStates[newState] = new UI_State(stateUI);
 	}
 

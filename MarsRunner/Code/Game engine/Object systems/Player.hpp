@@ -109,7 +109,7 @@ protected:
 
 public:
 	Player(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight,
-		bool isStatic, bool animated, sf::RenderWindow& window, std::deque<ObjectBlock>& groundObjects, sf::View& currentView, GameState gameState, AudioManager& audio) :
+		bool isStatic, bool animated, sf::RenderWindow& window, std::deque<ObjectBlock>& groundObjects, sf::View& currentView, GameState& gameState, AudioManager& audio) :
 
 		GameObject(imageLocation, position, size, weight, isStatic, animated),
 		window(window),
