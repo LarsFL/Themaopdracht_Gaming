@@ -31,7 +31,6 @@ void update_view_position(sf::View& view, sf::RenderWindow& window, float & minS
     } else {
         view.move(increaseValue / devideValue, 0);
     }
-
     window.setView(view);
     speedCalculatedByFunction = increaseValue / devideValue;
 }

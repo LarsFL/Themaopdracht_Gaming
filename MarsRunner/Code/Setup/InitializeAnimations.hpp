@@ -15,8 +15,8 @@ void InitializePlayerAnimations(std::map<std::string, AnimationStates> &animatio
 	smallAstronaut.addAnimation(PossibleStates::WALK, Walking);
 
 	//WALK_LEFT
-	sf::IntRect walkLeftLoc(1, 1, 37, 41);
-	Animation WalkingLeft(walkLeftLoc, 11, 39, 170);
+	sf::IntRect walkLeftLoc(1, 1, -37, 41);
+	Animation WalkingLeft(walkLeftLoc, 11, 39, 20);
 	smallAstronaut.addAnimation(PossibleStates::WALK_LEFT, WalkingLeft);
 	
 	//WALK_RIGHT
