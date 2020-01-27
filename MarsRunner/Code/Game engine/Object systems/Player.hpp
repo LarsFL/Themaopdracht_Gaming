@@ -2,12 +2,12 @@
 #define PLAYER_HPP
 
 #include <SFML/Graphics.hpp>
-#include "Code/Game engine/Input systems/input.hpp"
-#include "Code/Game engine/Physics systems/physics.hpp"
-#include "Code/Game engine/Object systems/Projectile.hpp"
+#include "../Input systems/input.hpp"
+#include "../Physics systems/physics.hpp"
+#include "../Object systems/Projectile.hpp"
 #include "../World generation systems/ObjectBlock.hpp"
 #include "../World Speed Systems/view.hpp"
-#include "Code/Game engine/Tile systems/Tile.hpp"
+#include "../Tile systems/Tile.hpp"
 #include <vector>
 #include <deque>
 #include <iostream>
@@ -128,22 +128,6 @@ public:
 			}
 			count++;
 		}*/
-	}
-
-	void drawProjectiles(sf::FloatRect& view) {
-		unsigned int i = 0;
-		for (auto& projectile : projectiles) {
-			if (!projectile.getGlobalBounds().intersects(view)) {
-				projectiles.erase(projectiles.begin() + i);
-			}
-			else {
-				i++;
-			}
-		}
-		for (auto& projectile : projectiles) {
-			projectile.draw(window);
-		}
-
 	}
 
 	void drawProjectiles(sf::FloatRect& view) {

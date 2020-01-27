@@ -16,7 +16,7 @@ public:
 		srand(time(NULL));
 	};
 
-	void addBlock(ObjectBlock block) {
+	void addBlock(ObjectBlock& block) {
 		possibleBlocks.push_back(block);
 	}
 

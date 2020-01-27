@@ -6,20 +6,20 @@
 
 #include "TextureManager.hpp"
 #include "Texture.hpp"
+#include "../Object systems/WorldObject.hpp"
+#include "../Object systems/PickUp.hpp"
 
-class Tile {
+class Tile : public WorldObject {
 private:
 	std::shared_ptr<Texture> texture;
 	int textureId;
 	sf::Sprite sprite;
-	sf::Vector2f position;
-	sf::Vector2f size;
 	TextureManager& manager;
+
 public:
 	Tile(TextureManager& manager, int textureId, sf::Vector2f position, sf::Vector2f size, sf::IntRect textureRect) :
+		WorldObject(position, size), 
 		textureId(textureId),
-		position(position),
-		size(size),
 		manager(manager)
 	{
 		texture = manager.getTexture(textureId);
@@ -30,11 +30,10 @@ public:
 	};
 
 	Tile(const Tile& r) :
+		WorldObject(r.position, r.size),
 		texture(r.texture),
 		textureId(r.textureId),
 		sprite(r.sprite),
-		position(r.position),
-		size(r.size),
 		manager(r.manager)
 	{
 		sprite.setTexture(texture->texture);

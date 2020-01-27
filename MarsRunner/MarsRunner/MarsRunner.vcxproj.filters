@@ -135,9 +135,15 @@
     <ClInclude Include="..\Code\Setup\InitializeUI.hpp">
       <Filter>Code\Setup</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Object systems\WorldObject.hpp">
+      <Filter>Code\Game engine\Object systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Assets\Objects\coin.png">
+      <Filter>Assets\Objects</Filter>
+    </Image>
+    <Image Include="..\Assets\Objects\coin.jpg">
       <Filter>Assets\Objects</Filter>
     </Image>
   </ItemGroup>

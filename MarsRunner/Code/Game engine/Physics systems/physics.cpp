@@ -1,3 +1,4 @@
+#include "../Object systems/GameObject.hpp"
 #include "../World generation systems/ObjectBlock.hpp"
 #include <iostream>
 

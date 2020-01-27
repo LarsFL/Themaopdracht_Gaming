@@ -11,9 +11,6 @@
 
 class GameObject {
 protected:
-	std::shared_ptr<Texture> texture;
-	TextureManager manager;
-	int textureID;
 	std::string imageLocation;
 	sf::Texture image;
 	sf::Sprite sprite;
@@ -40,10 +37,9 @@ public:
 		sprite.setTexture(image);
 	}
 
+
 	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic = true, bool animated = false) :
 		imageLocation(imageLocation),
-		position(position),
-		size(size),
 		weight(weight),
 		isStatic(isStatic),
 		animated(animated)
@@ -54,27 +50,8 @@ public:
 		sprite.setScale(size);
 	}
 
-	GameObject(TextureManager manager, int textureID, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic = true, bool animated = false) :
-		manager(manager),
-		textureID(textureID),
-		position(position),
-		size(size),
-		weight(weight),
-		isStatic(isStatic),
-		animated(animated)
-	{
-		texture = manager.getTexture(textureID);
-		sprite.setTexture(texture->texture);
-		//image.loadFromFile(imageLocation);
-		//sprite.setTexture(image);
-		sprite.setPosition(position);
-		sprite.setScale(size);
-	}
-
 	GameObject(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, sf::IntRect spriteRect) :
 		imageLocation(imageLocation),
-		position(position),
-		size(size),
 		animated(false),
 		rectSourceSprite(spriteRect),
 		staticObject(true)

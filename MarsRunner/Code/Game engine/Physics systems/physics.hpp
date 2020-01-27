@@ -2,6 +2,7 @@
 #define PHYSICS_HPP
 
 #include "../Object systems/GameObject.hpp"
+#include "../World generation systems/ObjectBlock.hpp"
 
 void updateVelocity(GameObject& obj);
 
