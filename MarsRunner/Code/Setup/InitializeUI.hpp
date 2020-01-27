@@ -140,6 +140,53 @@ void InitializeUI(sf::RenderWindow& window, sf::View & fixedView, GameState & st
 
 	// Add state to UI states
 	state.addUIState(game_states::PAUSED, pausedState);
+
+	/*
+		Initialiation of game-over menu
+	*/
+
+	UI_State gameOverState("Game-over");
+
+	// Game over text
+	std::string gameOverText = "Game over";
+	Text GameOverText{ fontLocation, gameOverText, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 100 };
+	GameOverText.centerOrigin();
+	GameOverText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 - (screenSize.y / 2.3f))));
+	gameOverState.append("GameOverText", GameOverText);
+
+	// Score text
+	Text GameOverScoreText{ fontLocation, scoreText, sf::Vector2f(20,20), sf::Vector2f(1,1), [&] {}, 50 };
+	GameOverScoreText.jump(sf::Vector2f((screenSize.x / 2) - 100, (screenSize.y / 2 - (screenSize.y / 6.2f))));
+	gameOverState.append("GameOverScoreText", GameOverScoreText);
+
+	Text GameOverScoreValue{ fontLocation, tmpScore, sf::Vector2f(85, 20), sf::Vector2f(1,1), [&] {}, 30 };
+	GameOverScoreValue.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 - (screenSize.y / 6.2f) + 18)));
+	gameOverState.append("GameOverScoreValue", GameOverScoreValue);
+
+	// Retry button
+	Button RetryButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Retry clicc" << std::endl; state.setState(game_states::PLAYING); } };
+	RetryButton.centerOrigin();
+	RetryButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 13))));
+	gameOverState.append("RetryButton", RetryButton);
+
+	std::string retryString = "Retry";
+	Text RetryText{ fontLocation, retryString, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 50, sf::Color::Black };
+	RetryText.centerOrigin();
+	RetryText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 16.3f))));
+	gameOverState.append("RetryText", RetryText);
+
+	// Back to menu button
+	Button ReturnToMenuButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Back to menu clicc" << std::endl; state.setState(game_states::MAIN_MENU); } };
+	ReturnToMenuButton.centerOrigin();
+	ReturnToMenuButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 4))));
+	gameOverState.append("ReturnToMenuButton", ReturnToMenuButton);
+
+	Text ReturnToMenuText{ fontLocation, backToMenuButtonText, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 50, sf::Color::Black };
+	ReturnToMenuText.centerOrigin();
+	ReturnToMenuText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 4.3f))));
+	gameOverState.append("ReturnToMenuText", ReturnToMenuText);
+
+	state.addUIState(game_states::GAME_OVER, gameOverState);
 }
 
 #endif
