@@ -177,6 +177,10 @@ public:
 				this->move(sf::Vector2f{ viewMoveSpeed, 0 });
 			}
 		}
+		else
+		{
+			state = playerStates::IDLE;
+		}
 		
 
 		for (auto& groundObject : groundObjects) {

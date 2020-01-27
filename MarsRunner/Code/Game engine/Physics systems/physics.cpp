@@ -104,6 +104,6 @@ bool isLeftIntersecting(GameObject& movingObj, sf::FloatRect viewBounds) {
 	sf::FloatRect globalBounds = movingObj.getGlobalBounds();
 	sf::FloatRect intersectionTester(globalBounds.left + globalBounds.width + 15, globalBounds.top, 2, globalBounds.height - 40);
 
-	sf::FloatRect intersectionTesterView(viewBounds.left, viewBounds.top, 100, viewBounds.height);
+	sf::FloatRect intersectionTesterView(viewBounds.left, viewBounds.top, 20, viewBounds.height);
 	return intersectionTester.intersects(intersectionTesterView);
 }
