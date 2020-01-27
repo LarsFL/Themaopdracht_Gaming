@@ -19,13 +19,13 @@ bool isObjOnGround(GameObject& movingObj, GameObject& staticObj) {
 
 bool isLeftIntersecting(GameObject& movingObj, GameObject& staticObj) {
 	sf::FloatRect globalBounds = movingObj.getGlobalBounds();
-	sf::FloatRect intersectionTester(globalBounds.left - 2, globalBounds.top, 2, globalBounds.height - 6);
+	sf::FloatRect intersectionTester(globalBounds.left - 2, globalBounds.top, 2, globalBounds.height - 10);
 	return intersectionTester.intersects(staticObj.getGlobalBounds());
 }
 
 bool isRightIntersecting(GameObject& movingObj, GameObject& staticObj) {
 	sf::FloatRect globalBounds = movingObj.getGlobalBounds();
-	sf::FloatRect intersectionTester(globalBounds.left + globalBounds.width, globalBounds.top, 2, globalBounds.height - 6);
+	sf::FloatRect intersectionTester(globalBounds.left + globalBounds.width, globalBounds.top, 2, globalBounds.height - 10);
 	return intersectionTester.intersects(staticObj.getGlobalBounds());
 }
 
@@ -51,14 +51,11 @@ bool isObjOnGround(GameObject& movingObj, ObjectBlock& staticObj) {
 		}
 	}
 	return false;
-	//sf::FloatRect globalBoundsStatic = staticObj.getGlobalBounds();
-	//sf::FloatRect intersectionTesterStatic(globalBoundsStatic.left - 2, globalBoundsStatic.top, globalBoundsStatic.width + 2, movingObj.getVelocity().y + 20.0);
-	//return intersectionTester.intersects(intersectionTesterStatic);
 }
 
 bool isLeftIntersecting(GameObject& movingObj, ObjectBlock& staticObj) {
 	sf::FloatRect globalBounds = movingObj.getGlobalBounds();
-	sf::FloatRect intersectionTester(globalBounds.left - 2, globalBounds.top, 2, globalBounds.height - 6);
+	sf::FloatRect intersectionTester(globalBounds.left - 2, globalBounds.top + 15, 2, globalBounds.height - 40);
 
 	std::vector<sf::FloatRect> GB = staticObj.getGlobalBoundsFromTiles();
 	for (auto& object : GB) {
@@ -67,13 +64,11 @@ bool isLeftIntersecting(GameObject& movingObj, ObjectBlock& staticObj) {
 		}
 	}
 	return false;
-
-	//return intersectionTester.intersects(staticObj.getGlobalBounds());
 }
 
 bool isRightIntersecting(GameObject& movingObj, ObjectBlock& staticObj) {
 	sf::FloatRect globalBounds = movingObj.getGlobalBounds();
-	sf::FloatRect intersectionTester(globalBounds.left + globalBounds.width, globalBounds.top, 2, globalBounds.height - 6);
+	sf::FloatRect intersectionTester(globalBounds.left + globalBounds.width + 15, globalBounds.top, 2, globalBounds.height - 40);
 
 	std::vector<sf::FloatRect> GB = staticObj.getGlobalBoundsFromTiles();
 	for (auto& object : GB) {
@@ -82,8 +77,6 @@ bool isRightIntersecting(GameObject& movingObj, ObjectBlock& staticObj) {
 		}
 	}
 	return false;
-
-	//return intersectionTester.intersects(staticObj.getGlobalBounds());
 }
 
 bool isTopIntersecting(GameObject& movingObj, ObjectBlock& staticObj) {
@@ -97,7 +90,20 @@ bool isTopIntersecting(GameObject& movingObj, ObjectBlock& staticObj) {
 		}
 	}
 	return false;
+}
 
+bool isRightIntersecting(GameObject& movingObj, sf::FloatRect viewBounds) {
+	sf::FloatRect globalBounds = movingObj.getGlobalBounds();
+	sf::FloatRect intersectionTester(globalBounds.left + globalBounds.width + 15, globalBounds.top, 2, globalBounds.height - 40);
 
-	//return intersectionTester.intersects(staticObj.getGlobalBounds());
+	sf::FloatRect intersectionTesterView(viewBounds.left + viewBounds.width, viewBounds.top, 20, viewBounds.height);
+	return intersectionTester.intersects(intersectionTesterView);
+}
+
+bool isLeftIntersecting(GameObject& movingObj, sf::FloatRect viewBounds) {
+	sf::FloatRect globalBounds = movingObj.getGlobalBounds();
+	sf::FloatRect intersectionTester(globalBounds.left + globalBounds.width + 15, globalBounds.top, 2, globalBounds.height - 40);
+
+	sf::FloatRect intersectionTesterView(viewBounds.left, viewBounds.top, 100, viewBounds.height);
+	return intersectionTester.intersects(intersectionTesterView);
 }
