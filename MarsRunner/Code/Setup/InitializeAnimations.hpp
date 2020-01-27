@@ -10,27 +10,27 @@ void InitializePlayerAnimations(std::map<std::string, AnimationStates> &animatio
 	AnimationStates smallAstronaut;
 	
 	//WALK
-	sf::IntRect walkLoc (1,1, 37,41 );
-	Animation Walking(walkLoc, 11, 39, 150);
+	sf::IntRect walkLoc (1,10, 22,33 ); //full frame: (1,1, 37,41)
+	Animation Walking(walkLoc, 11, 39, 150); //was (walkLoc, 11, 39, 150)
 	smallAstronaut.addAnimation(PossibleStates::WALK, Walking);
 
 	//WALK_LEFT
-	sf::IntRect walkLeftLoc(1, 1, -37, 41);
-	Animation WalkingLeft(walkLeftLoc, 11, 39, 20);
+	sf::IntRect walkLeftLoc(22, 10, -22, 33); //full frame: (1,1, -37,41)
+	Animation WalkingLeft(walkLeftLoc, 11, 39, 75);
 	smallAstronaut.addAnimation(PossibleStates::WALK_LEFT, WalkingLeft);
 	
 	//WALK_RIGHT
-	sf::IntRect walkRightLoc(1, 1, 37, 41);
-	Animation WalkingRight(walkRightLoc, 11, 39, 20);
+	sf::IntRect walkRightLoc(1, 10, 22, 33); //full frame: (1,1, 37,41)
+	Animation WalkingRight(walkRightLoc, 11, 39, 75);
 	smallAstronaut.addAnimation(PossibleStates::WALK_RIGHT, WalkingRight);
 
 	//SHOOT
-	sf::IntRect shootLoc(1,46 , 37, 41);
+	sf::IntRect shootLoc(1,55 , 23, 33);
 	Animation Shoot(shootLoc, 5, 39, 150, true, false, true);
 	smallAstronaut.addAnimation(PossibleStates::SHOOT, Shoot);
 
 	//IDLE
-	sf::IntRect idleLoc(1, 91, 37, 41);
+	sf::IntRect idleLoc(1, 91, 19, 41);
 	Animation Idle(idleLoc, 8, 39, 150);
 	smallAstronaut.addAnimation(PossibleStates::IDLE, Idle);
 
@@ -40,8 +40,8 @@ void InitializePlayerAnimations(std::map<std::string, AnimationStates> &animatio
 	smallAstronaut.addAnimation(PossibleStates::START_SHOOT_WALK, Start_Shoot_Walk);
 
 	//JUMP START IMPACT
-	sf::IntRect jstLoc(1, 181, 37, 41);
-	Animation Jump_Start_Impact(jstLoc, 4, 39, 150, true, false, true);
+	sf::IntRect jstLoc(1, 190, 19, 33);
+	Animation Jump_Start_Impact(jstLoc, 4, 39, 550, true, false, true); //jstLoc, 4, 39, 150, true, false, true)
 	smallAstronaut.addAnimation(PossibleStates::JUMP_START_IMPACT, Jump_Start_Impact);
 
 	//DAMAGED

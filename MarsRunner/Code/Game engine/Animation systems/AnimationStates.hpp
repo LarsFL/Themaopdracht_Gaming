@@ -35,6 +35,8 @@ private:
 
 	float gameSpeed = 0.f;
 
+	bool paused = 0;
+
 public:
 	AnimationStates() {
 		timeLastFrame = std::chrono::system_clock::now();
@@ -58,7 +60,6 @@ public:
 
 	void setState(PossibleStates newState) {
 		tempState = newState;
-		//state = newState;
 	}
 
 	Animation getAnimation() {
@@ -66,23 +67,27 @@ public:
 	}
 
 	sf::IntRect getFrame() {
-		auto current = std::chrono::system_clock::now();
+		//std::cout << paused << std::endl;
+		if (!paused) {
 
-		std::cout << gameSpeed << std::endl;
+			auto current = std::chrono::system_clock::now();
 
-		if (animations[state].getBlocking() ) {
-			if (!animations[state].getBusy() ) {
+			std::cout << gameSpeed << std::endl;
+
+			if (animations[state].getBlocking() ) {
+				if (!animations[state].getBusy() ) {
+					state = tempState;
+				}
+			}
+			else{
 				state = tempState;
 			}
-		}
-		else{
-			state = tempState;
-		}
 
-		auto temp = std::chrono::duration_cast<std::chrono::milliseconds>(current - timeLastFrame);
-		if(temp.count() > animations[state].getTimeToNextFrame() ){
-			animations[state].goToNextFrame();
-			timeLastFrame = std::chrono::system_clock::now();
+			auto temp = std::chrono::duration_cast<std::chrono::milliseconds>(current - timeLastFrame);
+			if(temp.count() > animations[state].getTimeToNextFrame() - (gameSpeed * 30)){
+				animations[state].goToNextFrame();
+				timeLastFrame = std::chrono::system_clock::now();
+			}
 		}
 
 		return animations[state].getFrame();
@@ -97,6 +102,10 @@ public:
 
 	void setGameSpeed(float newGameSpeed) {
 		gameSpeed = newGameSpeed;
+	}
+
+	void setPaused(bool newValue) {
+		paused = newValue;
 	}
 };
 #endif

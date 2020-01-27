@@ -20,7 +20,7 @@ private:
 	bool busy = false;
 
 public:
-
+	//Animation(firstFrameLoc, nFrames, distToNextFrame, timeToNextFrameInt, loop, backwards, blokking
 	Animation(sf::IntRect firstFrameLoc = { 0,0,0,0 }, int nFrames = 0, int distToNextFrame = 0, int timeToNextFrameInt = 0, bool loop = true, bool backwards = false, bool blokking = false) :
 		firstFrameLoc(firstFrameLoc),
 		nFrames(nFrames),

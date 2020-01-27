@@ -237,11 +237,13 @@ public:
 		switch (state) {
 			case(playerStates::IDLE): {
 				animationsMap["player"].setState(PossibleStates::IDLE);
+				animationsMap["player"].setGameSpeed(viewMoveSpeed);
 				break;
 			}
 
 			case(playerStates::WALK): {
 				animationsMap["player"].setState(PossibleStates::WALK);
+				animationsMap["player"].setGameSpeed(viewMoveSpeed);
 				break;
 			}
 
@@ -249,6 +251,7 @@ public:
 				this->move(sf::Vector2f((viewMoveSpeed + 6) * -1, 0));
 
 				animationsMap["player"].setState(PossibleStates::WALK_LEFT);
+				animationsMap["player"].setGameSpeed(viewMoveSpeed);
 				break;
 			}
 
@@ -270,6 +273,7 @@ public:
 
 				//niet zeker of dit de goede animatie is
 				animationsMap["player"].setState(PossibleStates::JUMP_START_IMPACT);
+				animationsMap["player"].setGameSpeed(viewMoveSpeed);
 				break;
 			}
 
@@ -284,11 +288,11 @@ public:
 			}
 
 			case(playerStates::SHOOT): {
-				sf::Vector2f ProjectilePosition(position.x, position.y + 45);
+				sf::Vector2f ProjectilePosition(position.x, position.y + 25);
 				if (lastState == playerStates::WALK_LEFT) {
 					//make projectile
 					if (!spacePressed) {
-						projectiles.push_back(Projectile("../assets/objects/bullet.png", ProjectilePosition, sf::Vector2f(1, 1), sf::Vector2f(-10, 0)));
+						projectiles.push_back(Projectile("../assets/objects/bullet.png", ProjectilePosition, sf::Vector2f(1, 1), sf::Vector2f( (viewMoveSpeed*-1)-10, 0)));
 						spacePressed = true;
 
 					}
@@ -296,23 +300,26 @@ public:
 				else {
 					//make projectile
 					if (!spacePressed) {
-						projectiles.push_back(Projectile("../assets/objects/bullet.png", ProjectilePosition, sf::Vector2f(1, 1), sf::Vector2f(10, 0)));
+						projectiles.push_back(Projectile("../assets/objects/bullet.png", ProjectilePosition, sf::Vector2f(1, 1), sf::Vector2f(viewMoveSpeed + 10, 0)));
 						spacePressed = true;
 					}
 				}
 
 
 				animationsMap["player"].setState(PossibleStates::SHOOT);
+				animationsMap["player"].setGameSpeed(0.f);
 				break;
 			}
 
 			case(playerStates::DAMAGE): {
 				animationsMap["player"].setState(PossibleStates::DAMAGED);
+				animationsMap["player"].setGameSpeed(0.f);
 				break;
 			}
 
 			case(playerStates::DEATH): {
 				animationsMap["player"].setState(PossibleStates::DEATH);
+				animationsMap["player"].setGameSpeed(0.f);
 				break;
 			}
 		}
