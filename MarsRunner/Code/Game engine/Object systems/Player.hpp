@@ -8,6 +8,8 @@
 #include "../World generation systems/ObjectBlock.hpp"
 #include "../World Speed Systems/view.hpp"
 #include "Code/Game engine/Tile systems/Tile.hpp"
+#include "../../Setup/GameState.hpp"
+
 #include <vector>
 #include <deque>
 #include <iostream>
@@ -31,6 +33,8 @@ protected:
 	bool isGround = false;
 	sf::RenderWindow& window;
 	std::deque<ObjectBlock>& groundObjects;
+	sf::View& currentView;
+	GameState& gameState;
 	std::vector<Projectile> projectiles;
 	bool spacePressed = false;
 	float viewMoveSpeed = 0.f;
@@ -42,16 +46,35 @@ protected:
 
 	std::vector<action> actions = {
 
-		action(sf::Keyboard::Left,  [&]() { if (!isLeftIntersecting(*this, groundObjects[0])) {
-			lastState = state;
-			state = playerStates::WALK_LEFT;
-		} }),
+		action(sf::Keyboard::Left,  [&]() {
+
+		for (auto& groundObject : groundObjects) {
+			if (isLeftIntersecting(*this, groundObject)) {
+				return;
+			}
+		}
+
+		lastState = state;
+		state = playerStates::WALK_LEFT;
+		}),
 
 
-		action(sf::Keyboard::Right, [&]() { if (!isRightIntersecting(*this, groundObjects[0])) {
-			lastState = state;
-			state = playerStates::WALK_RIGHT;
-		} }),
+		action(sf::Keyboard::Right, [&]() { 
+			
+		for (auto& groundObject : groundObjects) {
+			if (isRightIntersecting(*this, groundObject)) {
+				return;
+			}
+		}
+
+		if (isRightIntersecting(*this, getViewBounds(currentView)))
+		{
+			return;
+		}
+
+		lastState = state;
+		state = playerStates::WALK_RIGHT;
+		}),
 
 
 		action(sf::Keyboard::Down,
@@ -84,21 +107,26 @@ protected:
 
 public:
 	Player(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight,
-		bool isStatic, bool animated, sf::RenderWindow& window, std::deque<ObjectBlock>& groundObjects) :
+		bool isStatic, bool animated, sf::RenderWindow& window, std::deque<ObjectBlock>& groundObjects, sf::View& currentView, GameState gameState) :
 
 		GameObject(imageLocation, position, size, weight, isStatic, animated),
 		window(window),
-		groundObjects(groundObjects) {
-		image.loadFromFile(imageLocation);
-		sprite.setTexture(image);
-		sprite.setPosition(position);
-		sprite.setScale(size);
-	}
+		groundObjects(groundObjects),
+		currentView(currentView),
+		gameState(gameState)
+		{
+			image.loadFromFile(imageLocation);
+			sprite.setTexture(image);
+			sprite.setPosition(position);
+			sprite.setScale(size);
+		}
 
 	Player(const Player& a) :
 		GameObject(a.imageLocation, a.position, a.size, a.weight, a.isStatic, a.animated),
 		window(a.window),
-		groundObjects(a.groundObjects)
+		groundObjects(a.groundObjects),
+		currentView(a.currentView),
+		gameState(a.gameState)
 	{}
 
 	bool isOnGround() {
@@ -111,12 +139,16 @@ public:
 
 	void update(float & minSpeed) {
 
-		if (maxX_points < this->getGlobalBounds().left)
-		{
-			maxX_points = this->getGlobalBounds().left;
-		}
+		maxX_points = getViewBounds(currentView).left + getViewBounds(currentView).width;
 
 		points = maxX_points / 3;
+
+		if (isLeftIntersecting(*this, getViewBounds(currentView))) {
+			state = playerStates::DEATH;
+			gameState.setState(game_states::GAME_OVER);
+			std::cout << "DEAD" << std::endl;
+			return;
+		}
 
 		state = playerStates::WALK;
 
@@ -124,11 +156,22 @@ public:
 
 		viewMoveSpeed = getViewMoveSpeed();
 
-		if (viewMoveSpeed < minSpeed) {
-			this->move(sf::Vector2f{ 0.5, 0 });
+		bool rightIntersected = false;
+
+		for (auto& groundObject : groundObjects) {
+			if (isRightIntersecting(*this, groundObject)) {
+				rightIntersected = true;
+			}
 		}
-		else {
-			this->move(sf::Vector2f{ viewMoveSpeed, 0 });
+
+		if (!rightIntersected)
+		{
+			if (viewMoveSpeed < minSpeed) {
+				this->move(sf::Vector2f{ 0.5, 0 });
+			}
+			else {
+				this->move(sf::Vector2f{ viewMoveSpeed, 0 });
+			}
 		}
 		
 

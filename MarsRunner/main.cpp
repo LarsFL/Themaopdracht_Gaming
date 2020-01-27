@@ -30,8 +30,8 @@
 int main() {
     int width = sf::VideoMode::getDesktopMode().width;
     int height = sf::VideoMode::getDesktopMode().height;
-    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
-    //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Default);
+    //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
+    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Default);
     window.setFramerateLimit(60);
     sf::View fixed = window.getView();
     std::map<std::string, AnimationStates> animationsMap;
@@ -87,9 +87,9 @@ int main() {
     float msPerLoop = 16.33;
     float minSpeed = 0.5;
 
+    std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
+    Player player{ playerSpriteSheet, sf::Vector2f{0,400}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList, mainView, state };
 
-    std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png"; //../Assets/Objects/smallAstronaut.png
-    Player player{ playerSpriteSheet, sf::Vector2f{0,400}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList };
     player.setAnimationStates(&animationsMap["player"]);
     animationsMap["player"].setState(PossibleStates::WALK);
     player.setVelocity(sf::Vector2f{ 0.0, 2 });
