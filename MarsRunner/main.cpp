@@ -4,12 +4,17 @@
 #include <map>
 #include <chrono>
 #include <ctime>
+#include <deque>
+#include <memory>
+
 
 #include "Code/Game engine/UI systems/Button.hpp"
 #include "Code/Game engine/UI systems/Text.hpp"
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Object systems/GameObject.hpp"
 #include "Code/Game engine/World Speed Systems/view.hpp"
+#include "Code/Game engine/World generation systems/ObjectBlock.hpp"
+#include "Code/Game engine/World generation systems/GenerateBlock.hpp"
 #include "Code/Game engine/Object systems/Player.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
 #include "Code/Setup/InitializeAnimations.hpp"
@@ -18,12 +23,15 @@
 
 #include "Code/Setup/GameState.hpp"
 #include "Code/Setup/InitializeUI.hpp"
+#include "Code/Setup/InitializeBlocks.hpp"
+
+#include "Code/Game engine/Tile systems/TextureManager.hpp";
 
 int main() {
     int width = sf::VideoMode::getDesktopMode().width;
     int height = sf::VideoMode::getDesktopMode().height;
-    //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
-    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Default);
+    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
+    //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Default);
     window.setFramerateLimit(60);
     sf::View fixed = window.getView();
     std::map<std::string, AnimationStates> animationsMap;
@@ -35,7 +43,7 @@ int main() {
     InitializeSateliteAnimations(animationsMap);
 
     bool escapeUp = true;
-
+    bool test = true;
     mainView.setCenter(sf::Vector2f(600.f, 384.f));
     mainView.setSize(sf::Vector2f(1280.f, 720.f));
     mainView.setViewport(sf::FloatRect(0, 0, 1, 1));
@@ -48,15 +56,22 @@ int main() {
 
 
     std::string pathGround = "../Assets/Test/green_button01.png";
-    std::vector<GameObject> groundObjectList;
-    float widthValue = -190;
-    float widthG = 190;
+    std::deque<ObjectBlock> groundObjectList;
 
-    for (unsigned int i = 0; i < 10; i++) {
-        groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{widthValue, 675}, sf::Vector2f{1, 1}, 5, false });
-        widthValue += widthG;
+    GenerateBlock generator = {};
+    TextureManager manager = {};
+
+    generateBlocks(generator, manager);
+
+    float widthValue = -190;
+    float widthG = 32;
+
+    for (unsigned int i = 0; i < 15; i++) {
+        ObjectBlock generatedBlock = generator.generate();
+        generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
+        groundObjectList.push_back(generatedBlock);
+        widthValue += (widthG * 5);
     }
-    groundObjectList.push_back(GameObject{ pathGround, sf::Vector2f{widthValue, 500}, sf::Vector2f{1, 1}, 5, false });
 
     GameState state{};
 
@@ -111,14 +126,20 @@ int main() {
 
                 // Check if selected object is within the bouns of the selected view
                 sf::FloatRect view2 = getViewBounds(mainView);
-                GameObject firstGroundObject = groundObjectList[0];
-                GameObject secondGroundObject = groundObjectList[1];
-                sf::FloatRect rectObject = groundObjectList[0].getGlobalBounds();
-                static float minLengthGroundObjects = widthG * (groundObjectList.size() - 1);
-
-                if (rectObject.intersects(view2)) {
+                auto firstGroundObject = groundObjectList[0];
+                sf::FloatRect rectObject = firstGroundObject.getGlobalBounds(); // Get global bounds van blok
+                if (!(rectObject.intersects(view2))) {
+                    // Eigen functie om destructors aan te roepen
+                    groundObjectList.pop_front();
+                    if (test) {
+                        ObjectBlock generatedBlock = generator.generate();
+                        generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
+                        groundObjectList.push_back(generatedBlock);
+                        widthValue += (widthG * 5);
+                        //test = false;
+                    }
                 }
-                else {
+                /*else {
                     firstGroundObject = secondGroundObject;
                     groundObjectList.erase(groundObjectList.begin());
 
@@ -127,8 +148,7 @@ int main() {
                     widthValue += widthG;
 
                     groundObjectList[(groundObjectList.size() - 1)].draw(window);
-                }
-
+                }*/ //@Lars, wat moet hiermee gebeuren?
                 player.update(minSpeed);
                 player.setPlayerAnimationState(animationsMap);
             }
@@ -139,12 +159,12 @@ int main() {
             window.setView(mainView);
             background.draw(window);
 
-            for (GameObject& current_object : groundObjectList) {
+            for (auto& current_object : groundObjectList) {
                 current_object.draw(window);
             }
 
             auto bounds = getViewBounds(mainView);
-            player.drawProjectiles(bounds);
+           player.drawProjectiles(bounds);
 
             auto mouse_pos = sf::Mouse::getPosition(window);
             auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);

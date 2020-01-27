@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
+#include <deque>
 #include <vector>
 #include "Code/Game engine/Physics systems/physics.hpp"
 
@@ -19,13 +20,20 @@ public:
 		velocity = velocitySet;
 	}
 
-	bool update(std::vector<GameObject>& objects) {
+	bool update(std::deque<ObjectBlock>& objects) {
 		move(velocity);
 		for (auto& object : objects) {
-			if (intersects(*this, object)) {
-				object.callLamba([&] {std::cout << "You've been hit"; });
-				return true;
+			auto& thing = object.getObjects();
+			for (auto& test : thing) {
+				if (this->getGlobalBounds().intersects(test.second->getGlobalBounds())) {
+					test.second->callLamba([&] {std::cout << "You've been hit"; });
+					return true;
+				}
 			}
+			//if (intersects(*this, object)) {
+				//object.callLamba([&] {std::cout << "You've been hit"; });
+				//return true;
+			//}
 		}
 		return false;
 	}

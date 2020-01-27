@@ -5,8 +5,11 @@
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
 #include "Code/Game engine/Object systems/Projectile.hpp"
+#include "../World generation systems/ObjectBlock.hpp"
 #include "../World Speed Systems/view.hpp"
+#include "Code/Game engine/Tile systems/Tile.hpp"
 #include <vector>
+#include <deque>
 #include <iostream>
 
 #include "GameObject.hpp"
@@ -27,7 +30,7 @@ class Player : public GameObject {
 protected:
 	bool isGround = false;
 	sf::RenderWindow& window;
-	std::vector<GameObject>& groundObjects;
+	std::deque<ObjectBlock>& groundObjects;
 	std::vector<Projectile> projectiles;
 	bool spacePressed = false;
 	float viewMoveSpeed = 0.f;
@@ -81,7 +84,7 @@ protected:
 
 public:
 	Player(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight,
-		bool isStatic, bool animated, sf::RenderWindow& window, std::vector<GameObject>& groundObjects) :
+		bool isStatic, bool animated, sf::RenderWindow& window, std::deque<ObjectBlock>& groundObjects) :
 
 		GameObject(imageLocation, position, size, weight, isStatic, animated),
 		window(window),
@@ -93,7 +96,7 @@ public:
 	}
 
 	Player(const Player& a) :
-		GameObject(a.imageLocation, a.position, a.size, a.weight, a.isStatic),
+		GameObject(a.imageLocation, a.position, a.size, a.weight, a.isStatic, a.animated),
 		window(a.window),
 		groundObjects(a.groundObjects)
 	{}
@@ -173,9 +176,7 @@ public:
 			if (!projectile.getGlobalBounds().intersects(view)) {
 				projectiles.erase(projectiles.begin() + i);
 			}
-			else {
-				i++;
-			}
+			i++;
 		}
 		for (auto& projectile : projectiles) {
 			projectile.draw(window);
