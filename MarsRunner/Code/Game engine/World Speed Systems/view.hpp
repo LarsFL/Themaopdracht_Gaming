@@ -23,7 +23,7 @@ void update_view_position(sf::View& view, sf::RenderWindow& window, float & minS
     /// Move the selected view in a slowly accelerating motion.
     float devideValue = 5000.0;
     static float increaseValue = minSpeed;
-    increaseValue += 5; //was 2
+    increaseValue += 2;
 
     // Move the view with a constant speed, until a certain value. From there the speed will slowly increase.
     if ((increaseValue / devideValue) < minSpeed) {
