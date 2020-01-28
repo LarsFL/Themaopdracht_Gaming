@@ -58,6 +58,10 @@ int main() {
     TextureManager manager = {};
 
     generateBlocks(generator, manager);
+    
+    std::string coinPath = "../Assets/Objects/coin.png";
+    Texture coinTex{ coinPath };
+    manager.addTexture(2, coinTex);
 
     float widthValue = -190;
     float widthG = 32;
@@ -90,18 +94,17 @@ int main() {
     player.setVelocity(sf::Vector2f{ 0.0, 1.1 });
     
     std::deque<PickUp> coinList;
-    std::string coinImage = "../Assets/Objects/coin.png";
 
-    coinList.push_back(PickUp{ manager, 0, sf::Vector2f{getRandomNumber(200, 800), 500.f}, sf::Vector2f{.05,.05}, 1, true, false, window });
-    coinList[0].setPickUpTexture(coinImage);    
+    coinList.push_back(PickUp{ manager, 2, sf::Vector2f{getRandomNumber(200, 700), 100}, 
+                                           sf::Vector2f{.03,.03}, 
+                                           sf::Vector2f{0.0, 5}, 5, false, false, window });
 
     while (window.isOpen()) {
-        // Always take the same time step per loop. (should work now)
+        // Always take the same time step per loop.
         auto current = std::chrono::system_clock::now();
         std::chrono::duration<float, std::milli> elapsed = current - previous;
         previous = current;
         lag += elapsed.count();
-        float increaseValue = mainView.getCenter().x;
 
         for (auto& action : actions) {
             action();
@@ -110,6 +113,7 @@ int main() {
         window.clear();
 
         while (lag >= msPerLoop) {
+            float increaseValue = mainView.getCenter().x;
             if (state.getState() == game_states::PLAYING) {
                 // Move the view at an ever increasing speed and move the background along with the same speed.
                 update_view_position(mainView, window, minSpeed);
@@ -128,10 +132,26 @@ int main() {
                         generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
                         groundObjectList.push_back(generatedBlock);
                         widthValue += (widthG * 5);
-                        //test = false;
                     }
                 }
+
                 player.update(minSpeed);
+
+                if (coinList.size() > 0) {
+                    if (coinList[0].destroyObjectOnInteract(coinList, player, mainView)) {
+                        coinList.push_back(PickUp{ manager, 2, sf::Vector2f{getRandomNumber(increaseValue + 700, increaseValue + 1200), 100},
+                                                               sf::Vector2f{0.03,0.03}, 
+                                                               sf::Vector2f{0.0, 5}, 5, false, false, window });
+                    }
+                }
+
+                coinList[0].move(coinList[0].getMoveSpeed());
+
+                for (auto& groundObject : groundObjectList) {
+                    if (isObjOnGround(coinList[0], groundObject)) {
+                        coinList[0].setMoveSpeed(sf::Vector2f{0.0, 0.0});
+                    }
+                }
 
                 lag -= msPerLoop;
             }
@@ -139,16 +159,12 @@ int main() {
             window.setView(mainView);
             background.draw(window);
 
-            if (coinList.size() > 0) {
-                coinList[0].destroyObjectOnInteract(coinList, manager, increaseValue, mainView);
-                //coinList[0].destroyObjectOnInteract(coinList, coinImage, player, increaseValue, mainView);
-            }
-            
             for (auto& current_object : groundObjectList) {
                 current_object.draw(window);
             }
 
             auto bounds = getViewBounds(mainView);
+
             player.drawProjectiles(bounds);
 
             if (coinList.size() > 0) {

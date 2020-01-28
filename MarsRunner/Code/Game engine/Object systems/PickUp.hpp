@@ -8,47 +8,50 @@
 
 #include "GameObject.hpp"
 #include "Player.hpp"
-//#include "../Tile systems/TextureManager.hpp"
-//#include "../Tile systems/Texture.hpp"
 
 class PickUp : public GameObject {
 protected:
 	sf::RenderWindow& window;
+	sf::Vector2f moveSpeed = { 0,0 };
 
 public:
-	PickUp(TextureManager manager, int textureID, sf::Vector2f position, sf::Vector2f size, float weight,
+	PickUp(TextureManager manager, int textureID, sf::Vector2f position, sf::Vector2f size, sf::Vector2f moveSpeed, float weight,
 		bool isStatic, bool animated, sf::RenderWindow& window) :
 
 		GameObject(manager, textureID, position, size, weight, isStatic, animated),
+		moveSpeed(moveSpeed),
 		window(window)
 	{}
 
 	// Copy Constructor
 	PickUp(const PickUp& a) :
 		GameObject(a.manager, a.textureID, a.position, a.size, a.weight, a.isStatic, a.animated),
+		moveSpeed(a.moveSpeed),
 		window(a.window)
 	{}
 
-	void setPickUpTexture(std::string & path) {
-		Texture itemTexture{ path };
-		manager.addTexture(1, itemTexture);
+	sf::Vector2f getMoveSpeed() {
+		return moveSpeed;
 	}
 
-	//void destroyObjectOnInteract(std::deque<PickUp> & list, std::string & coinImage, Player & player, float & increaseValue, sf::View & view) {
-	void destroyObjectOnInteract(std::deque<PickUp> & list, TextureManager & manager, float& increaseValue, sf::View & view){
+	void setMoveSpeed(sf::Vector2f newSpeed) {
+		this->moveSpeed = newSpeed;
+	}
+	
+	bool destroyObjectOnInteract(std::deque<PickUp> & list, Player & player, sf::View & view){
 		sf::FloatRect itemBounds = list[0].getGlobalBounds();
-		//if (player.getGlobalBounds().intersects(itemBounds)) {
-		//	// score ++, want hij pakt de coin.
-		//	list.pop_back();
-		//	list.push_back(PickUp{ coinImage, sf::Vector2f{getRandomNumber(increaseValue + 700, increaseValue + 1200), getRandomNumber(400, 500)}, sf::Vector2f{.05,.05}, 1, true, window });
-		//} else 
-		if (itemBounds.left + itemBounds.width < getViewBounds(view).left) {
-			// niet score ++, want de coin gaat buiten het scherm
-			std::cout << "Yeet\n";
+		if (player.getGlobalBounds().intersects(itemBounds)) {
 			list.pop_back();
-			list.push_back(PickUp{ manager, 0, sf::Vector2f{getRandomNumber(increaseValue + 700, increaseValue + 1200), getRandomNumber(400, 500)}, 
-									sf::Vector2f{.05,.05}, 1, true, false, window });
+			std::cout << "y\n";
+			return 1;
+		} else 
+		if (itemBounds.left + itemBounds.width < getViewBounds(view).left) {
+			list.pop_back();
+			std::cout << "n\n";
+			return 1;
 		}
+
+		return 0;
 	}
 };
 

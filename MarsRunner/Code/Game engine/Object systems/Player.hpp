@@ -90,7 +90,6 @@ public:
 		else {
 			this->move(sf::Vector2f{ viewMoveSpeed, 0 });
 		}
-		
 
 		for (auto& groundObject : groundObjects) {
 			if (isObjOnGround(*this, groundObject)) {
@@ -145,23 +144,6 @@ public:
 		}
 
 	}
-
-	void drawProjectiles(sf::FloatRect& view) {
-		unsigned int i = 0;
-		for (auto& projectile : projectiles) {
-			if (!projectile.getGlobalBounds().intersects(view)) {
-				projectiles.erase(projectiles.begin() + i);
-			}
-			else {
-				i++;
-			}
-		}
-		for (auto& projectile : projectiles) {
-			projectile.draw(window);
-		}
-
-	}
-
 };
 
 #endif //PLAYER_HPP
