@@ -33,6 +33,7 @@ private:
 	game_states state = game_states::MAIN_MENU;
 	bool enterText = false;
 	sf::String enteredText = "";
+	bool replay = false;
 public:
 	bool closeGame = false;
 	GameState() {}
@@ -87,6 +88,14 @@ public:
 
 	void setScore(uint32_t newScore) {
 		score = newScore;
+	}
+
+	void setReplay(bool newVal) {
+		replay = newVal;
+	}
+
+	bool getReplay() {
+		return replay;
 	}
 
 	void handleEscape() {

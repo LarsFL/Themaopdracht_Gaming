@@ -165,11 +165,33 @@ int main() {
                     ObjectBlock generatedBlock = generator.generate();
                     generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
                     groundObjectList.push_back(generatedBlock);
-                    widthValue += (widthG * (generatedBlock.getWidth()+1) ); //widthValue += (widthG * 5);
+                    widthValue += (widthG * 5);
                 }
                 
                 player.update(minSpeed);
                 player.setPlayerAnimationState(animationsMap);
+            }
+
+            if (state.getState() == game_states::MAIN_MENU) {
+                if (state.getReplay()) {
+                    mainView.setCenter(sf::Vector2f(600.f, 384.f));
+                    background.jump(sf::Vector2f{ -250, -250 });
+                    widthValue = -190;
+                    for (unsigned int i = 0; i < 10; i++) {
+                        ObjectBlock generatedBlock = generator.generateStart();
+                        generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
+                        groundObjectList.push_back(generatedBlock);
+                        widthValue += (widthG * 5);
+                    }
+                    update_view_position(mainView, window, minSpeed, true);
+                    float viewMoveSpeed = getViewMoveSpeed();
+                    move_object_with_view(background, viewMoveSpeed, minSpeed);
+                    state.setReplay(false);
+                    player.setPlayerState(playerStates::IDLE);
+                    player.jump(sf::Vector2f{ 580,550 });
+                    player.update(minSpeed);
+                    player.setPlayerAnimationState(animationsMap);
+                }
             }
 
                 lag -= msPerLoop;
