@@ -15,7 +15,8 @@ enum class game_states {
 	GAME_OVER,
 	PAUSED,
 	PLAYING,
-	SAVE_SCORE
+	SAVE_SCORE,
+	SCOREBOARD
 };
 
 enum class paused_substates {
@@ -113,7 +114,36 @@ public:
 		sf::Http http("http://leaderboard.larsfl.com/");
 		sf::Http::Response response = http.sendRequest(request);
 		if (response.getStatus() == sf::Http::Response::Ok) {
-			std::cout << "Send succesfully" << std::endl;
+			std::cout << "Sent score succesfully" << std::endl;
+		}
+	}
+
+	void getLeaderboard() {
+		sf::Http http("http://leaderboard.larsfl.com");
+		sf::Http::Request request;
+		request.setMethod(sf::Http::Request::Get);
+		request.setUri("/index.php");
+		sf::Http::Response response = http.sendRequest(request);
+
+		std::stringstream ss(response.getBody());
+		std::string to;
+		std::string substr;
+		bool name = true;
+		unsigned int i = 1;
+		while (std::getline(ss, to, '\n') && i <= 10) {
+			std::stringstream str(to);
+			while (std::getline(str, substr, ',')) {
+				if (name) {
+					std::string name = "Score" + std::to_string(i) + "Name";
+					updateUIElement(game_states::SCOREBOARD, name, substr);
+				}
+				else {
+					std::string score = "Score" + std::to_string(i) + "Value";
+					updateUIElement(game_states::SCOREBOARD, score, substr);
+				}
+				name = !name;
+			}
+			i++;
 		}
 	}
 
