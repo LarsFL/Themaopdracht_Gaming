@@ -173,7 +173,7 @@ public:
 		if (!rightIntersected)
 		{
 			if (viewMoveSpeed < minSpeed) {
-				this->move(sf::Vector2f{ 0.5, 0 });
+				this->move(sf::Vector2f{ 3, 0 });
 			}
 			else {
 				this->move(sf::Vector2f{ viewMoveSpeed, 0 });

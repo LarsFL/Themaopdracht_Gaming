@@ -34,7 +34,7 @@ int main() {
     int width = sf::VideoMode::getDesktopMode().width;
     int height = sf::VideoMode::getDesktopMode().height;
     //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
-    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Default);
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Mars Runner", sf::Style::Default);
     window.setFramerateLimit(60);
     sf::View fixed = window.getView();
     std::map<std::string, AnimationStates> animationsMap;
@@ -94,7 +94,7 @@ int main() {
     auto previous = std::chrono::system_clock::now();
     auto lag = 0.0;
     float msPerLoop = 16.33;
-    float minSpeed = 0.5;
+    float minSpeed = 3;
 
     std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
     Player player{ playerSpriteSheet, sf::Vector2f{580,550}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList, mainView, state, audio };
@@ -178,60 +178,57 @@ int main() {
                     player.setPlayerAnimationState(animationsMap);
                 }
             }
-
-                lag -= msPerLoop;
+            lag -= msPerLoop;
         }
 
-            window.setView(mainView);
-            background.draw(window);
+        window.setView(mainView);
+        background.draw(window);
 
-            for (auto& current_object : groundObjectList) {
-                current_object.draw(window);
-            }
-
-            auto bounds = getViewBounds(mainView);
-            player.drawProjectiles(bounds);
-
-            auto mouse_pos = sf::Mouse::getPosition(window);
-            auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
-            state.updateUI(translated_pos);
-
-            state.updateUIElement(game_states::PLAYING, "ScoreValueText", std::to_string(state.getScore()));
-            state.updateUIElement(game_states::PAUSED, "PausedScoreValueText", std::to_string(state.getScore()));
-            state.updateUIElement(game_states::GAME_OVER, "GameOverScoreValue", std::to_string(state.getScore()));
-
-            player.draw(window);
-            window.setView(fixed);
-            state.draw(window);
-
-
-            window.display();
-            window.setView(mainView);
-
-            sf::Event event;
-            while (window.pollEvent(event)) {
-                if (state.getEnterText() && (event.type == sf::Event::TextEntered)) {
-                    sf::String text = state.getText();
-                    if (event.text.unicode == '\b') {
-                        if (text.getSize() > 0) {
-                            text.erase(text.getSize() - 1, 1);
-                        }
-                    }
-                    else {
-                        if (text.getSize() < 10) {
-                            text += event.text.unicode;
-                        }
-                    }
-                    state.updateUIElement(game_states::SAVE_SCORE, "enterField", text);
-                    state.setEnteredString(text);
-                }
-                if (event.type == sf::Event::Closed || state.closeGame) {
-                    window.close();
-                }
-            }
-
-
+        for (auto& current_object : groundObjectList) {
+            current_object.draw(window);
         }
-    return 0;
+
+        auto bounds = getViewBounds(mainView);
+        player.drawProjectiles(bounds);
+
+        auto mouse_pos = sf::Mouse::getPosition(window);
+        auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
+        state.updateUI(translated_pos);
+
+        state.updateUIElement(game_states::PLAYING, "ScoreValueText", std::to_string(state.getScore()));
+        state.updateUIElement(game_states::PAUSED, "PausedScoreValueText", std::to_string(state.getScore()));
+        state.updateUIElement(game_states::GAME_OVER, "GameOverScoreValue", std::to_string(state.getScore()));
+
+        player.draw(window);
+        window.setView(fixed);
+        state.draw(window);
+
+
+        window.display();
+        window.setView(mainView);
+
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (state.getEnterText() && (event.type == sf::Event::TextEntered)) {
+                sf::String text = state.getText();
+                if (event.text.unicode == '\b') {
+                    if (text.getSize() > 0) {
+                        text.erase(text.getSize() - 1, 1);
+                    }
+                }
+                else {
+                    if (text.getSize() < 10) {
+                        text += event.text.unicode;
+                    }
+                }
+                state.updateUIElement(game_states::SAVE_SCORE, "enterField", text);
+                state.setEnteredString(text);
+            }
+            if (event.type == sf::Event::Closed || state.closeGame) {
+                window.close();
+            }
+        }
     }
+    return 0;
+}
  
