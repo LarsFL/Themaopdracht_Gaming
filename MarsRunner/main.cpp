@@ -105,10 +105,6 @@ int main() {
     animationsMap["player"].setState(PossibleStates::IDLE);
     player.setVelocity(sf::Vector2f{ 0.0, 2 });
 
-    std::string coinSpriteSheet = "../Assets/Objects/coinv2.png";
-    GameObject coin{ coinSpriteSheet, sf::Vector2f{100,550}, sf::Vector2f{2,2}, 5, false, true };
-    coin.setAnimationStates(&animationsMap["coin"]);
-    animationsMap["coin"].setState(PossibleStates::IDLE);
 
     std::string smallAlienSpriteSheet = "../Assets/Objects/smallAlien.png";
     Enemy smallAlien{smallAlienSpriteSheet, sf::Vector2f{1200,700}, sf::Vector2f{2,2}, 5, true, true };
@@ -215,7 +211,6 @@ int main() {
             state.updateUIElement(game_states::PAUSED, "PausedScoreValueText", std::to_string(state.getScore()));
             state.updateUIElement(game_states::GAME_OVER, "GameOverScoreValue", std::to_string(state.getScore()));
 
-            coin.draw(window);
             player.draw(window);
             window.setView(fixed);
             state.draw(window);
