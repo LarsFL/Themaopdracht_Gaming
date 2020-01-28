@@ -176,7 +176,7 @@ void InitializeUI(sf::RenderWindow& window, sf::View & fixedView, GameState & st
 	gameOverState.append("SaveScoreText", SaveScoreText);
 
 	// Retry button
-	Button RetryButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Retry clicc" << std::endl; } };
+	Button RetryButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Retry clicc" << std::endl; state.setReplay(true); state.setState(game_states::MAIN_MENU); } };
 	RetryButton.centerOrigin();
 	RetryButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 13))));
 	gameOverState.append("RetryButton", RetryButton);

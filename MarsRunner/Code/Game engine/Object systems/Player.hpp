@@ -40,6 +40,7 @@ protected:
 	std::vector<Projectile> projectiles;
 	bool spacePressed = false;
 	float viewMoveSpeed = 0.f;
+	bool isJumping = false;
 
 	float maxX_points = 0.f;
 	AudioManager& audio;
@@ -86,7 +87,8 @@ protected:
 
 		action(sf::Keyboard::Up,
 		[&]() {
-			if (this->isOnGround()) {
+			if (this->isOnGround() && !isJumping) {
+				isJumping = true;
 				lastState = state;
 				state = playerStates::JUMP;
 			}
@@ -101,7 +103,9 @@ protected:
 		[&]() {
 			lastState = state;
 			state = playerStates::SHOOT;
-		})
+		}),
+
+		action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Up); }, [&]() { isJumping = false; })
 	};
 	playerStates state = playerStates::IDLE;
 	playerStates lastState = state;
@@ -324,6 +328,10 @@ public:
 				break;
 			}
 		}
+	}
+
+	void setPlayerState(playerStates newState) {
+		state = newState;
 	}
 
 
