@@ -150,7 +150,7 @@ int main() {
                     ObjectBlock generatedBlock = generator.generate();
                     generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
                     groundObjectList.push_back(generatedBlock);
-                    widthValue += (widthG * 5);
+                    widthValue += (widthG * (generatedBlock.getWidth()+1) ); //widthValue += (widthG * 5);
                 }
                 
                 player.update(minSpeed);

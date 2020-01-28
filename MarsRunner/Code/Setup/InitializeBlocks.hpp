@@ -322,6 +322,30 @@ void generateBlocks(GenerateBlock& generator, TextureManager& manager) {
 	highPlatform.addObject(sf::Vector2i(4, 23), solidGroundTile);
 	generator.addBlock(highPlatform);
 
+	ObjectBlock wideBlock = {};
+	wideBlock.addObject(sf::Vector2i(0, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(0, 19), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(1, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(2, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(3, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(4, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(5, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(6, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(7, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(8, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(9, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(10, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(11, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(12, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(13, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(14, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(15, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(16, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(17, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(18, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(19, 20), boring1GroundTile);
+	wideBlock.addObject(sf::Vector2i(19, 21), boring1GroundTile);
+	generator.addBlock(wideBlock);
 
 	generator.addStartBlock(plainGroundBlock);
 	generator.addStartBlock(var1GroundBlock);

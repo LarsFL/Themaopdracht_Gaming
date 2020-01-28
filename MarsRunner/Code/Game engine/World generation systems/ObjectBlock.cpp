@@ -44,3 +44,13 @@ sf::FloatRect ObjectBlock::getGlobalBounds() {
 		return highest->getGlobalBounds();
 	}
 }
+
+int ObjectBlock::getWidth() {
+	int currentWidth = 0;
+	for (auto object : objects) {
+		if (object.first[0] > currentWidth) {
+			currentWidth = object.first[0];
+		}
+	}
+	return currentWidth;
+}

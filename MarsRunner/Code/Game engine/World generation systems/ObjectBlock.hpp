@@ -33,6 +33,8 @@ public:
 	std::map<std::array<int, 2>, std::shared_ptr<Tile>>& getObjects() {
 		return objects;
 	}
+
+	int getWidth();
 };
 
 

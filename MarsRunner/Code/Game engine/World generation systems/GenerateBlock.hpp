@@ -27,8 +27,8 @@ public:
 	}
 
 	ObjectBlock generate() {
-		return possibleBlocks[rand() % possibleBlocks.size()];;
-		//return possibleBlocks.back();
+		//return possibleBlocks[rand() % possibleBlocks.size()];;
+		return possibleBlocks.back();
 	}
 
 	ObjectBlock generateStart() {
