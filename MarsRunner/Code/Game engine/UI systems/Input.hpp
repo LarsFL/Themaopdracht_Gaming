@@ -1,13 +1,9 @@
-#ifndef _TEXT_HPP
-#define _TEXT_HPP
+#ifndef _INPUT_HPP
+#define _INPUT_HPP
 
-#include <SFML/Graphics.hpp>
-#include <string>
-#include <functional>
+#include "Code/Game engine/UI systems/Text.hpp"
 
-#include "UI_Element.hpp"
-
-class Text : public UIElement {
+class Input : public UIElement {
 protected:
 	sf::Font font;
 	sf::Text text;
@@ -15,15 +11,16 @@ protected:
 	sf::Vector2f position;
 	int textSize;
 	sf::Color color;
+	bool enterText = false;
 public:
-	Text(std::string fontLocation, 
-		std::string stringText, 
-		sf::Vector2f position, 
-		sf::Vector2f scale, 
-		std::function< void() > onClickFunc, 
+	Input(std::string fontLocation,
+		std::string stringText,
+		sf::Vector2f position,
+		sf::Vector2f scale,
+		std::function< void() > onClickFunc,
 		int textSize = 25,
 		sf::Color color = sf::Color::White
-		) :
+	) :
 		UIElement(position, scale, onClickFunc),
 		stringText(stringText),
 		position(position),
@@ -40,7 +37,7 @@ public:
 		text.setFillColor(color);
 	}
 
-	Text(const Text& a) :
+	Input(const Input& a) :
 		UIElement(a),
 		font(a.font),
 		text(a.text),
@@ -56,8 +53,8 @@ public:
 		text.setFillColor(color);
 	}
 
-	virtual Text* clone() const {
-		return new Text(*this);
+	virtual Input* clone() const {
+		return new Input(*this);
 	}
 
 	void draw(sf::RenderWindow& window) override {

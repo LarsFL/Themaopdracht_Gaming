@@ -5,6 +5,8 @@
 #include <string>
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
+#include <sstream>
 
 #include "Code/Game engine/UI systems/UI_State.hpp"
 
@@ -12,7 +14,8 @@ enum class game_states {
 	MAIN_MENU,
 	GAME_OVER,
 	PAUSED,
-	PLAYING
+	PLAYING,
+	SAVE_SCORE
 };
 
 enum class paused_substates {
@@ -27,6 +30,8 @@ private:
 	uint16_t enemiesSlain = 0;
 	std::string playerName = "Elon";
 	game_states state = game_states::MAIN_MENU;
+	bool enterText = false;
+	sf::String enteredText = "";
 public:
 	bool closeGame = false;
 	GameState() {}
@@ -55,6 +60,34 @@ public:
 		return state;
 	}
 
+	bool getEnterText() {
+		return enterText;
+	}
+
+	void setEnterText() {
+		std::cout << enterText;
+		if (enterText == false) {
+			enteredText = "Name";
+		}
+		enterText = !enterText;
+	}
+
+	sf::String getText() {
+		return enteredText;
+	}
+
+	void setEnteredString(sf::String& text) {
+		enteredText = text;
+	}
+
+	uint32_t getScore() {
+		return score;
+	}
+
+	void setScore(uint32_t newScore) {
+		score = newScore;
+	}
+
 	void handleEscape() {
 		switch (state) {
 			case (game_states::MAIN_MENU): {
@@ -69,6 +102,18 @@ public:
 				state = game_states::PLAYING;
 				return;
 			}
+		}
+	}
+
+	void sendScore(sf::String name, int score) {
+		sf::Http::Request request("/post.php", sf::Http::Request::Post);
+		std::ostringstream stream;
+		stream << "name=" << name.toAnsiString() << "&score=" << score;
+		request.setBody(stream.str());
+		sf::Http http("http://leaderboard.larsfl.com/");
+		sf::Http::Response response = http.sendRequest(request);
+		if (response.getStatus() == sf::Http::Response::Ok) {
+			std::cout << "Send succesfully" << std::endl;
 		}
 	}
 
