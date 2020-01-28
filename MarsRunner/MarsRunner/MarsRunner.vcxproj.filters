@@ -53,6 +53,9 @@
     <Filter Include="Code\Setup">
       <UniqueIdentifier>{24cb04e0-224d-4e3d-8398-de1c4515f9e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Audio">
+      <UniqueIdentifier>{fd17986a-0d5d-4d04-a9af-cdca3e8eb06a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp">
@@ -81,28 +84,14 @@
     <ClInclude Include="..\Code\Game engine\UI systems\Button.hpp">
       <Filter>Code\Game engine\UI systems</Filter>
     </ClInclude>
-    <ClInclude Include="..\Code\Game engine\Object systems\Player.hpp">
-      <Filter>Code\Game engine\Object systems</Filter>
+    <ClInclude Include="..\Code\Game engine\UI systems\Text.hpp">
+      <Filter>Code\Game engine\UI systems</Filter>
     </ClInclude>
-    <ClInclude Include="..\Code\Game engine\Object systems\Projectile.hpp">
-      <Filter>Projectile</Filter>
+    <ClInclude Include="..\Code\Game engine\UI systems\UI_Element.hpp">
+      <Filter>Code\Game engine\UI systems</Filter>
     </ClInclude>
-    <ClInclude Include="..\Code\Game engine\Input systems\input.hpp" />
-    <ClInclude Include="..\Code\Game engine\Tile systems\Texture.hpp" />
-    <ClInclude Include="..\Code\Game engine\Tile systems\TextureManager.hpp" />
-    <ClInclude Include="..\Code\Game engine\Tile systems\Tile.hpp" />
-    <ClInclude Include="..\Code\Game engine\UI systems\Button.hpp" />
-    <ClInclude Include="..\Code\Game engine\UI systems\Text.hpp" />
-    <ClInclude Include="..\Code\Game engine\UI systems\UI_Element.hpp" />
-    <ClInclude Include="..\Code\Game engine\UI systems\UI_State.hpp" />
-    <ClInclude Include="..\Code\Game engine\World generation systems\GenerateBlock.hpp" />
-    <ClInclude Include="..\Code\Game engine\World generation systems\ObjectBlock.hpp" />
-    <ClInclude Include="..\Code\Game engine\World Speed Systems\view.hpp" />
-    <ClInclude Include="..\Code\Setup\GameState.hpp" />
-    <ClInclude Include="..\Code\Setup\InitializeBlocks.hpp" />
-    <ClInclude Include="..\Code\Setup\InitializeUI.hpp" />
-    <ClInclude Include="..\Code\Game engine\Audio systems\AudioManager.hpp">
-      <Filter>Code\Game engine\Audio systems</Filter>
+    <ClInclude Include="..\Code\Game engine\UI systems\UI_State.hpp">
+      <Filter>Code\Game engine\UI systems</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\Tile systems\Texture.hpp">
       <Filter>Code\Game engine\Tile systems</Filter>
@@ -149,10 +138,36 @@
     <ClInclude Include="..\Code\Setup\InitializeUI.hpp">
       <Filter>Code\Setup</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Object systems\WorldObject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Assets\Objects\coin.png">
       <Filter>Assets\Objects</Filter>
     </Image>
+    <Image Include="..\Assets\Objects\coin.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\Assets\Audio\blaster1.mp3">
+      <Filter>Assets\Audio</Filter>
+    </Media>
+    <Media Include="..\Assets\Audio\music.mp3">
+      <Filter>Assets\Audio</Filter>
+    </Media>
+    <Media Include="..\Assets\Audio\wilhelm_scream.wav">
+      <Filter>Assets\Audio</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Assets\Audio\blaster1.ogg">
+      <Filter>Assets\Audio</Filter>
+    </None>
+    <None Include="..\Assets\Audio\music.ogg">
+      <Filter>Assets\Audio</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\Assets\Fonts\Mars.otf">
+      <Filter>Assets\Fonts</Filter>
+    </Font>
   </ItemGroup>
 </Project>
