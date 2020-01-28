@@ -35,7 +35,7 @@ private:
 
 	float gameSpeed = 0.f;
 
-	bool paused = 0;
+	bool paused = false;
 
 public:
 	AnimationStates() {

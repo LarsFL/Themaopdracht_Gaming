@@ -20,6 +20,7 @@
 #include "Code/Setup/InitializeAnimations.hpp"
 #include "Code/Game engine/Animation systems/AnimationStates.hpp"
 #include "Code/Game engine/Object systems/Projectile.hpp"
+#include "Code/Game engine/Object systems/EnemyObject.hpp"
 
 #include "Code/Setup/GameState.hpp"
 #include "Code/Setup/InitializeUI.hpp"
@@ -44,6 +45,7 @@ int main() {
     InitializeSmallAlienAnimations(animationsMap);
     InitializeGreenAlienAnimations(animationsMap);
     InitializeSateliteAnimations(animationsMap);
+    InitializeCoinAnimation(animationsMap);
 
     bool escapeUp = true;
     mainView.setCenter(sf::Vector2f(600.f, 384.f));
@@ -102,6 +104,19 @@ int main() {
     player.setAnimationStates(&animationsMap["player"]);
     animationsMap["player"].setState(PossibleStates::IDLE);
     player.setVelocity(sf::Vector2f{ 0.0, 2 });
+
+    std::string coinSpriteSheet = "../Assets/Objects/coinv2.png";
+    GameObject coin{ coinSpriteSheet, sf::Vector2f{100,550}, sf::Vector2f{2,2}, 5, false, true };
+    coin.setAnimationStates(&animationsMap["coin"]);
+    animationsMap["coin"].setState(PossibleStates::IDLE);
+
+    std::string smallAlienSpriteSheet = "../Assets/Objects/smallAlien.png";
+    Enemy smallAlien{smallAlienSpriteSheet, sf::Vector2f{1200,700}, sf::Vector2f{2,2}, 5, true, true };
+    smallAlien.setAnimationStates(&animationsMap["smallAlien"]);
+    animationsMap["smallAlien"].setState(PossibleStates::IDLE);
+    smallAlien.setVelocity(sf::Vector2f{ 0.0, 2 });
+    smallAlien.setAcceleration(sf::Vector2f{ 0.0, 2 });
+    
 
     while (window.isOpen()) {
         // Always take the same time step per loop. (should work now)
@@ -178,6 +193,7 @@ int main() {
             state.updateUIElement(game_states::PAUSED, "PausedScoreValueText", std::to_string(state.getScore()));
             state.updateUIElement(game_states::GAME_OVER, "GameOverScoreValue", std::to_string(state.getScore()));
 
+            coin.draw(window);
             player.draw(window);
             window.setView(fixed);
             state.draw(window);

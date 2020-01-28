@@ -126,7 +126,7 @@ void InitializeCoinAnimation(std::map<std::string, AnimationStates>& animationsM
 
 	//IDLE
 	sf::IntRect idleLoc(2, 4, 17, 17);
-	Animation Idle(idleLoc, 5, 2, 200);
+	Animation Idle(idleLoc, 5, 19, 500);
 	coin.addAnimation(PossibleStates::IDLE, Idle);
 
 	animationsMap["coin"] = coin;
