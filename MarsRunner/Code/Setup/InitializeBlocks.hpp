@@ -807,6 +807,57 @@ void generateBlocks(GenerateBlock& generator, TextureManager& manager) {
 	lisaBlock15.addObject(sf::Vector2i(6, 23), solidGroundTile);
 	generator.addBlock(lisaBlock15);
 
+	ObjectBlock wideGapBlock = {};
+	wideGapBlock.addObject(sf::Vector2i(0, 21), boring1GroundTile);
+	wideGapBlock.addObject(sf::Vector2i(0, 22), solidGroundTile);
+	wideGapBlock.addObject(sf::Vector2i(0, 23), solidGroundTile);
+	wideGapBlock.addObject(sf::Vector2i(1, 21), boring1GroundTile);
+	wideGapBlock.addObject(sf::Vector2i(1, 22), solidGroundTile);
+	wideGapBlock.addObject(sf::Vector2i(1, 23), solidGroundTile);
+
+	wideGapBlock.addObject(sf::Vector2i(2, 15), platformTile);
+	wideGapBlock.addObject(sf::Vector2i(3, 15), platformTile);
+	wideGapBlock.addObject(sf::Vector2i(4, 15), platformTile);
+
+	wideGapBlock.addObject(sf::Vector2i(5, 0), platformTile);
+	wideGapBlock.addObject(sf::Vector2i(6, 0), platformTile);
+	wideGapBlock.addObject(sf::Vector2i(7, 0), platformTile);
+	wideGapBlock.addObject(sf::Vector2i(8, 0), platformTile);
+	wideGapBlock.addObject(sf::Vector2i(9, 0), platformTile);
+	wideGapBlock.addObject(sf::Vector2i(10, 0), platformTile);
+	wideGapBlock.addObject(sf::Vector2i(11, 0), platformTile);
+	wideGapBlock.addObject(sf::Vector2i(12, 0), platformTile);
+	wideGapBlock.addObject(sf::Vector2i(13, 0), platformTile);
+	wideGapBlock.addObject(sf::Vector2i(14, 0), platformTile);
+	wideGapBlock.addObject(sf::Vector2i(15, 0), platformTile);
+
+	wideGapBlock.addObject(sf::Vector2i(15, 15), platformTile);
+	wideGapBlock.addObject(sf::Vector2i(16, 15), platformTile);
+	generator.addBlock(wideGapBlock);
+
+
+	ObjectBlock wideGapBlock1 = {};
+	wideGapBlock1.addObject(sf::Vector2i(2, 15), platformTile);
+	wideGapBlock1.addObject(sf::Vector2i(3, 15), platformTile);
+	wideGapBlock1.addObject(sf::Vector2i(4, 15), platformTile);
+
+	wideGapBlock1.addObject(sf::Vector2i(5, 0), platformTile);
+	wideGapBlock1.addObject(sf::Vector2i(6, 0), platformTile);
+	wideGapBlock1.addObject(sf::Vector2i(7, 0), platformTile);
+	wideGapBlock1.addObject(sf::Vector2i(8, 0), platformTile);
+	wideGapBlock1.addObject(sf::Vector2i(9, 0), platformTile);
+	wideGapBlock1.addObject(sf::Vector2i(10, 0), platformTile);
+	wideGapBlock1.addObject(sf::Vector2i(11, 0), platformTile);
+	wideGapBlock1.addObject(sf::Vector2i(12, 0), platformTile);
+	wideGapBlock1.addObject(sf::Vector2i(13, 0), platformTile);
+	wideGapBlock1.addObject(sf::Vector2i(14, 0), platformTile);
+	wideGapBlock1.addObject(sf::Vector2i(15, 0), platformTile);
+
+	wideGapBlock1.addObject(sf::Vector2i(15, 12), platformTile);
+	wideGapBlock1.addObject(sf::Vector2i(16, 12), platformTile);
+	generator.addBlock(wideGapBlock1);
+
+
 	generator.addStartBlock(plainGroundBlock);
 	generator.addStartBlock(var1GroundBlock);
 	generator.addStartBlock(var2GroundBlock);

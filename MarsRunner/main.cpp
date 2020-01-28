@@ -47,7 +47,6 @@ int main() {
     InitializeSmallAlienAnimations(animationsMap);
     InitializeGreenAlienAnimations(animationsMap);
     InitializeSateliteAnimations(animationsMap);
-    InitializeCoinAnimation(animationsMap);
 
     bool escapeUp = true;
     mainView.setCenter(sf::Vector2f(600.f, 384.f));
