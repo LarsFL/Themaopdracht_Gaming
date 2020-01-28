@@ -68,8 +68,15 @@ int main() {
     float widthValue = -190;
     float widthG = 32;
 
-    for (unsigned int i = 0; i < 15; i++) {
+    //begin blokken
+    /*for (unsigned int i = 0; i < 15; i++) {
         ObjectBlock generatedBlock = generator.generate();
+        generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
+        groundObjectList.push_back(generatedBlock);
+        widthValue += (widthG * 5);
+    }*/
+    for (unsigned int i = 0; i < 10; i++) {
+        ObjectBlock generatedBlock = generator.generateStart();
         generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
         groundObjectList.push_back(generatedBlock);
         widthValue += (widthG * 5);
@@ -90,10 +97,10 @@ int main() {
     float minSpeed = 0.5;
 
     std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
-    Player player{ playerSpriteSheet, sf::Vector2f{0,400}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList, mainView, state, audio };
+    Player player{ playerSpriteSheet, sf::Vector2f{580,550}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList, mainView, state, audio };
 
     player.setAnimationStates(&animationsMap["player"]);
-    animationsMap["player"].setState(PossibleStates::WALK);
+    animationsMap["player"].setState(PossibleStates::IDLE);
     player.setVelocity(sf::Vector2f{ 0.0, 2 });
 
     while (window.isOpen()) {
