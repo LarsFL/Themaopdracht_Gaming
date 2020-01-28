@@ -42,12 +42,10 @@ public:
 		sf::FloatRect itemBounds = list[0].getGlobalBounds();
 		if (player.getGlobalBounds().intersects(itemBounds)) {
 			list.pop_back();
-			std::cout << "y\n";
 			return 1;
 		} else 
 		if (itemBounds.left + itemBounds.width < getViewBounds(view).left) {
 			list.pop_back();
-			std::cout << "n\n";
 			return 1;
 		}
 
