@@ -72,8 +72,6 @@ public:
 
 			auto current = std::chrono::system_clock::now();
 
-			//std::cout << gameSpeed << std::endl;
-
 			if (animations[state].getBlocking() ) {
 				if (!animations[state].getBusy() ) {
 					state = tempState;

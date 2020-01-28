@@ -69,11 +69,40 @@
     <ClInclude Include="..\Code\Game engine\Object systems\Player.hpp">
       <Filter>Code\Game engine\Object systems</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Object systems\Projectile.hpp">
+      <Filter>Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Input systems\input.hpp" />
     <ClInclude Include="..\Code\Game engine\Tile systems\Texture.hpp" />
     <ClInclude Include="..\Code\Game engine\Tile systems\TextureManager.hpp" />
     <ClInclude Include="..\Code\Game engine\Tile systems\Tile.hpp" />
+    <ClInclude Include="..\Code\Game engine\UI systems\Button.hpp" />
+    <ClInclude Include="..\Code\Game engine\UI systems\Text.hpp" />
+    <ClInclude Include="..\Code\Game engine\UI systems\UI_Element.hpp" />
+    <ClInclude Include="..\Code\Game engine\UI systems\UI_State.hpp" />
     <ClInclude Include="..\Code\Game engine\World generation systems\GenerateBlock.hpp" />
     <ClInclude Include="..\Code\Game engine\World generation systems\ObjectBlock.hpp" />
     <ClInclude Include="..\Code\Game engine\World Speed Systems\view.hpp" />
+    <ClInclude Include="..\Code\Setup\GameState.hpp" />
+    <ClInclude Include="..\Code\Setup\InitializeBlocks.hpp" />
+    <ClInclude Include="..\Code\Setup\InitializeUI.hpp" />
+    <ClInclude Include="..\Code\Game engine\Audio systems\AudioManager.hpp">
+      <Filter>Code\Game engine\Audio systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Setup\InitializeSounds.hpp">
+      <Filter>Code\setup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\UI systems\Input.hpp">
+      <Filter>Code\Game engine\UI systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Animation systems\Animation.hpp">
+      <Filter>Code\Game engine\Animation systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Game engine\Animation systems\AnimationStates.hpp">
+      <Filter>Code\Game engine\Animation systems</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

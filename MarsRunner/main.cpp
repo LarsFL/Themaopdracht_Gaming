@@ -174,8 +174,9 @@ int main() {
             auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
             state.updateUI(translated_pos);
 
-            state.updateUIElement(game_states::PLAYING, "ScoreValueText", std::to_string(player.getPoints()));
-            state.updateUIElement(game_states::PAUSED, "PausedScoreValueText", std::to_string(player.getPoints()));
+            state.updateUIElement(game_states::PLAYING, "ScoreValueText", std::to_string(state.getScore()));
+            state.updateUIElement(game_states::PAUSED, "PausedScoreValueText", std::to_string(state.getScore()));
+            state.updateUIElement(game_states::GAME_OVER, "GameOverScoreValue", std::to_string(state.getScore()));
 
             player.draw(window);
             window.setView(fixed);
@@ -187,6 +188,21 @@ int main() {
 
             sf::Event event;
             while (window.pollEvent(event)) {
+                if (state.getEnterText() && (event.type == sf::Event::TextEntered)) {
+                    sf::String text = state.getText();
+                    if (event.text.unicode == '\b') {
+                        if (text.getSize() > 0) {
+                            text.erase(text.getSize() - 1, 1);
+                        }
+                    }
+                    else {
+                        if (text.getSize() < 10) {
+                            text += event.text.unicode;
+                        }
+                    }
+                    state.updateUIElement(game_states::SAVE_SCORE, "enterField", text);
+                    state.setEnteredString(text);
+                }
                 if (event.type == sf::Event::Closed || state.closeGame) {
                     window.close();
                 }

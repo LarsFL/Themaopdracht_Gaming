@@ -40,8 +40,6 @@ protected:
 	bool spacePressed = false;
 	float viewMoveSpeed = 0.f;
 
-	int points = 0;
-
 	float maxX_points = 0.f;
 	AudioManager& audio;
 
@@ -145,7 +143,7 @@ public:
 
 		maxX_points = getViewBounds(currentView).left + getViewBounds(currentView).width;
 
-		points = maxX_points / 3;
+		gameState.setScore(maxX_points / 3);
 
 		if (isLeftIntersecting(*this, getViewBounds(currentView))) {
 			state = playerStates::DEATH;
@@ -233,12 +231,6 @@ public:
 			projectile.draw(window);
 		}
 
-	}
-
-
-	int getPoints()
-	{
-		return points;
 	}
 
 	void setPlayerAnimationState(std::map<std::string, AnimationStates>& animationsMap){

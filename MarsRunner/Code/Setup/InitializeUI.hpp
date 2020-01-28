@@ -156,15 +156,27 @@ void InitializeUI(sf::RenderWindow& window, sf::View & fixedView, GameState & st
 
 	// Score text
 	Text GameOverScoreText{ fontLocation, scoreText, sf::Vector2f(20,20), sf::Vector2f(1,1), [&] {}, 50 };
-	GameOverScoreText.jump(sf::Vector2f((screenSize.x / 2) - 100, (screenSize.y / 2 - (screenSize.y / 6.2f))));
+	GameOverScoreText.jump(sf::Vector2f((screenSize.x / 2) - 100, (screenSize.y / 2 - (screenSize.y / 3.2f))));
 	gameOverState.append("GameOverScoreText", GameOverScoreText);
 
 	Text GameOverScoreValue{ fontLocation, tmpScore, sf::Vector2f(85, 20), sf::Vector2f(1,1), [&] {}, 30 };
-	GameOverScoreValue.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 - (screenSize.y / 6.2f) + 18)));
+	GameOverScoreValue.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 - (screenSize.y / 3.2f) + 18)));
 	gameOverState.append("GameOverScoreValue", GameOverScoreValue);
 
+
+	// Save score button
+	Button SaveScore{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Save clicc" << std::endl; state.setState(game_states::SAVE_SCORE); } };
+	SaveScore.centerOrigin();
+	SaveScore.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2) - (screenSize.y / 12)));
+	gameOverState.append("SaveScore", SaveScore);
+
+	Text SaveScoreText{ fontLocation, "Save score", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 50, sf::Color::Black };
+	SaveScoreText.centerOrigin();
+	SaveScoreText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2) - (screenSize.y / 10)));
+	gameOverState.append("SaveScoreText", SaveScoreText);
+
 	// Retry button
-	Button RetryButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Retry clicc" << std::endl; state.setState(game_states::PLAYING); } };
+	Button RetryButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Retry clicc" << std::endl; } };
 	RetryButton.centerOrigin();
 	RetryButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 13))));
 	gameOverState.append("RetryButton", RetryButton);
@@ -173,10 +185,10 @@ void InitializeUI(sf::RenderWindow& window, sf::View & fixedView, GameState & st
 	Text RetryText{ fontLocation, retryString, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 50, sf::Color::Black };
 	RetryText.centerOrigin();
 	RetryText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 16.3f))));
-	gameOverState.append("RetryText", RetryText);
+	gameOverState.append("enterField", RetryText);
 
 	// Back to menu button
-	Button ReturnToMenuButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Back to menu clicc" << std::endl; state.setState(game_states::MAIN_MENU); } };
+	Button ReturnToMenuButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Back to menu clicc" << std::endl; } };
 	ReturnToMenuButton.centerOrigin();
 	ReturnToMenuButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 4))));
 	gameOverState.append("ReturnToMenuButton", ReturnToMenuButton);
@@ -187,6 +199,31 @@ void InitializeUI(sf::RenderWindow& window, sf::View & fixedView, GameState & st
 	gameOverState.append("ReturnToMenuText", ReturnToMenuText);
 
 	state.addUIState(game_states::GAME_OVER, gameOverState);
+
+	/*
+		Initialization of save score
+	*/
+
+	UI_State saveScore("SaveScore");
+
+	// Player name input
+	Text PlayerName{ fontLocation, "Name", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] { state.setEnterText(); std::cout << "Test"; }, 75, sf::Color::White };
+	PlayerName.centerOrigin();
+	PlayerName.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 - (screenSize.y / 5))));
+	saveScore.append("enterField", PlayerName);
+
+	// Save button
+	Button SaveButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] { state.sendScore(state.getText(), state.getScore()); state.setState(game_states::MAIN_MENU); } };
+	SaveButton.centerOrigin();
+	SaveButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2)));
+	saveScore.append("SaveButton", SaveButton);
+
+	Text SaveButtonText{ fontLocation, "Save", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 50, sf::Color::Black };
+	SaveButtonText.centerOrigin();
+	SaveButtonText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 - (screenSize.y / 50))));
+	saveScore.append("SaveButtonText", SaveButtonText);
+
+	state.addUIState(game_states::SAVE_SCORE, saveScore);
 }
 
 #endif
