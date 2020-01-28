@@ -13,6 +13,7 @@
 #include <vector>
 #include <deque>
 #include <iostream>
+#include <deque>
 
 #include "GameObject.hpp"
 #include "Code/Game engine/Audio systems/AudioManager.hpp"
@@ -181,7 +182,7 @@ public:
 		if (!rightIntersected)
 		{
 			if (viewMoveSpeed < minSpeed) {
-				this->move(sf::Vector2f{ 0.5, 0 });
+				this->move(sf::Vector2f{ 3, 0 });
 			}
 			else {
 				this->move(sf::Vector2f{ viewMoveSpeed, 0 });
@@ -191,7 +192,6 @@ public:
 		{
 			state = playerStates::IDLE;
 		}
-		
 
 		for (auto& groundObject : groundObjects) {
 			if (isObjOnGround(*this, groundObject)) {
@@ -344,6 +344,5 @@ public:
 
 
 };
-
 
 #endif //PLAYER_HPP

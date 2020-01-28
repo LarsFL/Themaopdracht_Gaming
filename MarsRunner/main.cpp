@@ -13,9 +13,11 @@
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Object systems/GameObject.hpp"
 #include "Code/Game engine/World Speed Systems/view.hpp"
+#include "Code/Game engine/Object systems/randomNumber.hpp"
 #include "Code/Game engine/World generation systems/ObjectBlock.hpp"
 #include "Code/Game engine/World generation systems/GenerateBlock.hpp"
 #include "Code/Game engine/Object systems/Player.hpp"
+#include "Code/Game engine/Object systems/PickUp.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
 #include "Code/Setup/InitializeAnimations.hpp"
 #include "Code/Game engine/Animation systems/AnimationStates.hpp"
@@ -35,7 +37,7 @@ int main() {
     int width = sf::VideoMode::getDesktopMode().width;
     int height = sf::VideoMode::getDesktopMode().height;
     //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
-    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Default);
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Mars Runner", sf::Style::Default);
     window.setFramerateLimit(60);
     sf::View fixed = window.getView();
     std::map<std::string, AnimationStates> animationsMap;
@@ -67,6 +69,10 @@ int main() {
     generateBlocks(generator, manager);
     initializeSounds(audio);
 
+    std::string coinPath = "../Assets/Objects/coin.png";
+    Texture coinTex{ coinPath };
+    manager.addTexture(2, coinTex);
+
     float widthValue = -190;
     float widthG = 32;
 
@@ -77,7 +83,7 @@ int main() {
         groundObjectList.push_back(generatedBlock);
         widthValue += (widthG * 5);
     }*/
-    for (unsigned int i = 0; i < 10; i++) {
+    for (unsigned int i = 0; i < 20; i++) {
         ObjectBlock generatedBlock = generator.generateStart();
         generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
         groundObjectList.push_back(generatedBlock);
@@ -96,7 +102,7 @@ int main() {
     auto previous = std::chrono::system_clock::now();
     auto lag = 0.0;
     float msPerLoop = 16.33;
-    float minSpeed = 0.5;
+    float minSpeed = 3;
 
     std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
     Player player{ playerSpriteSheet, sf::Vector2f{580,550}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList, mainView, state, audio };
@@ -104,6 +110,12 @@ int main() {
     player.setAnimationStates(&animationsMap["player"]);
     animationsMap["player"].setState(PossibleStates::IDLE);
     player.setVelocity(sf::Vector2f{ 0.0, 2 });
+    
+    std::deque<PickUp> coinList;
+
+    coinList.push_back(PickUp{ manager, 2, sf::Vector2f{getRandomNumber(700, 1100), 100}, 
+                                           sf::Vector2f{.03,.03}, 
+                                           sf::Vector2f{0.0, 5}, 5, false, false, window });
 
 
     std::string smallAlienSpriteSheet = "../Assets/Objects/smallAlien.png";
@@ -115,7 +127,7 @@ int main() {
     
 
     while (window.isOpen()) {
-        // Always take the same time step per loop. (should work now)
+        // Always take the same time step per loop.
         auto current = std::chrono::system_clock::now();
         std::chrono::duration<float, std::milli> elapsed = current - previous;
         previous = current;
@@ -125,6 +137,7 @@ int main() {
         window.clear();
 
         while (lag >= msPerLoop) {
+            float increaseValue = mainView.getCenter().x;
 
             for (auto& action : actions) {
                 action();
@@ -161,11 +174,27 @@ int main() {
                     ObjectBlock generatedBlock = generator.generate();
                     generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
                     groundObjectList.push_back(generatedBlock);
-                    widthValue += (widthG * 5);
+                    widthValue += (widthG * (generatedBlock.getWidth() + 1)); //widthValue += (widthG * 5);
                 }
-                
+
                 player.update(minSpeed);
                 player.setPlayerAnimationState(animationsMap);
+
+                if (coinList.size() > 0) {
+                    if (coinList[0].destroyObjectOnInteract(coinList, player, mainView)) {
+                        coinList.push_back(PickUp{ manager, 2, sf::Vector2f{getRandomNumber(increaseValue + 600, increaseValue + 1200), 100},
+                                                               sf::Vector2f{0.03,0.03},
+                                                               sf::Vector2f{0.0, 5}, 5, false, false, window });
+                    }
+                }
+
+                coinList[0].move(coinList[0].getMoveSpeed());
+
+                for (auto& groundObject : groundObjectList) {
+                    if (isObjOnGround(coinList[0], groundObject)) {
+                        coinList[0].setMoveSpeed(sf::Vector2f{ 0.0, 0.0 });
+                    }
+                }
             }
 
             if (state.getState() == game_states::MAIN_MENU) {
@@ -189,60 +218,61 @@ int main() {
                     player.setPlayerAnimationState(animationsMap);
                 }
             }
-
-                lag -= msPerLoop;
+            lag -= msPerLoop;
         }
 
-            window.setView(mainView);
-            background.draw(window);
+        window.setView(mainView);
+        background.draw(window);
 
-            for (auto& current_object : groundObjectList) {
-                current_object.draw(window);
+        for (auto& current_object : groundObjectList) {
+            current_object.draw(window);
+        }
+
+        auto bounds = getViewBounds(mainView);
+        player.drawProjectiles(bounds);
+
+            if (coinList.size() > 0) {
+                for (PickUp& current_object : coinList) {
+                    current_object.draw(window);
+                }
             }
-
-            auto bounds = getViewBounds(mainView);
-            player.drawProjectiles(bounds);
 
             auto mouse_pos = sf::Mouse::getPosition(window);
             auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
             state.updateUI(translated_pos);
 
-            state.updateUIElement(game_states::PLAYING, "ScoreValueText", std::to_string(state.getScore()));
-            state.updateUIElement(game_states::PAUSED, "PausedScoreValueText", std::to_string(state.getScore()));
-            state.updateUIElement(game_states::GAME_OVER, "GameOverScoreValue", std::to_string(state.getScore()));
+        state.updateUIElement(game_states::PLAYING, "ScoreValueText", std::to_string(state.getScore()));
+        state.updateUIElement(game_states::PAUSED, "PausedScoreValueText", std::to_string(state.getScore()));
+        state.updateUIElement(game_states::GAME_OVER, "GameOverScoreValue", std::to_string(state.getScore()));
 
             player.draw(window);
             window.setView(fixed);
             state.draw(window);
-
-
             window.display();
             window.setView(mainView);
 
-            sf::Event event;
-            while (window.pollEvent(event)) {
-                if (state.getEnterText() && (event.type == sf::Event::TextEntered)) {
-                    sf::String text = state.getText();
-                    if (event.text.unicode == '\b') {
-                        if (text.getSize() > 0) {
-                            text.erase(text.getSize() - 1, 1);
-                        }
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (state.getEnterText() && (event.type == sf::Event::TextEntered)) {
+                sf::String text = state.getText();
+                if (event.text.unicode == '\b') {
+                    if (text.getSize() > 0) {
+                        text.erase(text.getSize() - 1, 1);
                     }
-                    else {
-                        if (text.getSize() < 10) {
-                            text += event.text.unicode;
-                        }
+                }
+                else {
+                    if (text.getSize() < 10) {
+                        text += event.text.unicode;
                     }
-                    state.updateUIElement(game_states::SAVE_SCORE, "enterField", text);
-                    state.setEnteredString(text);
                 }
-                if (event.type == sf::Event::Closed || state.closeGame) {
-                    window.close();
-                }
+                state.updateUIElement(game_states::SAVE_SCORE, "enterField", text);
+                state.setEnteredString(text);
             }
-
-
+            if (event.type == sf::Event::Closed || state.closeGame) {
+                window.close();
+            }
         }
-    return 0;
     }
+    return 0;
+}
  
