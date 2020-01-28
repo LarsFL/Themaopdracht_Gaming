@@ -13,6 +13,7 @@
 #include <vector>
 #include <deque>
 #include <iostream>
+#include <deque>
 
 #include "GameObject.hpp"
 #include "Code/Game engine/Audio systems/AudioManager.hpp"
@@ -156,6 +157,14 @@ public:
 			return;
 		}
 
+		//niet door land vallen
+		if (position.y + this->getGlobalBounds().height > getViewBounds(currentView).top + getViewBounds(currentView).height) {
+			state = playerStates::DEATH;
+			gameState.setState(game_states::GAME_OVER);
+			std::cout << "DEAD" << std::endl;
+			return;
+		}
+
 		state = playerStates::WALK;
 
 		this->isOnGround(false);
@@ -183,7 +192,6 @@ public:
 		{
 			state = playerStates::IDLE;
 		}
-		
 
 		for (auto& groundObject : groundObjects) {
 			if (isObjOnGround(*this, groundObject)) {
@@ -336,6 +344,5 @@ public:
 
 
 };
-
 
 #endif //PLAYER_HPP

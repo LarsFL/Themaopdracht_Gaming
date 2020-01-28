@@ -13,13 +13,16 @@
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Object systems/GameObject.hpp"
 #include "Code/Game engine/World Speed Systems/view.hpp"
+#include "Code/Game engine/Object systems/randomNumber.hpp"
 #include "Code/Game engine/World generation systems/ObjectBlock.hpp"
 #include "Code/Game engine/World generation systems/GenerateBlock.hpp"
 #include "Code/Game engine/Object systems/Player.hpp"
+#include "Code/Game engine/Object systems/PickUp.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
 #include "Code/Setup/InitializeAnimations.hpp"
 #include "Code/Game engine/Animation systems/AnimationStates.hpp"
 #include "Code/Game engine/Object systems/Projectile.hpp"
+#include "Code/Game engine/Object systems/EnemyObject.hpp"
 
 #include "Code/Setup/GameState.hpp"
 #include "Code/Setup/InitializeUI.hpp"
@@ -44,6 +47,7 @@ int main() {
     InitializeSmallAlienAnimations(animationsMap);
     InitializeGreenAlienAnimations(animationsMap);
     InitializeSateliteAnimations(animationsMap);
+    InitializeCoinAnimation(animationsMap);
 
     bool escapeUp = true;
     mainView.setCenter(sf::Vector2f(600.f, 384.f));
@@ -65,6 +69,10 @@ int main() {
     generateBlocks(generator, manager);
     initializeSounds(audio);
 
+    std::string coinPath = "../Assets/Objects/coin.png";
+    Texture coinTex{ coinPath };
+    manager.addTexture(2, coinTex);
+
     float widthValue = -190;
     float widthG = 32;
 
@@ -75,7 +83,7 @@ int main() {
         groundObjectList.push_back(generatedBlock);
         widthValue += (widthG * 5);
     }*/
-    for (unsigned int i = 0; i < 10; i++) {
+    for (unsigned int i = 0; i < 20; i++) {
         ObjectBlock generatedBlock = generator.generateStart();
         generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
         groundObjectList.push_back(generatedBlock);
@@ -102,9 +110,28 @@ int main() {
     player.setAnimationStates(&animationsMap["player"]);
     animationsMap["player"].setState(PossibleStates::IDLE);
     player.setVelocity(sf::Vector2f{ 0.0, 2 });
+    
+    std::deque<PickUp> coinList;
+
+    coinList.push_back(PickUp{ manager, 2, sf::Vector2f{getRandomNumber(700, 1100), 100}, 
+                                           sf::Vector2f{.03,.03}, 
+                                           sf::Vector2f{0.0, 5}, 5, false, false, window });
+
+    std::string coinSpriteSheet = "../Assets/Objects/coinv2.png";
+    GameObject coin{ coinSpriteSheet, sf::Vector2f{100,550}, sf::Vector2f{2,2}, 5, false, true };
+    coin.setAnimationStates(&animationsMap["coin"]);
+    animationsMap["coin"].setState(PossibleStates::IDLE);
+
+    std::string smallAlienSpriteSheet = "../Assets/Objects/smallAlien.png";
+    Enemy smallAlien{smallAlienSpriteSheet, sf::Vector2f{1200,700}, sf::Vector2f{2,2}, 5, true, true };
+    smallAlien.setAnimationStates(&animationsMap["smallAlien"]);
+    animationsMap["smallAlien"].setState(PossibleStates::IDLE);
+    smallAlien.setVelocity(sf::Vector2f{ 0.0, 2 });
+    smallAlien.setAcceleration(sf::Vector2f{ 0.0, 2 });
+    
 
     while (window.isOpen()) {
-        // Always take the same time step per loop. (should work now)
+        // Always take the same time step per loop.
         auto current = std::chrono::system_clock::now();
         std::chrono::duration<float, std::milli> elapsed = current - previous;
         previous = current;
@@ -114,6 +141,7 @@ int main() {
         window.clear();
 
         while (lag >= msPerLoop) {
+            float increaseValue = mainView.getCenter().x;
 
             for (auto& action : actions) {
                 action();
@@ -150,11 +178,27 @@ int main() {
                     ObjectBlock generatedBlock = generator.generate();
                     generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
                     groundObjectList.push_back(generatedBlock);
-                    widthValue += (widthG * 5);
+                    widthValue += (widthG * (generatedBlock.getWidth() + 1)); //widthValue += (widthG * 5);
                 }
-                
+
                 player.update(minSpeed);
                 player.setPlayerAnimationState(animationsMap);
+
+                if (coinList.size() > 0) {
+                    if (coinList[0].destroyObjectOnInteract(coinList, player, mainView)) {
+                        coinList.push_back(PickUp{ manager, 2, sf::Vector2f{getRandomNumber(increaseValue + 600, increaseValue + 1200), 100},
+                                                               sf::Vector2f{0.03,0.03},
+                                                               sf::Vector2f{0.0, 5}, 5, false, false, window });
+                    }
+                }
+
+                coinList[0].move(coinList[0].getMoveSpeed());
+
+                for (auto& groundObject : groundObjectList) {
+                    if (isObjOnGround(coinList[0], groundObject)) {
+                        coinList[0].setMoveSpeed(sf::Vector2f{ 0.0, 0.0 });
+                    }
+                }
             }
 
             if (state.getState() == game_states::MAIN_MENU) {
@@ -191,21 +235,26 @@ int main() {
         auto bounds = getViewBounds(mainView);
         player.drawProjectiles(bounds);
 
-        auto mouse_pos = sf::Mouse::getPosition(window);
-        auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
-        state.updateUI(translated_pos);
+            if (coinList.size() > 0) {
+                for (PickUp& current_object : coinList) {
+                    current_object.draw(window);
+                }
+            }
+
+            auto mouse_pos = sf::Mouse::getPosition(window);
+            auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
+            state.updateUI(translated_pos);
 
         state.updateUIElement(game_states::PLAYING, "ScoreValueText", std::to_string(state.getScore()));
         state.updateUIElement(game_states::PAUSED, "PausedScoreValueText", std::to_string(state.getScore()));
         state.updateUIElement(game_states::GAME_OVER, "GameOverScoreValue", std::to_string(state.getScore()));
 
-        player.draw(window);
-        window.setView(fixed);
-        state.draw(window);
-
-
-        window.display();
-        window.setView(mainView);
+            coin.draw(window);
+            player.draw(window);
+            window.setView(fixed);
+            state.draw(window);
+            window.display();
+            window.setView(mainView);
 
         sf::Event event;
         while (window.pollEvent(event)) {
