@@ -30,7 +30,7 @@ void InitializePlayerAnimations(std::map<std::string, AnimationStates> &animatio
 	smallAstronaut.addAnimation(PossibleStates::SHOOT, Shoot);
 
 	//IDLE
-	sf::IntRect idleLoc(1, 91, 19, 41);
+	sf::IntRect idleLoc(1, 99, 19, 34);
 	Animation Idle(idleLoc, 8, 39, 150);
 	smallAstronaut.addAnimation(PossibleStates::IDLE, Idle);
 
@@ -119,5 +119,16 @@ void InitializeSateliteAnimations(std::map<std::string, AnimationStates>& animat
 	satellite.addAnimation(PossibleStates::IDLE, Idle);
 
 	animationsMap["satellite"] = satellite;
+}
+
+void InitializeCoinAnimation(std::map<std::string, AnimationStates>& animationsMap) {
+	AnimationStates coin;
+
+	//IDLE
+	sf::IntRect idleLoc(2, 4, 17, 17);
+	Animation Idle(idleLoc, 5, 2, 200);
+	coin.addAnimation(PossibleStates::IDLE, Idle);
+
+	animationsMap["coin"] = coin;
 }
 #endif
