@@ -13,6 +13,7 @@
 #include <vector>
 #include <deque>
 #include <iostream>
+#include <deque>
 
 #include "GameObject.hpp"
 #include "Code/Game engine/Audio systems/AudioManager.hpp"
@@ -179,7 +180,6 @@ public:
 		{
 			state = playerStates::IDLE;
 		}
-		
 
 		for (auto& groundObject : groundObjects) {
 			if (isObjOnGround(*this, groundObject)) {
@@ -211,12 +211,12 @@ public:
 			}
 		}
 		unsigned int count = 0;
-		for (auto& projectile : projectiles) {
+		/*for (auto& projectile : projectiles) {
 			if (projectile.update(groundObjects)) {
 				projectiles.erase(projectiles.begin() + count);
 			}
 			count++;
-		}
+		}*/
 	}
 
 	void drawProjectiles(sf::FloatRect& view) {
@@ -328,6 +328,5 @@ public:
 
 
 };
-
 
 #endif //PLAYER_HPP

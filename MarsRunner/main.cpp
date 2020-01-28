@@ -13,9 +13,11 @@
 #include "Code/Game engine/Input systems/input.hpp"
 #include "Code/Game engine/Object systems/GameObject.hpp"
 #include "Code/Game engine/World Speed Systems/view.hpp"
+#include "Code/Game engine/Object systems/randomNumber.hpp"
 #include "Code/Game engine/World generation systems/ObjectBlock.hpp"
 #include "Code/Game engine/World generation systems/GenerateBlock.hpp"
 #include "Code/Game engine/Object systems/Player.hpp"
+#include "Code/Game engine/Object systems/PickUp.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
 #include "Code/Setup/InitializeAnimations.hpp"
 #include "Code/Game engine/Animation systems/AnimationStates.hpp"
@@ -102,9 +104,15 @@ int main() {
     player.setAnimationStates(&animationsMap["player"]);
     animationsMap["player"].setState(PossibleStates::IDLE);
     player.setVelocity(sf::Vector2f{ 0.0, 2 });
+    
+    std::deque<PickUp> coinList;
+
+    coinList.push_back(PickUp{ manager, 2, sf::Vector2f{getRandomNumber(200, 700), 100}, 
+                                           sf::Vector2f{.03,.03}, 
+                                           sf::Vector2f{0.0, 5}, 5, false, false, window });
 
     while (window.isOpen()) {
-        // Always take the same time step per loop. (should work now)
+        // Always take the same time step per loop.
         auto current = std::chrono::system_clock::now();
         std::chrono::duration<float, std::milli> elapsed = current - previous;
         previous = current;
@@ -114,6 +122,7 @@ int main() {
         window.clear();
 
         while (lag >= msPerLoop) {
+            float increaseValue = mainView.getCenter().x;
 
             for (auto& action : actions) {
                 action();
@@ -155,7 +164,22 @@ int main() {
                 
                 player.update(minSpeed);
                 player.setPlayerAnimationState(animationsMap);
-            }
+
+                if (coinList.size() > 0) {
+                    if (coinList[0].destroyObjectOnInteract(coinList, player, mainView)) {
+                        coinList.push_back(PickUp{ manager, 2, sf::Vector2f{getRandomNumber(increaseValue + 700, increaseValue + 1200), 100},
+                                                               sf::Vector2f{0.03,0.03}, 
+                                                               sf::Vector2f{0.0, 5}, 5, false, false, window });
+                    }
+                }
+
+                coinList[0].move(coinList[0].getMoveSpeed());
+
+                for (auto& groundObject : groundObjectList) {
+                    if (isObjOnGround(coinList[0], groundObject)) {
+                        coinList[0].setMoveSpeed(sf::Vector2f{0.0, 0.0});
+                    }
+                }
 
                 lag -= msPerLoop;
         }
@@ -168,7 +192,14 @@ int main() {
             }
 
             auto bounds = getViewBounds(mainView);
+
             player.drawProjectiles(bounds);
+
+            if (coinList.size() > 0) {
+                for (PickUp& current_object : coinList) {
+                    current_object.draw(window);
+                }
+            }
 
             auto mouse_pos = sf::Mouse::getPosition(window);
             auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
@@ -181,8 +212,6 @@ int main() {
             player.draw(window);
             window.setView(fixed);
             state.draw(window);
-
-
             window.display();
             window.setView(mainView);
 
