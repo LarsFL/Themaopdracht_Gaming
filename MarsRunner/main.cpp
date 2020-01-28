@@ -68,7 +68,7 @@ int main() {
     float widthValue = -190;
     float widthG = 32;
 
-    //begin blokken
+    //de blokken aan het begin van de game
     /*for (unsigned int i = 0; i < 15; i++) {
         ObjectBlock generatedBlock = generator.generate();
         generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);

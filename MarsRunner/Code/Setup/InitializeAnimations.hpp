@@ -120,4 +120,15 @@ void InitializeSateliteAnimations(std::map<std::string, AnimationStates>& animat
 
 	animationsMap["satellite"] = satellite;
 }
+
+void InitializeCoinAnimation(std::map<std::string, AnimationStates>& animationsMap) {
+	AnimationStates coin;
+
+	//IDLE
+	sf::IntRect idleLoc(2, 4, 17, 17);
+	Animation Idle(idleLoc, 5, 2, 200);
+	coin.addAnimation(PossibleStates::IDLE, Idle);
+
+	animationsMap["coin"] = coin;
+}
 #endif
