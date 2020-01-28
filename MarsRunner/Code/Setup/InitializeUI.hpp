@@ -44,7 +44,7 @@ void InitializeUI(sf::RenderWindow& window, sf::View & fixedView, GameState & st
 	mainMenuState.append("PlayText", PlayText);
 
 	// Leaderboard button
-	Button LeaderboardButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Leaderboard clicc" << std::endl; } };
+	Button LeaderboardButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Leaderboard clicc" << std::endl; state.getLeaderboard(); state.setState(game_states::SCOREBOARD); } };
 	LeaderboardButton.centerOrigin();
 	LeaderboardButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2)));
 	mainMenuState.append("LeaderboardButton", LeaderboardButton);
@@ -224,6 +224,127 @@ void InitializeUI(sf::RenderWindow& window, sf::View & fixedView, GameState & st
 	saveScore.append("SaveButtonText", SaveButtonText);
 
 	state.addUIState(game_states::SAVE_SCORE, saveScore);
+
+
+	/*
+		Initialization of leaderboard
+	*/
+
+	UI_State leaderboardState("LeaderBoard");
+
+	// Game over text
+	Text ScoresText{ fontLocation, "Scores", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 100 };
+	ScoresText.centerOrigin();
+	ScoresText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 - (screenSize.y / 2.3f))));
+	leaderboardState.append("ScoresText", ScoresText);
+
+	// Back to menu button
+	leaderboardState.append("BackToMenuButton", BackToMenuButton);
+	leaderboardState.append("BackToMenuButtonText", BackToMenuButtonText);
+
+	Text Score1Name{ fontLocation, "LarsieFL", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score1Name.centerOrigin();
+	Score1Name.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) - 100, (screenSize.y / 2 - (screenSize.y / 3.2f)))));
+	leaderboardState.append("Score1Name", Score1Name);
+
+	Text Score2Name{ fontLocation, "LarsieFL", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score2Name.centerOrigin();
+	Score2Name.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) - 100, (screenSize.y / 2 - (screenSize.y / 3.7f)))));
+	leaderboardState.append("Score2Name", Score2Name);
+
+	Text Score3Name{ fontLocation, "LarsieFL", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score3Name.centerOrigin();
+	Score3Name.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) - 100, (screenSize.y / 2 - (screenSize.y / 4.4f)))));
+	leaderboardState.append("Score3Name", Score3Name);
+
+	Text Score4Name{ fontLocation, "LarsieFL", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score4Name.centerOrigin();
+	Score4Name.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) - 100, (screenSize.y / 2 - (screenSize.y / 5.3f)))));
+	leaderboardState.append("Score4Name", Score4Name);
+
+	Text Score5Name{ fontLocation, "LarsieFL", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score5Name.centerOrigin();
+	Score5Name.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) - 100, (screenSize.y / 2 - (screenSize.y / 6.7f)))));
+	leaderboardState.append("Score5Name", Score5Name);
+
+	Text Score6Name{ fontLocation, "LarsieFL", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score6Name.centerOrigin();
+	Score6Name.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) - 100, (screenSize.y / 2 - (screenSize.y / 9.4f)))));
+	leaderboardState.append("Score6Name", Score6Name);
+
+	Text Score7Name{ fontLocation, "LarsieFL", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score7Name.centerOrigin();
+	Score7Name.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) - 100, (screenSize.y / 2 - (screenSize.y / 15.4f)))));
+	leaderboardState.append("Score7Name", Score7Name);
+
+	Text Score8Name{ fontLocation, "LarsieFL", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score8Name.centerOrigin();
+	Score8Name.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) - 100, (screenSize.y / 2 - (screenSize.y / 48.4f)))));
+	leaderboardState.append("Score8Name", Score8Name);
+
+	Text Score9Name{ fontLocation, "LarsieFL", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score9Name.centerOrigin();
+	Score9Name.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) - 100, (screenSize.y / 2 + (screenSize.y / 46.4f)))));
+	leaderboardState.append("Score9Name", Score9Name);
+
+	Text Score10Name{ fontLocation, "LarsieFL", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score10Name.centerOrigin();
+	Score10Name.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) - 100, (screenSize.y / 2 + (screenSize.y / 16.4f)))));
+	leaderboardState.append("Score10Name", Score10Name);
+
+
+
+	Text Score1Value{ fontLocation, "012345", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score1Value.centerOrigin();
+	Score1Value.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) + 100, (screenSize.y / 2 - (screenSize.y / 3.2f)))));
+	leaderboardState.append("Score1Value", Score1Value);
+
+	Text Score2Value{ fontLocation, "012345", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score2Value.centerOrigin();
+	Score2Value.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) + 100, (screenSize.y / 2 - (screenSize.y / 3.7f)))));
+	leaderboardState.append("Score2Value", Score2Value);
+
+	Text Score3Value{ fontLocation, "012345", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score3Value.centerOrigin();
+	Score3Value.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) + 100, (screenSize.y / 2 - (screenSize.y / 4.4f)))));
+	leaderboardState.append("Score3Value", Score3Value);
+
+	Text Score4Value{ fontLocation, "012345", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score4Value.centerOrigin();
+	Score4Value.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) + 100, (screenSize.y / 2 - (screenSize.y / 5.3f)))));
+	leaderboardState.append("Score4Value", Score4Value);
+
+	Text Score5Value{ fontLocation, "012345", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score5Value.centerOrigin();
+	Score5Value.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) + 100, (screenSize.y / 2 - (screenSize.y / 6.7f)))));
+	leaderboardState.append("Score5Value", Score5Value);
+
+	Text Score6Value{ fontLocation, "012345", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score6Value.centerOrigin();
+	Score6Value.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) + 100, (screenSize.y / 2 - (screenSize.y / 9.4f)))));
+	leaderboardState.append("Score6Value", Score6Value);
+
+	Text Score7Value{ fontLocation, "012345", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score7Value.centerOrigin();
+	Score7Value.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) + 100, (screenSize.y / 2 - (screenSize.y / 15.4f)))));
+	leaderboardState.append("Score7Value", Score7Value);
+
+	Text Score8Value{ fontLocation, "012345", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score8Value.centerOrigin();
+	Score8Value.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) + 100, (screenSize.y / 2 - (screenSize.y / 48.4f)))));
+	leaderboardState.append("Score8Value", Score8Value);
+
+	Text Score9Value{ fontLocation, "012345", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score9Value.centerOrigin();
+	Score9Value.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) + 100, (screenSize.y / 2 + (screenSize.y / 46.4f)))));
+	leaderboardState.append("Score9Value", Score9Value);
+
+	Text Score10Value{ fontLocation, "012345", sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 30 };
+	Score10Value.centerOrigin();
+	Score10Value.jump(sf::Vector2f(sf::Vector2f((screenSize.x / 2) + 100, (screenSize.y / 2 + (screenSize.y / 16.4f)))));
+	leaderboardState.append("Score10Value", Score10Value);
+
+	state.addUIState(game_states::SCOREBOARD, leaderboardState);
 }
 
 #endif
