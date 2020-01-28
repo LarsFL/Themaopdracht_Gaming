@@ -322,6 +322,428 @@ void generateBlocks(GenerateBlock& generator, TextureManager& manager) {
 	highPlatform.addObject(sf::Vector2i(4, 23), solidGroundTile);
 	generator.addBlock(highPlatform);
 
+	ObjectBlock lisaBlock1 = {};
+	lisaBlock1.addObject(sf::Vector2i(1, 11), platformTile);
+	lisaBlock1.addObject(sf::Vector2i(2, 11), platformTile);
+	lisaBlock1.addObject(sf::Vector2i(3, 11), platformTile);
+	lisaBlock1.addObject(sf::Vector2i(4, 11), platformTile);
+	lisaBlock1.addObject(sf::Vector2i(5, 11), platformTile);
+
+	lisaBlock1.addObject(sf::Vector2i(0, 20), boring1GroundTile);
+	lisaBlock1.addObject(sf::Vector2i(0, 21), solidGroundTile);
+	lisaBlock1.addObject(sf::Vector2i(0, 22), solidGroundTile);
+	lisaBlock1.addObject(sf::Vector2i(0, 23), solidGroundTile);
+	lisaBlock1.addObject(sf::Vector2i(1, 20), boring1GroundTile);
+	lisaBlock1.addObject(sf::Vector2i(1, 21), solidGroundTile);
+	lisaBlock1.addObject(sf::Vector2i(1, 22), solidGroundTile);
+	lisaBlock1.addObject(sf::Vector2i(1, 23), solidGroundTile);
+
+	lisaBlock1.addObject(sf::Vector2i(5, 20), boring1GroundTile);
+	lisaBlock1.addObject(sf::Vector2i(5, 21), solidGroundTile);
+	lisaBlock1.addObject(sf::Vector2i(5, 22), solidGroundTile);
+	lisaBlock1.addObject(sf::Vector2i(5, 23), solidGroundTile);
+	lisaBlock1.addObject(sf::Vector2i(6, 20), boring1GroundTile);
+	lisaBlock1.addObject(sf::Vector2i(6, 21), solidGroundTile);
+	lisaBlock1.addObject(sf::Vector2i(6, 22), solidGroundTile);
+	lisaBlock1.addObject(sf::Vector2i(6, 23), solidGroundTile);
+	generator.addBlock(lisaBlock1);
+
+	ObjectBlock lisaBlock2 = {};
+	lisaBlock2.addObject(sf::Vector2i(1, 2), platformTile);
+	lisaBlock2.addObject(sf::Vector2i(2, 2), platformTile);
+	lisaBlock2.addObject(sf::Vector2i(3, 2), platformTile);
+	lisaBlock2.addObject(sf::Vector2i(4, 2), platformTile);
+	lisaBlock2.addObject(sf::Vector2i(5, 2), platformTile);
+
+	lisaBlock2.addObject(sf::Vector2i(0, 20), boring1GroundTile);
+	lisaBlock2.addObject(sf::Vector2i(0, 21), solidGroundTile);
+	lisaBlock2.addObject(sf::Vector2i(0, 22), solidGroundTile);
+	lisaBlock2.addObject(sf::Vector2i(0, 23), solidGroundTile);
+	lisaBlock2.addObject(sf::Vector2i(1, 20), boring1GroundTile);
+	lisaBlock2.addObject(sf::Vector2i(1, 21), solidGroundTile);
+	lisaBlock2.addObject(sf::Vector2i(1, 22), solidGroundTile);
+	lisaBlock2.addObject(sf::Vector2i(1, 23), solidGroundTile);
+
+	lisaBlock2.addObject(sf::Vector2i(2, 20), boring1GroundTile);
+	lisaBlock2.addObject(sf::Vector2i(2, 21), solidGroundTile);
+	lisaBlock2.addObject(sf::Vector2i(2, 22), solidGroundTile);
+	lisaBlock2.addObject(sf::Vector2i(2, 23), solidGroundTile);
+
+	lisaBlock2.addObject(sf::Vector2i(3, 20), boring1GroundTile);
+	lisaBlock2.addObject(sf::Vector2i(3, 21), solidGroundTile);
+	lisaBlock2.addObject(sf::Vector2i(3, 22), solidGroundTile);
+	lisaBlock2.addObject(sf::Vector2i(3, 23), solidGroundTile);
+
+	lisaBlock2.addObject(sf::Vector2i(4, 20), boring1GroundTile);
+	lisaBlock2.addObject(sf::Vector2i(4, 21), solidGroundTile);
+	lisaBlock2.addObject(sf::Vector2i(4, 22), solidGroundTile);
+	lisaBlock2.addObject(sf::Vector2i(4, 23), solidGroundTile);
+
+	lisaBlock2.addObject(sf::Vector2i(5, 20), boring1GroundTile);
+	lisaBlock2.addObject(sf::Vector2i(5, 21), solidGroundTile);
+	lisaBlock2.addObject(sf::Vector2i(5, 22), solidGroundTile);
+	lisaBlock2.addObject(sf::Vector2i(5, 23), solidGroundTile);
+	lisaBlock2.addObject(sf::Vector2i(6, 20), boring1GroundTile);
+	lisaBlock2.addObject(sf::Vector2i(6, 21), solidGroundTile);
+	lisaBlock2.addObject(sf::Vector2i(6, 22), solidGroundTile);
+	lisaBlock2.addObject(sf::Vector2i(6, 23), solidGroundTile);
+	generator.addBlock(lisaBlock2);
+
+	ObjectBlock lisaBlock3 = {};
+	lisaBlock3.addObject(sf::Vector2i(1, 8), platformTile);
+	lisaBlock3.addObject(sf::Vector2i(2, 8), platformTile);
+	lisaBlock3.addObject(sf::Vector2i(3, 8), platformTile);
+	lisaBlock3.addObject(sf::Vector2i(4, 8), platformTile);
+	lisaBlock3.addObject(sf::Vector2i(5, 8), platformTile);
+
+	lisaBlock3.addObject(sf::Vector2i(0, 20), boring1GroundTile);
+	lisaBlock3.addObject(sf::Vector2i(0, 21), solidGroundTile);
+	lisaBlock3.addObject(sf::Vector2i(0, 22), solidGroundTile);
+	lisaBlock3.addObject(sf::Vector2i(0, 23), solidGroundTile);
+	lisaBlock3.addObject(sf::Vector2i(1, 20), boring1GroundTile);
+	lisaBlock3.addObject(sf::Vector2i(1, 21), solidGroundTile);
+	lisaBlock3.addObject(sf::Vector2i(1, 22), solidGroundTile);
+	lisaBlock3.addObject(sf::Vector2i(1, 23), solidGroundTile);
+
+	lisaBlock3.addObject(sf::Vector2i(2, 20), boring1GroundTile);
+	lisaBlock3.addObject(sf::Vector2i(2, 21), solidGroundTile);
+	lisaBlock3.addObject(sf::Vector2i(2, 22), solidGroundTile);
+	lisaBlock3.addObject(sf::Vector2i(2, 23), solidGroundTile);
+
+	lisaBlock3.addObject(sf::Vector2i(3, 20), boring1GroundTile);
+	lisaBlock3.addObject(sf::Vector2i(3, 21), solidGroundTile);
+	lisaBlock3.addObject(sf::Vector2i(3, 22), solidGroundTile);
+	lisaBlock3.addObject(sf::Vector2i(3, 23), solidGroundTile);
+
+	lisaBlock3.addObject(sf::Vector2i(4, 20), boring1GroundTile);
+	lisaBlock3.addObject(sf::Vector2i(4, 21), solidGroundTile);
+	lisaBlock3.addObject(sf::Vector2i(4, 22), solidGroundTile);
+	lisaBlock3.addObject(sf::Vector2i(4, 23), solidGroundTile);
+
+	lisaBlock3.addObject(sf::Vector2i(5, 20), boring1GroundTile);
+	lisaBlock3.addObject(sf::Vector2i(5, 21), solidGroundTile);
+	lisaBlock3.addObject(sf::Vector2i(5, 22), solidGroundTile);
+	lisaBlock3.addObject(sf::Vector2i(5, 23), solidGroundTile);
+	lisaBlock3.addObject(sf::Vector2i(6, 20), boring1GroundTile);
+	lisaBlock3.addObject(sf::Vector2i(6, 21), solidGroundTile);
+	lisaBlock3.addObject(sf::Vector2i(6, 22), solidGroundTile);
+	lisaBlock3.addObject(sf::Vector2i(6, 23), solidGroundTile);
+	generator.addBlock(lisaBlock3);
+
+	ObjectBlock lisaBlock4 = {};
+	lisaBlock4.addObject(sf::Vector2i(1, 14), platformTile);
+	lisaBlock4.addObject(sf::Vector2i(2, 14), platformTile);
+	lisaBlock4.addObject(sf::Vector2i(3, 14), platformTile);
+	lisaBlock4.addObject(sf::Vector2i(4, 14), platformTile);
+	lisaBlock4.addObject(sf::Vector2i(5, 14), platformTile);
+
+	lisaBlock4.addObject(sf::Vector2i(0, 20), boring1GroundTile);
+	lisaBlock4.addObject(sf::Vector2i(0, 21), solidGroundTile);
+	lisaBlock4.addObject(sf::Vector2i(0, 22), solidGroundTile);
+	lisaBlock4.addObject(sf::Vector2i(0, 23), solidGroundTile);
+	lisaBlock4.addObject(sf::Vector2i(1, 20), boring1GroundTile);
+	lisaBlock4.addObject(sf::Vector2i(1, 21), solidGroundTile);
+	lisaBlock4.addObject(sf::Vector2i(1, 22), solidGroundTile);
+	lisaBlock4.addObject(sf::Vector2i(1, 23), solidGroundTile);
+
+	lisaBlock4.addObject(sf::Vector2i(2, 20), boring1GroundTile);
+	lisaBlock4.addObject(sf::Vector2i(2, 21), solidGroundTile);
+	lisaBlock4.addObject(sf::Vector2i(2, 22), solidGroundTile);
+	lisaBlock4.addObject(sf::Vector2i(2, 23), solidGroundTile);
+
+	lisaBlock4.addObject(sf::Vector2i(3, 20), boring1GroundTile);
+	lisaBlock4.addObject(sf::Vector2i(3, 21), solidGroundTile);
+	lisaBlock4.addObject(sf::Vector2i(3, 22), solidGroundTile);
+	lisaBlock4.addObject(sf::Vector2i(3, 23), solidGroundTile);
+
+	lisaBlock4.addObject(sf::Vector2i(4, 20), boring1GroundTile);
+	lisaBlock4.addObject(sf::Vector2i(4, 21), solidGroundTile);
+	lisaBlock4.addObject(sf::Vector2i(4, 22), solidGroundTile);
+	lisaBlock4.addObject(sf::Vector2i(4, 23), solidGroundTile);
+
+	lisaBlock4.addObject(sf::Vector2i(5, 20), boring1GroundTile);
+	lisaBlock4.addObject(sf::Vector2i(5, 21), solidGroundTile);
+	lisaBlock4.addObject(sf::Vector2i(5, 22), solidGroundTile);
+	lisaBlock4.addObject(sf::Vector2i(5, 23), solidGroundTile);
+	lisaBlock4.addObject(sf::Vector2i(6, 20), boring1GroundTile);
+	lisaBlock4.addObject(sf::Vector2i(6, 21), solidGroundTile);
+	lisaBlock4.addObject(sf::Vector2i(6, 22), solidGroundTile);
+	lisaBlock4.addObject(sf::Vector2i(6, 23), solidGroundTile);
+	generator.addBlock(lisaBlock4);
+
+	ObjectBlock lisaBlock5 = {};
+	lisaBlock5.addObject(sf::Vector2i(2, 4), platformTile);
+	lisaBlock5.addObject(sf::Vector2i(3, 4), platformTile);
+	lisaBlock5.addObject(sf::Vector2i(4, 4), platformTile);
+	lisaBlock5.addObject(sf::Vector2i(5, 4), platformTile);
+
+	lisaBlock5.addObject(sf::Vector2i(0, 20), boring1GroundTile);
+	lisaBlock5.addObject(sf::Vector2i(0, 21), solidGroundTile);
+	lisaBlock5.addObject(sf::Vector2i(0, 22), solidGroundTile);
+	lisaBlock5.addObject(sf::Vector2i(0, 23), solidGroundTile);
+	lisaBlock5.addObject(sf::Vector2i(1, 20), boring1GroundTile);
+	lisaBlock5.addObject(sf::Vector2i(1, 21), solidGroundTile);
+	lisaBlock5.addObject(sf::Vector2i(1, 22), solidGroundTile);
+	lisaBlock5.addObject(sf::Vector2i(1, 23), solidGroundTile);
+
+	lisaBlock5.addObject(sf::Vector2i(2, 20), boring1GroundTile);
+	lisaBlock5.addObject(sf::Vector2i(2, 21), solidGroundTile);
+	lisaBlock5.addObject(sf::Vector2i(2, 22), solidGroundTile);
+	lisaBlock5.addObject(sf::Vector2i(2, 23), solidGroundTile);
+
+	lisaBlock5.addObject(sf::Vector2i(3, 20), boring1GroundTile);
+	lisaBlock5.addObject(sf::Vector2i(3, 21), solidGroundTile);
+	lisaBlock5.addObject(sf::Vector2i(3, 22), solidGroundTile);
+	lisaBlock5.addObject(sf::Vector2i(3, 23), solidGroundTile);
+
+	lisaBlock5.addObject(sf::Vector2i(4, 20), boring1GroundTile);
+	lisaBlock5.addObject(sf::Vector2i(4, 21), solidGroundTile);
+	lisaBlock5.addObject(sf::Vector2i(4, 22), solidGroundTile);
+	lisaBlock5.addObject(sf::Vector2i(4, 23), solidGroundTile);
+
+	lisaBlock5.addObject(sf::Vector2i(5, 20), boring1GroundTile);
+	lisaBlock5.addObject(sf::Vector2i(5, 21), solidGroundTile);
+	lisaBlock5.addObject(sf::Vector2i(5, 22), solidGroundTile);
+	lisaBlock5.addObject(sf::Vector2i(5, 23), solidGroundTile);
+	lisaBlock5.addObject(sf::Vector2i(6, 20), boring1GroundTile);
+	lisaBlock5.addObject(sf::Vector2i(6, 21), solidGroundTile);
+	lisaBlock5.addObject(sf::Vector2i(6, 22), solidGroundTile);
+	lisaBlock5.addObject(sf::Vector2i(6, 23), solidGroundTile);
+	generator.addBlock(lisaBlock5);
+
+	ObjectBlock lisaBlock6 = {};
+	lisaBlock6.addObject(sf::Vector2i(4, 10), platformTile);
+	lisaBlock6.addObject(sf::Vector2i(5, 10), platformTile);
+	lisaBlock6.addObject(sf::Vector2i(6, 10), platformTile);
+
+	lisaBlock6.addObject(sf::Vector2i(0, 16), boring1GroundTile);
+	lisaBlock6.addObject(sf::Vector2i(0, 17), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(0, 18), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(0, 19), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(0, 20), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(0, 21), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(0, 22), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(0, 23), solidGroundTile);
+
+	lisaBlock6.addObject(sf::Vector2i(1, 16), boring1GroundTile);
+	lisaBlock6.addObject(sf::Vector2i(1, 17), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(1, 18), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(1, 19), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(1, 20), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(1, 21), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(1, 22), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(1, 23), solidGroundTile);
+
+	lisaBlock6.addObject(sf::Vector2i(2, 18), boring1GroundTile);
+	lisaBlock6.addObject(sf::Vector2i(2, 19), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(2, 20), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(2, 21), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(2, 22), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(2, 23), solidGroundTile);
+
+	lisaBlock6.addObject(sf::Vector2i(3, 20), boring1GroundTile);
+	lisaBlock6.addObject(sf::Vector2i(3, 21), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(3, 22), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(3, 23), solidGroundTile);
+
+	lisaBlock6.addObject(sf::Vector2i(4, 20), boring1GroundTile);
+	lisaBlock6.addObject(sf::Vector2i(4, 21), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(4, 22), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(4, 23), solidGroundTile);
+
+	lisaBlock6.addObject(sf::Vector2i(5, 20), boring1GroundTile);
+	lisaBlock6.addObject(sf::Vector2i(5, 21), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(5, 22), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(5, 23), solidGroundTile);
+
+	lisaBlock6.addObject(sf::Vector2i(6, 20), boring1GroundTile);
+	lisaBlock6.addObject(sf::Vector2i(6, 21), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(6, 22), solidGroundTile);
+	lisaBlock6.addObject(sf::Vector2i(6, 23), solidGroundTile);
+	generator.addBlock(lisaBlock6);
+
+	ObjectBlock lisaBlock7 = {};
+	lisaBlock7.addObject(sf::Vector2i(4, 14), platformTile);
+	lisaBlock7.addObject(sf::Vector2i(5, 14), platformTile);
+	lisaBlock7.addObject(sf::Vector2i(6, 14), platformTile);
+
+	lisaBlock7.addObject(sf::Vector2i(0, 20), boring1GroundTile);
+	lisaBlock7.addObject(sf::Vector2i(0, 21), solidGroundTile);
+	lisaBlock7.addObject(sf::Vector2i(0, 22), solidGroundTile);
+	lisaBlock7.addObject(sf::Vector2i(0, 23), solidGroundTile);
+	lisaBlock7.addObject(sf::Vector2i(1, 20), boring1GroundTile);
+	lisaBlock7.addObject(sf::Vector2i(1, 21), solidGroundTile);
+	lisaBlock7.addObject(sf::Vector2i(1, 22), solidGroundTile);
+	lisaBlock7.addObject(sf::Vector2i(1, 23), solidGroundTile);
+
+	lisaBlock7.addObject(sf::Vector2i(2, 20), boring1GroundTile);
+	lisaBlock7.addObject(sf::Vector2i(2, 21), solidGroundTile);
+	lisaBlock7.addObject(sf::Vector2i(2, 22), solidGroundTile);
+	lisaBlock7.addObject(sf::Vector2i(2, 23), solidGroundTile);
+
+	lisaBlock7.addObject(sf::Vector2i(3, 20), boring1GroundTile);
+	lisaBlock7.addObject(sf::Vector2i(3, 21), solidGroundTile);
+	lisaBlock7.addObject(sf::Vector2i(3, 22), solidGroundTile);
+	lisaBlock7.addObject(sf::Vector2i(3, 23), solidGroundTile);
+
+	lisaBlock7.addObject(sf::Vector2i(4, 20), boring1GroundTile);
+	lisaBlock7.addObject(sf::Vector2i(4, 21), solidGroundTile);
+	lisaBlock7.addObject(sf::Vector2i(4, 22), solidGroundTile);
+	lisaBlock7.addObject(sf::Vector2i(4, 23), solidGroundTile);
+
+	lisaBlock7.addObject(sf::Vector2i(5, 20), boring1GroundTile);
+	lisaBlock7.addObject(sf::Vector2i(5, 21), solidGroundTile);
+	lisaBlock7.addObject(sf::Vector2i(5, 22), solidGroundTile);
+	lisaBlock7.addObject(sf::Vector2i(5, 23), solidGroundTile);
+	lisaBlock7.addObject(sf::Vector2i(6, 20), boring1GroundTile);
+	lisaBlock7.addObject(sf::Vector2i(6, 21), solidGroundTile);
+	lisaBlock7.addObject(sf::Vector2i(6, 22), solidGroundTile);
+	lisaBlock7.addObject(sf::Vector2i(6, 23), solidGroundTile);
+	generator.addBlock(lisaBlock7);
+
+	ObjectBlock lisaBlock8 = {};
+	lisaBlock8.addObject(sf::Vector2i(4, 12), platformTile);
+	lisaBlock8.addObject(sf::Vector2i(5, 12), platformTile);
+	lisaBlock8.addObject(sf::Vector2i(6, 12), platformTile);
+
+	lisaBlock8.addObject(sf::Vector2i(1, 7), platformTile);
+	lisaBlock8.addObject(sf::Vector2i(2, 7), platformTile);
+	lisaBlock8.addObject(sf::Vector2i(3, 7), platformTile);
+
+	lisaBlock8.addObject(sf::Vector2i(0, 18), boring1GroundTile);
+	lisaBlock8.addObject(sf::Vector2i(0, 19), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(0, 20), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(0, 21), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(0, 22), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(0, 23), solidGroundTile);
+
+	lisaBlock8.addObject(sf::Vector2i(1, 18), boring1GroundTile);
+	lisaBlock8.addObject(sf::Vector2i(1, 19), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(1, 20), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(1, 21), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(1, 22), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(1, 23), solidGroundTile);
+
+	lisaBlock8.addObject(sf::Vector2i(2, 20), boring1GroundTile);
+	lisaBlock8.addObject(sf::Vector2i(2, 21), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(2, 22), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(2, 23), solidGroundTile);
+
+	lisaBlock8.addObject(sf::Vector2i(3, 20), boring1GroundTile);
+	lisaBlock8.addObject(sf::Vector2i(3, 21), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(3, 22), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(3, 23), solidGroundTile);
+
+	lisaBlock8.addObject(sf::Vector2i(4, 20), boring1GroundTile);
+	lisaBlock8.addObject(sf::Vector2i(4, 21), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(4, 22), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(4, 23), solidGroundTile);
+
+	lisaBlock8.addObject(sf::Vector2i(5, 18), boring1GroundTile);
+	lisaBlock8.addObject(sf::Vector2i(5, 19), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(5, 20), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(5, 21), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(5, 22), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(5, 23), solidGroundTile);
+
+	lisaBlock8.addObject(sf::Vector2i(6, 18), boring1GroundTile);
+	lisaBlock8.addObject(sf::Vector2i(6, 19), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(6, 20), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(6, 21), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(6, 22), solidGroundTile);
+	lisaBlock8.addObject(sf::Vector2i(6, 23), solidGroundTile);
+	generator.addBlock(lisaBlock8);
+
+	ObjectBlock lisaBlock9 = {};
+	lisaBlock9.addObject(sf::Vector2i(0, 7), platformTile);
+	lisaBlock9.addObject(sf::Vector2i(1, 7), platformTile);
+	lisaBlock9.addObject(sf::Vector2i(2, 7), platformTile);
+
+	lisaBlock9.addObject(sf::Vector2i(2, 12), platformTile);
+	lisaBlock9.addObject(sf::Vector2i(3, 12), platformTile);
+	lisaBlock9.addObject(sf::Vector2i(4, 12), platformTile);
+
+	lisaBlock9.addObject(sf::Vector2i(0, 2), platformTile);
+	lisaBlock9.addObject(sf::Vector2i(1, 2), platformTile);
+	lisaBlock9.addObject(sf::Vector2i(2, 2), platformTile);
+
+	lisaBlock9.addObject(sf::Vector2i(0, 20), boring1GroundTile);
+	lisaBlock9.addObject(sf::Vector2i(0, 21), solidGroundTile);
+	lisaBlock9.addObject(sf::Vector2i(0, 22), solidGroundTile);
+	lisaBlock9.addObject(sf::Vector2i(0, 23), solidGroundTile);
+
+	lisaBlock9.addObject(sf::Vector2i(1, 20), boring1GroundTile);
+	lisaBlock9.addObject(sf::Vector2i(1, 21), solidGroundTile);
+	lisaBlock9.addObject(sf::Vector2i(1, 22), solidGroundTile);
+	lisaBlock9.addObject(sf::Vector2i(1, 23), solidGroundTile);
+
+	lisaBlock9.addObject(sf::Vector2i(2, 20), boring1GroundTile);
+	lisaBlock9.addObject(sf::Vector2i(2, 21), solidGroundTile);
+	lisaBlock9.addObject(sf::Vector2i(2, 22), solidGroundTile);
+	lisaBlock9.addObject(sf::Vector2i(2, 23), solidGroundTile);
+
+	lisaBlock9.addObject(sf::Vector2i(3, 20), boring1GroundTile);
+	lisaBlock9.addObject(sf::Vector2i(3, 21), solidGroundTile);
+	lisaBlock9.addObject(sf::Vector2i(3, 22), solidGroundTile);
+	lisaBlock9.addObject(sf::Vector2i(3, 23), solidGroundTile);
+
+	lisaBlock9.addObject(sf::Vector2i(4, 20), boring1GroundTile);
+	lisaBlock9.addObject(sf::Vector2i(4, 21), solidGroundTile);
+	lisaBlock9.addObject(sf::Vector2i(4, 22), solidGroundTile);
+	lisaBlock9.addObject(sf::Vector2i(4, 23), solidGroundTile);
+
+	lisaBlock9.addObject(sf::Vector2i(5, 20), boring1GroundTile);
+	lisaBlock9.addObject(sf::Vector2i(5, 21), solidGroundTile);
+	lisaBlock9.addObject(sf::Vector2i(5, 22), solidGroundTile);
+	lisaBlock9.addObject(sf::Vector2i(5, 23), solidGroundTile);
+
+	lisaBlock9.addObject(sf::Vector2i(6, 20), boring1GroundTile);
+	lisaBlock9.addObject(sf::Vector2i(6, 21), solidGroundTile);
+	lisaBlock9.addObject(sf::Vector2i(6, 22), solidGroundTile);
+	lisaBlock9.addObject(sf::Vector2i(6, 23), solidGroundTile);
+	generator.addBlock(lisaBlock9);
+
+	ObjectBlock lisaBlock10 = {};
+	lisaBlock10.addObject(sf::Vector2i(0, 15), platformTile);
+	lisaBlock10.addObject(sf::Vector2i(1, 15), platformTile);
+	lisaBlock10.addObject(sf::Vector2i(2, 15), platformTile);
+
+	lisaBlock10.addObject(sf::Vector2i(0, 20), boring1GroundTile);
+	lisaBlock10.addObject(sf::Vector2i(0, 21), solidGroundTile);
+	lisaBlock10.addObject(sf::Vector2i(0, 22), solidGroundTile);
+	lisaBlock10.addObject(sf::Vector2i(0, 23), solidGroundTile);
+	lisaBlock10.addObject(sf::Vector2i(1, 20), boring1GroundTile);
+	lisaBlock10.addObject(sf::Vector2i(1, 21), solidGroundTile);
+	lisaBlock10.addObject(sf::Vector2i(1, 22), solidGroundTile);
+	lisaBlock10.addObject(sf::Vector2i(1, 23), solidGroundTile);
+
+	lisaBlock10.addObject(sf::Vector2i(2, 20), boring1GroundTile);
+	lisaBlock10.addObject(sf::Vector2i(2, 21), solidGroundTile);
+	lisaBlock10.addObject(sf::Vector2i(2, 22), solidGroundTile);
+	lisaBlock10.addObject(sf::Vector2i(2, 23), solidGroundTile);
+
+	lisaBlock10.addObject(sf::Vector2i(3, 20), boring1GroundTile);
+	lisaBlock10.addObject(sf::Vector2i(3, 21), solidGroundTile);
+	lisaBlock10.addObject(sf::Vector2i(3, 22), solidGroundTile);
+	lisaBlock10.addObject(sf::Vector2i(3, 23), solidGroundTile);
+
+	lisaBlock10.addObject(sf::Vector2i(4, 20), boring1GroundTile);
+	lisaBlock10.addObject(sf::Vector2i(4, 21), solidGroundTile);
+	lisaBlock10.addObject(sf::Vector2i(4, 22), solidGroundTile);
+	lisaBlock10.addObject(sf::Vector2i(4, 23), solidGroundTile);
+
+	lisaBlock10.addObject(sf::Vector2i(5, 20), boring1GroundTile);
+	lisaBlock10.addObject(sf::Vector2i(5, 21), solidGroundTile);
+	lisaBlock10.addObject(sf::Vector2i(5, 22), solidGroundTile);
+	lisaBlock10.addObject(sf::Vector2i(5, 23), solidGroundTile);
+	lisaBlock10.addObject(sf::Vector2i(6, 20), boring1GroundTile);
+	lisaBlock10.addObject(sf::Vector2i(6, 21), solidGroundTile);
+	lisaBlock10.addObject(sf::Vector2i(6, 22), solidGroundTile);
+	lisaBlock10.addObject(sf::Vector2i(6, 23), solidGroundTile);
+	generator.addBlock(lisaBlock10);
+
+
+
 	generator.addStartBlock(plainGroundBlock);
 	generator.addStartBlock(var1GroundBlock);
 	generator.addStartBlock(var2GroundBlock);
