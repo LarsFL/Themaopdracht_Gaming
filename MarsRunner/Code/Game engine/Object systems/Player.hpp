@@ -293,6 +293,7 @@ public:
 					this->isOnGround(false);
 					this->setAcceleration(sf::Vector2f{ 0.0, 0.35 });
 					this->setVelocity(sf::Vector2f{ 0.0, -12.0 });
+					audio.playSound("jump");
 				}
 
 				animationsMap["player"].setState(PossibleStates::JUMP_START_IMPACT);
