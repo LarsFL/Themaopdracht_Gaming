@@ -18,6 +18,7 @@
 #include "Code/Game engine/World generation systems/GenerateBlock.hpp"
 #include "Code/Game engine/Object systems/Player.hpp"
 #include "Code/Game engine/Object systems/PickUp.hpp"
+#include "Code/Game engine/Object systems/EnemyObject.hpp"
 #include "Code/Game engine/Physics systems/physics.hpp"
 #include "Code/Setup/InitializeAnimations.hpp"
 #include "Code/Game engine/Animation systems/AnimationStates.hpp"
@@ -57,8 +58,6 @@ int main() {
     std::string pathBackground = "../Assets/Objects/newBackground.jpg";
     GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{0.78, 1.4}, 5, false };
 
-
-    std::string pathGround = "../Assets/Test/green_button01.png";
     std::deque<ObjectBlock> groundObjectList;
 
     GenerateBlock generator = {};
@@ -67,10 +66,6 @@ int main() {
 
     generateBlocks(generator, manager);
     initializeSounds(audio);
-
-    std::string coinPath = "../Assets/Objects/coin.png";
-    Texture coinTex{ coinPath };
-    manager.addTexture(2, coinTex);
 
     float widthValue = -190;
     float widthG = 32;
@@ -95,7 +90,8 @@ int main() {
     auto lag = 0.0;
     float msPerLoop = 16.33;
     float minSpeed = 3;
-    sf::Vector2f newPosition = { 0.0,0.0 };
+    sf::Vector2f newCoinPosition = { 0.0,0.0 };
+    sf::Vector2f newEnemyPosition = { 0.0,0.0 };
 
     std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
     Player player{ playerSpriteSheet, sf::Vector2f{580,550}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList, mainView, state, audio };
@@ -105,18 +101,18 @@ int main() {
     player.setVelocity(sf::Vector2f{ 0.0, 2 });
     
     std::deque<PickUp> coinList;
+    std::deque<Enemy> enemyList;
 
     coinList.push_back(PickUp{ manager, 2, sf::Vector2f{getRandomNumber(700, 1100), 100}, 
                                            sf::Vector2f{.03,.03}, 
                                            sf::Vector2f{0.0, 5}, 5, false, false, window });
 
 
-    std::string smallAlienSpriteSheet = "../Assets/Objects/smallAlien.png";
-    Enemy smallAlien{smallAlienSpriteSheet, sf::Vector2f{1200,700}, sf::Vector2f{2,2}, 5, true, true };
-    smallAlien.setAnimationStates(&animationsMap["smallAlien"]);
+    enemyList.push_back(Enemy { manager, 3, sf::Vector2f{1000,100}, 
+                                            sf::Vector2f{2,2},
+                                            sf::Vector2f{0.0, 5}, 5, false, true, state, window });
+    enemyList[0].setAnimationStates(&animationsMap["smallAlien"]);
     animationsMap["smallAlien"].setState(PossibleStates::IDLE);
-    smallAlien.setVelocity(sf::Vector2f{ 0.0, 2 });
-    smallAlien.setAcceleration(sf::Vector2f{ 0.0, 2 });
     
 
     while (window.isOpen()) {
@@ -170,19 +166,18 @@ int main() {
                     widthValue += (widthG * (generatedBlock.getWidth() + 1)); //widthValue += (widthG * 5);
                 }
 
-                player.update(minSpeed);
-                player.setPlayerAnimationState(animationsMap);
+                player.update(minSpeed, enemyList);
 
                 if (coinList.size() > 0) {
-                    if (coinList[0].destroyObjectOnInteract(coinList, player, mainView)) {
-                        float tempValue = increaseValue * 2.5;
-                        newPosition = sf::Vector2f{ getRandomNumber(tempValue + 600, tempValue + 1200), 100 };
+                    if (coinList[0].destroyObjectOnInteract(coinList, player.getGlobalBounds(), mainView)) {
+                        float tempValue = increaseValue * 1;
+                        newCoinPosition = sf::Vector2f{ getRandomNumber(tempValue + 600, tempValue + 1200), 100 };
                     }
                 }
 
                 if (coinList.size() == 0) {
-                    if (player.getGlobalBounds().left + 1750 > newPosition.x) {
-                        coinList.push_back(PickUp{ manager, 2, newPosition,
+                    if (player.getGlobalBounds().left + 1750 > newCoinPosition.x) {
+                        coinList.push_back(PickUp{ manager, 2, newCoinPosition,
                                                                 sf::Vector2f{0.03,0.03},
                                                                 sf::Vector2f{0.0, 7.5}, 5, false, false, window });
                     }
@@ -191,6 +186,35 @@ int main() {
                 if (coinList.size() > 0) {
                     coinList[0].move(coinList[0].getMoveSpeed());
                 }
+
+
+                // Destroy enemy object when the player interacts with it, or the enemy is out of bounds.
+                if (enemyList.size() > 0) {
+                    if (player.deathByEnemy(enemyList) || enemyList[0].enemyOutOfBounds(enemyList, mainView)) {
+                        float tempValue = increaseValue * 1.2;
+                        newEnemyPosition = sf::Vector2f{ getRandomNumber(tempValue + 600, tempValue + 1200), 100 };
+                    }
+                }
+
+                // Spawn enemy when player is getting close to position of enemy
+                if (enemyList.size() == 0) {
+                    if (player.getGlobalBounds().left + 1750 > newEnemyPosition.x) {
+                        enemyList.push_back(Enemy{ manager, 3, newEnemyPosition,
+                                                                sf::Vector2f{2,2},
+                                                                sf::Vector2f{0.0, 7.5}, 5, false, true, state, window });
+                        enemyList[0].setAnimationStates(&animationsMap["smallAlien"]);
+                        animationsMap["smallAlien"].resetCurrentAnimation();
+                        animationsMap["smallAlien"].setState(PossibleStates::IDLE);
+                    }
+                }
+
+                // Move the enemy
+                if (enemyList.size() > 0) {
+                    enemyList[0].move(enemyList[0].getMoveSpeed());
+                }
+
+                player.setPlayerAnimationState(animationsMap);
+
                 // TODO Coins vallen niet helemaal door de onderkant,
                 // TODO Bij death, back to menu werkt niet,
                 for (auto& groundObject : groundObjectList) {
@@ -200,6 +224,18 @@ int main() {
                         }
                     }
                 }
+
+                // If enemy hits the ground, stop moving the enemy.
+
+                // TODO Zet deze in update van enemy
+                for (auto& groundObject : groundObjectList) {
+                    if (enemyList.size() > 0) {
+                        if (isObjOnGround(enemyList[0], groundObject)) {
+                            enemyList[0].setMoveSpeed(sf::Vector2f{ 0.0, 0.0 });
+                        }
+                    }
+                }
+
             }
 
             if (state.getState() == game_states::MAIN_MENU) {
@@ -218,15 +254,20 @@ int main() {
                     float viewMoveSpeed = getViewMoveSpeed();
                     move_object_with_view(background, viewMoveSpeed, minSpeed);
                     state.setReplay(false);
+
+                    animationsMap["player"].resetCurrentAnimation();
+                    animationsMap["smallAlien"].resetCurrentAnimation();
+
                     player.setPlayerState(playerStates::IDLE);
                     player.jump(sf::Vector2f{ 580,550 });
-                    player.update(minSpeed);
+                    player.update(minSpeed, enemyList);
                     player.setPlayerAnimationState(animationsMap);
 
+
+
                     float increaseValue = mainView.getCenter().x;
-                    std::cout << "size: " << coinList.size() << "\n";
+
                     if (coinList.size() > 0) {
-                        std::cout << "yooeo\n";
                         coinList.pop_back();
                         coinList.push_back(PickUp{ manager, 2, sf::Vector2f{getRandomNumber(increaseValue + 600, increaseValue + 1200), 100},
                                                                sf::Vector2f{0.03,0.03},
@@ -242,7 +283,31 @@ int main() {
                         coinList[0].setMoveSpeed(sf::Vector2f{ 0.0, 5 });
                     }
 
-                    newPosition = { 0.0,0.0 };
+
+                    // On restart, delete all enemies further in the game and start over by placing one closeby.
+                    if (enemyList.size() > 0) {
+                        enemyList.pop_back();
+                        enemyList.push_back(Enemy{ manager, 3, sf::Vector2f{getRandomNumber(increaseValue + 600, increaseValue + 1200), 100},
+                                                               sf::Vector2f{2,2},
+                                                               sf::Vector2f{0.0, 5}, 5, false, true, state, window });
+                        enemyList[0].setAnimationStates(&animationsMap["smallAlien"]);
+
+                        animationsMap["smallAlien"].setState(PossibleStates::IDLE);
+
+                        enemyList[0].setMoveSpeed(sf::Vector2f{ 0.0, 5 });
+                    }
+                    else {
+                        enemyList.push_back(Enemy{ manager, 3, sf::Vector2f{getRandomNumber(increaseValue + 600, increaseValue + 1200), 100},
+                                       sf::Vector2f{2,2},
+                                       sf::Vector2f{0.0, 5}, 5, false, true, state, window });
+                        enemyList[0].setAnimationStates(&animationsMap["smallAlien"]);
+                        animationsMap["smallAlien"].setState(PossibleStates::IDLE);
+
+                        enemyList[0].setMoveSpeed(sf::Vector2f{ 0.0, 5 });
+                    }
+
+                    newCoinPosition = { 0.0,0.0 };
+                    newEnemyPosition = { 0.0,0.0 };
                 }
             }
             lag -= msPerLoop;
@@ -258,15 +323,18 @@ int main() {
         auto bounds = getViewBounds(mainView);
         player.drawProjectiles(bounds);
 
-            if (coinList.size() > 0) {
-                for (PickUp& current_object : coinList) {
-                    current_object.draw(window);
-                }
-            }
+        for (PickUp& current_object : coinList) {
+            current_object.draw(window);
+        }
 
-            auto mouse_pos = sf::Mouse::getPosition(window);
-            auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
-            state.updateUI(translated_pos);
+        // Draw enemy.
+        for (Enemy& current_object : enemyList) {
+            current_object.draw(window);
+        }
+
+        auto mouse_pos = sf::Mouse::getPosition(window);
+        auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
+        state.updateUI(translated_pos);
 
         state.updateUIElement(game_states::PLAYING, "ScoreValueText", std::to_string(state.getScore()));
         state.updateUIElement(game_states::PAUSED, "PausedScoreValueText", std::to_string(state.getScore()));

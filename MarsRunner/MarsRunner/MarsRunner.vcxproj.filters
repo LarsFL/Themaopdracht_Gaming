@@ -140,6 +140,9 @@
       <Filter>Code\Setup</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Game engine\Object systems\WorldObject.hpp" />
+    <ClInclude Include="..\Code\Game engine\Object systems\EnemyObject.hpp">
+      <Filter>Code\Game engine\Object systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Assets\Objects\coin.png">

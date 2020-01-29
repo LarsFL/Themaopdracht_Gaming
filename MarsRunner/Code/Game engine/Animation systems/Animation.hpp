@@ -86,5 +86,9 @@ public:
 	bool getBlocking() {
 		return blocking;
 	}
+
+	void resetAnimation() {
+		currentFrame = 0;
+	}
 };
 #endif //_ANIMATION_HPP

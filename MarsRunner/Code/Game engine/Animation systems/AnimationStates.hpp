@@ -105,5 +105,9 @@ public:
 	void setPaused(bool newValue) {
 		paused = newValue;
 	}
+
+	void resetCurrentAnimation() {
+		animations[state].resetAnimation();
+	}
 };
 #endif

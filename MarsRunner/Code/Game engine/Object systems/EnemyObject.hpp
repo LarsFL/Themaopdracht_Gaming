@@ -1,7 +1,11 @@
 #ifndef _ENEMYOBJECT_HPP
 #define _ENEMYOBJECT_HPP
 
-#include "GameObject.hpp"
+#include <deque>
+
+#include "Code/Game engine/Object systems/PickUp.hpp"
+#include "Code/Game engine/Object systems/Player.hpp"
+#include "Code/Setup/GameState.hpp"
 
 enum class enemyStates {
 	IDLE,
@@ -9,21 +13,45 @@ enum class enemyStates {
 	DEATH
 };
 
-class Enemy : public GameObject {
+class Enemy : public PickUp {
 private:
-
+	GameState& gameState;
+	enemyStates thisState = enemyStates::IDLE;
 
 public:
-	Enemy(std::string imageLocation, sf::Vector2f position, sf::Vector2f size, float weight, bool isStatic, bool animated) :
-		GameObject(imageLocation, position, size, weight, isStatic, animated)
+	Enemy(TextureManager manager, int textureID, sf::Vector2f position, sf::Vector2f size, sf::Vector2f moveSpeed, float weight, bool isStatic, bool animated, GameState& gameState, sf::RenderWindow& window) :
+		PickUp(manager, textureID, position, size, moveSpeed, weight, isStatic, animated, window),
+		gameState(gameState)
 	{}
 
 	Enemy(const Enemy& a) :
-		GameObject(a.imageLocation, a.position, a.size, a.weight, a.isStatic, a.animated)
+		PickUp(a.manager, a.textureID, a.position, a.size, a.moveSpeed, a.weight, a.isStatic, a.animated, a.window),
+		gameState(a.gameState)
 	{}
+	
+	bool enemyOutOfBounds(std::deque<Enemy>& list, sf::View& view) {
+		if (list.size() > 0) {
+		sf::FloatRect itemBounds = list[0].getGlobalBounds();
+			if (itemBounds.left + itemBounds.width < getViewBounds(view).left) {
+				list.pop_back();
+				return 1;
+			}
+		}
 
-	void update() {
+		return 0;
+	}
 
+	void enemyKilled() {
+		thisState = enemyStates::DEATH;
+		animations->setState(PossibleStates::DEATH);
+	}
+
+	enemyStates getState() {
+		return thisState;
+	}
+
+	void setState(enemyStates newState) {
+		thisState = newState;
 	}
 };
 
