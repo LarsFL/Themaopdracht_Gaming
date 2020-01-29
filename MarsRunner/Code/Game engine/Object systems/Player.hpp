@@ -298,7 +298,7 @@ public:
 			}
 
 			case(playerStates::WALK_LEFT): {
-				this->move(sf::Vector2f(((getViewMoveSpeed() / 5000) + 6) * -1, 0));
+				this->move(sf::Vector2f(((getViewMoveSpeed() / 5000) + 8) * -1, 0));
 
 				animationsMap["player"].setState(PossibleStates::WALK_LEFT);
 				animationsMap["player"].setGameSpeed(viewMoveSpeed);
