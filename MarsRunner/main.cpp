@@ -83,7 +83,7 @@ int main() {
         groundObjectList.push_back(generatedBlock);
         widthValue += (widthG * 5);
     }*/
-    for (unsigned int i = 0; i < 20; i++) {
+    for (unsigned int i = 0; i < 12; i++) {
         ObjectBlock generatedBlock = generator.generateStart();
         generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
         groundObjectList.push_back(generatedBlock);
@@ -102,7 +102,8 @@ int main() {
     auto previous = std::chrono::system_clock::now();
     auto lag = 0.0;
     float msPerLoop = 16.33;
-    float minSpeed = 0.5;
+    float minSpeed = 1.5;
+    sf::Vector2f newPosition = { 0.0,0.0 };
 
     std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
     Player player{ playerSpriteSheet, sf::Vector2f{580,550}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList, mainView, state, audio };
@@ -186,27 +187,39 @@ int main() {
 
                 if (coinList.size() > 0) {
                     if (coinList[0].destroyObjectOnInteract(coinList, player, mainView)) {
-                        coinList.push_back(PickUp{ manager, 2, sf::Vector2f{getRandomNumber(increaseValue + 600, increaseValue + 1200), 100},
-                                                               sf::Vector2f{0.03,0.03},
-                                                               sf::Vector2f{0.0, 5}, 5, false, false, window });
+                        float tempValue = increaseValue * 2.5;
+                        newPosition = sf::Vector2f{ getRandomNumber(tempValue + 600, tempValue + 1200), 100 };
                     }
                 }
 
-                coinList[0].move(coinList[0].getMoveSpeed());
+                if (coinList.size() == 0) {
+                    if (player.getGlobalBounds().left + 1750 > newPosition.x) {
+                        coinList.push_back(PickUp{ manager, 2, newPosition,
+                                                                sf::Vector2f{0.03,0.03},
+                                                                sf::Vector2f{0.0, 7.5}, 5, false, false, window });
+                    }
+                }
 
+                if (coinList.size() > 0) {
+                    coinList[0].move(coinList[0].getMoveSpeed());
+                }
+                // TODO Coins vallen niet helemaal door de onderkant,
+                // TODO Bij death, back to menu werkt niet,
                 for (auto& groundObject : groundObjectList) {
-                    if (isObjOnGround(coinList[0], groundObject)) {
-                        coinList[0].setMoveSpeed(sf::Vector2f{ 0.0, 0.0 });
+                    if (coinList.size() > 0) {
+                        if (isObjOnGround(coinList[0], groundObject)) {
+                            coinList[0].setMoveSpeed(sf::Vector2f{ 0.0, 0.0 });
+                        }
                     }
                 }
             }
 
             if (state.getState() == game_states::MAIN_MENU) {
-                if (state.getReplay()) {
+                if (state.getReplay()) {           
                     mainView.setCenter(sf::Vector2f(600.f, 384.f));
                     background.jump(sf::Vector2f{ -250, -250 });
                     widthValue = -190;
-                    for (unsigned int i = 0; i < 10; i++) {
+                    for (unsigned int i = 0; i < 12; i++) {
                         ObjectBlock generatedBlock = generator.generateStart();
                         generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
                         groundObjectList.push_back(generatedBlock);
@@ -220,6 +233,27 @@ int main() {
                     player.jump(sf::Vector2f{ 580,550 });
                     player.update(minSpeed);
                     player.setPlayerAnimationState(animationsMap);
+
+                    float increaseValue = mainView.getCenter().x;
+                    std::cout << "size: " << coinList.size() << "\n";
+                    if (coinList.size() > 0) {
+                        std::cout << "yooeo\n";
+                        coinList.pop_back();
+                        coinList.push_back(PickUp{ manager, 2, sf::Vector2f{getRandomNumber(increaseValue + 600, increaseValue + 1200), 100},
+                                                               sf::Vector2f{0.03,0.03},
+                                                               sf::Vector2f{0.0, 5}, 5, false, false, window });
+
+                        coinList[0].setMoveSpeed(sf::Vector2f{ 0.0, 5 });
+                    }
+                    else {
+                        coinList.push_back(PickUp{ manager, 2, sf::Vector2f{getRandomNumber(increaseValue + 600, increaseValue + 1200), 100},
+                                       sf::Vector2f{0.03,0.03},
+                                       sf::Vector2f{0.0, 5}, 5, false, false, window });
+
+                        coinList[0].setMoveSpeed(sf::Vector2f{ 0.0, 5 });
+                    }
+
+                    newPosition = { 0.0,0.0 };
                 }
             }
 

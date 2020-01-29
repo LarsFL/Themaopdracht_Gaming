@@ -182,7 +182,7 @@ public:
 		if (!rightIntersected)
 		{
 			if (viewMoveSpeed < minSpeed) {
-				this->move(sf::Vector2f{ 0.5, 0 });
+				this->move(sf::Vector2f{ minSpeed, 0 });
 			}
 			else {
 				this->move(sf::Vector2f{ viewMoveSpeed, 0 });
@@ -260,7 +260,7 @@ public:
 			}
 
 			case(playerStates::WALK_LEFT): {
-				this->move(sf::Vector2f((viewMoveSpeed + 6) * -1, 0));
+				this->move(sf::Vector2f((+5) * -1, 0));
 
 				animationsMap["player"].setState(PossibleStates::WALK_LEFT);
 				animationsMap["player"].setGameSpeed(viewMoveSpeed);
@@ -268,7 +268,7 @@ public:
 			}
 
 			case(playerStates::WALK_RIGHT): {
-				this->move(sf::Vector2f(viewMoveSpeed + 6, 0));
+				this->move(sf::Vector2f(+4, 0));
 
 				animationsMap["player"].setGameSpeed(viewMoveSpeed);
 				animationsMap["player"].setState(PossibleStates::WALK_RIGHT);

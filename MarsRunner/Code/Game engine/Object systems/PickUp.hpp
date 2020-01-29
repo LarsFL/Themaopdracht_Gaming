@@ -21,7 +21,9 @@ public:
 		GameObject(manager, textureID, position, size, weight, isStatic, animated),
 		moveSpeed(moveSpeed),
 		window(window)
-	{}
+	{
+		std::cout << "value: " << position.x << "\n";
+	}
 
 	// Copy Constructor
 	PickUp(const PickUp& a) :
@@ -37,16 +39,20 @@ public:
 	void setMoveSpeed(sf::Vector2f newSpeed) {
 		this->moveSpeed = newSpeed;
 	}
-	
-	bool destroyObjectOnInteract(std::deque<PickUp> & list, Player & player, sf::View & view){
-		sf::FloatRect itemBounds = list[0].getGlobalBounds();
-		if (player.getGlobalBounds().intersects(itemBounds)) {
-			list.pop_back();
-			return 1;
-		} else 
-		if (itemBounds.left + itemBounds.width < getViewBounds(view).left) {
-			list.pop_back();
-			return 1;
+
+	bool destroyObjectOnInteract(std::deque<PickUp>& list, Player& player, sf::View& view) {
+		if (list.size() > 0) {
+			sf::FloatRect itemBounds = list[0].getGlobalBounds();
+			if (player.getGlobalBounds().intersects(itemBounds)) {
+				list.pop_back();
+				return 1;
+			}
+			else {
+				if (itemBounds.left + itemBounds.width < getViewBounds(view).left) {
+					list.pop_back();
+					return 1;
+				}
+			}
 		}
 
 		return 0;
