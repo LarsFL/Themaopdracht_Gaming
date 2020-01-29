@@ -75,6 +75,7 @@
     <ClInclude Include="..\Code\Game engine\Object systems\Player.hpp">
       <Filter>Code\Game engine\Object systems</Filter>
     </ClInclude>
+<<<<<<< Updated upstream
     <ClInclude Include="..\Code\Game engine\Object systems\GameObject.hpp">
       <Filter>Code\Game engine\Object systems</Filter>
     </ClInclude>
@@ -169,5 +170,13 @@
     <Font Include="..\Assets\Fonts\Mars.otf">
       <Filter>Assets\Fonts</Filter>
     </Font>
+=======
+    <ClInclude Include="..\Code\Game engine\Tile systems\Texture.hpp" />
+    <ClInclude Include="..\Code\Game engine\Tile systems\TextureManager.hpp" />
+    <ClInclude Include="..\Code\Game engine\Tile systems\Tile.hpp" />
+    <ClInclude Include="..\Code\Game engine\World generation systems\GenerateBlock.hpp" />
+    <ClInclude Include="..\Code\Game engine\World generation systems\ObjectBlock.hpp" />
+    <ClInclude Include="..\Code\Game engine\World Speed Systems\view.hpp" />
+>>>>>>> Stashed changes
   </ItemGroup>
 </Project>
