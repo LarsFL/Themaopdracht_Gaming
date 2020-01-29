@@ -255,6 +255,7 @@ int main() {
                     mainView.setCenter(sf::Vector2f(600.f, 384.f));
                     background.jump(sf::Vector2f{ -250, -250 });
                     widthValue = -190;
+                    groundObjectList.clear();
                     for (unsigned int i = 0; i < 12; i++) {
                         ObjectBlock generatedBlock = generator.generateStart();
                         generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
