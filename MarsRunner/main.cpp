@@ -266,10 +266,15 @@ int main() {
                     float viewMoveSpeed = getViewMoveSpeed();
                     move_object_with_view(background, viewMoveSpeed, minSpeed);
                     state.setReplay(false);
+
+                    animationsMap["player"].resetCurrentAnimation();
+                    //==========================================================================================================================
                     player.setPlayerState(playerStates::IDLE);
                     player.jump(sf::Vector2f{ 580,550 });
                     player.update(minSpeed);
                     player.setPlayerAnimationState(animationsMap);
+
+
 
                     float increaseValue = mainView.getCenter().x;
 
