@@ -33,7 +33,6 @@ public:
 		if (list.size() > 0) {
 		sf::FloatRect itemBounds = list[0].getGlobalBounds();
 			if (itemBounds.left + itemBounds.width < getViewBounds(view).left) {
-				std::cout << "You have been kiled2\n";
 				list.pop_back();
 				return 1;
 			}
@@ -43,7 +42,6 @@ public:
 	}
 
 	void enemyKilled() {
-		std::cout << "enemy doood!!!!!!!";
 		thisState = enemyStates::DEATH;
 		animations->setState(PossibleStates::DEATH);
 	}

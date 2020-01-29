@@ -38,27 +38,25 @@ public:
 	bool objectBlockHit(std::deque<ObjectBlock>& objects) {
 		for (auto& object : objects) {
 			auto& thing = object.getObjects();
-			for (auto& test : thing) {
-				if (this->getGlobalBounds().intersects(test.second->getGlobalBounds())) {
-					test.second->callLamba([&] {std::cout << "You've been hit"; });
+			for (auto& item : thing) {
+				if (this->getGlobalBounds().intersects(item.second->getGlobalBounds())) {
 					return true;
 				}
 			}
-			//if (intersects(*this, object)) {
-				//object.callLamba([&] {std::cout << "You've been hit"; });
-				//return true;
-			//}
 		}
+
+		return false;
 	}
 
 	bool gameObjectHit(std::deque<Enemy>& enemies) {
 		for (Enemy& current_enemy : enemies){
 			if (this->getGlobalBounds().intersects(current_enemy.getGlobalBounds())) {
-				std::cout << "Enemy dood";
 				current_enemy.enemyKilled();
 				return true;
 			}
 		}
+
+		return false;
 	}
 };
 

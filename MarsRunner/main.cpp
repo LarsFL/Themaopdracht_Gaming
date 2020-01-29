@@ -67,14 +67,6 @@ int main() {
     generateBlocks(generator, manager);
     initializeSounds(audio);
 
-    std::string coinPath = "../Assets/Objects/coin.png";
-    Texture coinTex{ coinPath };
-    manager.addTexture(2, coinTex);
-
-    std::string enemy1Path = "../Assets/Objects/smallAlien.png";
-    Texture enemy1Tex{ enemy1Path };
-    manager.addTexture(3, enemy1Tex);
-
     float widthValue = -190;
     float widthG = 32;
 
@@ -185,7 +177,7 @@ int main() {
 
                 if (coinList.size() > 0) {
                     if (coinList[0].destroyObjectOnInteract(coinList, player.getGlobalBounds(), mainView)) {
-                        float tempValue = increaseValue * 2.5;
+                        float tempValue = increaseValue * 1;
                         newCoinPosition = sf::Vector2f{ getRandomNumber(tempValue + 600, tempValue + 1200), 100 };
                     }
                 }
@@ -206,7 +198,7 @@ int main() {
                 // Destroy enemy object when the player interacts with it, or the enemy is out of bounds.
                 if (enemyList.size() > 0) {
                     if (player.deathByEnemy(enemyList) || enemyList[0].enemyOutOfBounds(enemyList, mainView)) {
-                        float tempValue = increaseValue * 1;
+                        float tempValue = increaseValue * 1.2;
                         newEnemyPosition = sf::Vector2f{ getRandomNumber(tempValue + 600, tempValue + 1200), 100 };
                     }
                 }
@@ -241,6 +233,8 @@ int main() {
                 }
 
                 // If enemy hits the ground, stop moving the enemy.
+
+                // TODO Zet deze in update van enemy
                 for (auto& groundObject : groundObjectList) {
                     if (enemyList.size() > 0) {
                         if (isObjOnGround(enemyList[0], groundObject)) {
@@ -336,17 +330,13 @@ int main() {
         auto bounds = getViewBounds(mainView);
         player.drawProjectiles(bounds);
 
-        if (coinList.size() > 0) {
-            for (PickUp& current_object : coinList) {
-                current_object.draw(window);
-            }
+        for (PickUp& current_object : coinList) {
+            current_object.draw(window);
         }
 
         // Draw enemy.
-        if (enemyList.size() > 0) {
-            for (Enemy& current_object : enemyList) {
-                current_object.draw(window);
-            }
+        for (Enemy& current_object : enemyList) {
+            current_object.draw(window);
         }
 
         auto mouse_pos = sf::Mouse::getPosition(window);

@@ -26,6 +26,14 @@ void generateBlocks(GenerateBlock& generator, TextureManager& manager) {
 	sf::IntRect groundVar1PlainRect = { 96, 0, 16, 16 };
 	sf::IntRect groundVar0PlainRect = { 80, 0, 16, 16 };
 
+	std::string coinPath = "../Assets/Objects/coin.png";
+	Texture coinTex{ coinPath };
+	manager.addTexture(2, coinTex);
+
+	std::string enemy1Path = "../Assets/Objects/smallAlien.png";
+	Texture enemy1Tex{ enemy1Path };
+	manager.addTexture(3, enemy1Tex);
+
 	Tile boring1GroundTile = { manager, 0, sf::Vector2f{0,0}, sf::Vector2f{2,2}, grounddVar2PlainRect };
 	Tile boringGroundTile = { manager, 0, sf::Vector2f{0,0}, sf::Vector2f{2,2}, groundVar1PlainRect };
 	Tile solidGroundTile = { manager, 0, sf::Vector2f{0,0}, sf::Vector2f{2,2}, groundVar0PlainRect };

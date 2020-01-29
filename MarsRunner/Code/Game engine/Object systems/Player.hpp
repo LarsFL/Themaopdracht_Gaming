@@ -236,8 +236,6 @@ public:
 			sf::FloatRect itemBounds = enemyList[0].getGlobalBounds();
 			if (enemyList[0].getState() != enemyStates::DEATH) {
 				if (this->getGlobalBounds().intersects(itemBounds)) {
-					std::cout << "You have been kiled1\n";
-
 					this->setPlayerState(playerStates::DEATH);
 					gameState.setState(game_states::GAME_OVER);
 
