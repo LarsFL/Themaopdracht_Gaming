@@ -62,7 +62,7 @@ void InitializeSmallAlienAnimations(std::map<std::string, AnimationStates>& anim
 	AnimationStates smallAlien;
 	
 	//IDLE
-	sf::IntRect idleLoc(569, 183, 30, 40);
+	sf::IntRect idleLoc(581, 186, 18, 37); //569, 183, 30, 40
 	Animation Idle(idleLoc, 8, 31, 150, true, true);
 	smallAlien.addAnimation(PossibleStates::IDLE, Idle);
 
