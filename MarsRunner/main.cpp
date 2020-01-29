@@ -39,7 +39,7 @@ int main() {
     int height = sf::VideoMode::getDesktopMode().height;
     sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
 
-    window.setFramerateLimit(60);
+    window.setVerticalSyncEnabled(true);
     sf::View fixed = window.getView();
     std::map<std::string, AnimationStates> animationsMap;
     sf::View mainView;
@@ -170,7 +170,7 @@ int main() {
 
                 if (coinList.size() > 0) {
                     if (coinList[0].destroyObjectOnInteract(coinList, player.getGlobalBounds(), mainView)) {
-                        float tempValue = increaseValue * 1;
+                        float tempValue = increaseValue * 1.6;
                         newCoinPosition = sf::Vector2f{ getRandomNumber(tempValue + 600, tempValue + 1200), 100 };
                     }
                 }
