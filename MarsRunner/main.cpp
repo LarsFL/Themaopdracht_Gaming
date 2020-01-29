@@ -37,7 +37,7 @@ int main() {
     int width = sf::VideoMode::getDesktopMode().width;
     int height = sf::VideoMode::getDesktopMode().height;
     //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
-    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Default);
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Mars Runner", sf::Style::Default);
     window.setFramerateLimit(60);
     sf::View fixed = window.getView();
     std::map<std::string, AnimationStates> animationsMap;
@@ -47,7 +47,6 @@ int main() {
     InitializeSmallAlienAnimations(animationsMap);
     InitializeGreenAlienAnimations(animationsMap);
     InitializeSateliteAnimations(animationsMap);
-    InitializeCoinAnimation(animationsMap);
 
     bool escapeUp = true;
     mainView.setCenter(sf::Vector2f(600.f, 384.f));
@@ -102,7 +101,7 @@ int main() {
     auto previous = std::chrono::system_clock::now();
     auto lag = 0.0;
     float msPerLoop = 16.33;
-    float minSpeed = 1.5;
+    float minSpeed = 3;
     sf::Vector2f newPosition = { 0.0,0.0 };
 
     std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
@@ -118,10 +117,6 @@ int main() {
                                            sf::Vector2f{.03,.03}, 
                                            sf::Vector2f{0.0, 5}, 5, false, false, window });
 
-    std::string coinSpriteSheet = "../Assets/Objects/coinv2.png";
-    GameObject coin{ coinSpriteSheet, sf::Vector2f{100,550}, sf::Vector2f{2,2}, 5, false, true };
-    coin.setAnimationStates(&animationsMap["coin"]);
-    animationsMap["coin"].setState(PossibleStates::IDLE);
 
     std::string smallAlienSpriteSheet = "../Assets/Objects/smallAlien.png";
     Enemy smallAlien{smallAlienSpriteSheet, sf::Vector2f{1200,700}, sf::Vector2f{2,2}, 5, true, true };
@@ -256,20 +251,18 @@ int main() {
                     newPosition = { 0.0,0.0 };
                 }
             }
-
             lag -= msPerLoop;
         }
 
-            window.setView(mainView);
-            background.draw(window);
+        window.setView(mainView);
+        background.draw(window);
 
-            for (auto& current_object : groundObjectList) {
-                current_object.draw(window);
-            }
+        for (auto& current_object : groundObjectList) {
+            current_object.draw(window);
+        }
 
-            auto bounds = getViewBounds(mainView);
-
-            player.drawProjectiles(bounds);
+        auto bounds = getViewBounds(mainView);
+        player.drawProjectiles(bounds);
 
             if (coinList.size() > 0) {
                 for (PickUp& current_object : coinList) {
@@ -281,41 +274,38 @@ int main() {
             auto translated_pos = window.mapPixelToCoords(mouse_pos, fixed);
             state.updateUI(translated_pos);
 
-            state.updateUIElement(game_states::PLAYING, "ScoreValueText", std::to_string(state.getScore()));
-            state.updateUIElement(game_states::PAUSED, "PausedScoreValueText", std::to_string(state.getScore()));
-            state.updateUIElement(game_states::GAME_OVER, "GameOverScoreValue", std::to_string(state.getScore()));
+        state.updateUIElement(game_states::PLAYING, "ScoreValueText", std::to_string(state.getScore()));
+        state.updateUIElement(game_states::PAUSED, "PausedScoreValueText", std::to_string(state.getScore()));
+        state.updateUIElement(game_states::GAME_OVER, "GameOverScoreValue", std::to_string(state.getScore()));
 
-            coin.draw(window);
             player.draw(window);
             window.setView(fixed);
             state.draw(window);
             window.display();
             window.setView(mainView);
 
-            sf::Event event;
-            while (window.pollEvent(event)) {
-                if (state.getEnterText() && (event.type == sf::Event::TextEntered)) {
-                    sf::String text = state.getText();
-                    if (event.text.unicode == '\b') {
-                        if (text.getSize() > 0) {
-                            text.erase(text.getSize() - 1, 1);
-                        }
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (state.getEnterText() && (event.type == sf::Event::TextEntered)) {
+                sf::String text = state.getText();
+                if (event.text.unicode == '\b') {
+                    if (text.getSize() > 0) {
+                        text.erase(text.getSize() - 1, 1);
                     }
-                    else {
-                        if (text.getSize() < 10) {
-                            text += event.text.unicode;
-                        }
+                }
+                else {
+                    if (text.getSize() < 10) {
+                        text += event.text.unicode;
                     }
-                    state.updateUIElement(game_states::SAVE_SCORE, "enterField", text);
-                    state.setEnteredString(text);
                 }
-                if (event.type == sf::Event::Closed || state.closeGame) {
-                    window.close();
-                }
+                state.updateUIElement(game_states::SAVE_SCORE, "enterField", text);
+                state.setEnteredString(text);
             }
-
-
+            if (event.type == sf::Event::Closed || state.closeGame) {
+                window.close();
+            }
         }
-    return 0;
     }
+    return 0;
+}
  
