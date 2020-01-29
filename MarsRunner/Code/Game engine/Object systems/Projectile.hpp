@@ -7,6 +7,7 @@
 #include <deque>
 #include <vector>
 #include "Code/Game engine/Physics systems/physics.hpp"
+#include "Code/Game engine/Object systems/EnemyObject.hpp"
 
 #include "GameObject.hpp"
 
@@ -20,8 +21,21 @@ public:
 		velocity = velocitySet;
 	}
 
-	bool update(std::deque<ObjectBlock>& objects) {
+	bool update(std::deque<ObjectBlock>& objects, std::deque<Enemy>& enemies) {
 		move(velocity);
+
+		if (objectBlockHit(objects)) {
+			return true;
+		}
+
+		if (gameObjectHit(enemies)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	bool objectBlockHit(std::deque<ObjectBlock>& objects) {
 		for (auto& object : objects) {
 			auto& thing = object.getObjects();
 			for (auto& test : thing) {
@@ -35,7 +49,16 @@ public:
 				//return true;
 			//}
 		}
-		return false;
+	}
+
+	bool gameObjectHit(std::deque<Enemy>& enemies) {
+		for (Enemy& current_enemy : enemies){
+			if (this->getGlobalBounds().intersects(current_enemy.getGlobalBounds())) {
+				std::cout << "Enemy dood";
+				current_enemy.enemyKilled();
+				return true;
+			}
+		}
 	}
 };
 

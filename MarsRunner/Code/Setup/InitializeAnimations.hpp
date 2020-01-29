@@ -78,7 +78,7 @@ void InitializeSmallAlienAnimations(std::map<std::string, AnimationStates>& anim
 
 	//DEATH
 	sf::IntRect deathLoc(569, 317, 30, 40);
-	Animation Death(deathLoc, 16, 31, 150, true, true);
+	Animation Death(deathLoc, 16, 31, 150, false, true);
 	smallAlien.addAnimation(PossibleStates::DEATH, Death);
 
 	animationsMap["smallAlien"] = smallAlien;

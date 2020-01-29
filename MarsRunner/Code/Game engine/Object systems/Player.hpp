@@ -144,7 +144,7 @@ public:
 		isGround = setTo;
 	}
 
-	void update(float & minSpeed) {
+	void update(float & minSpeed, std::deque<Enemy> & enemies) {
 
 		maxX_points = getViewBounds(currentView).left + getViewBounds(currentView).width;
 
@@ -224,11 +224,29 @@ public:
 		}
 		unsigned int count = 0;
 		for (auto& projectile : projectiles) {
-			if (projectile.update(groundObjects)) {
+			if (projectile.update(groundObjects, enemies)) {
 				projectiles.erase(projectiles.begin() + count);
 			}
 			count++;
 		}
+	}
+
+	bool deathByEnemy(std::deque<Enemy>& enemyList) {
+		if (enemyList.size() > 0) {
+			sf::FloatRect itemBounds = enemyList[0].getGlobalBounds();
+			if (enemyList[0].getState() != enemyStates::DEATH) {
+				if (this->getGlobalBounds().intersects(itemBounds)) {
+					std::cout << "You have been kiled1\n";
+
+					this->setPlayerState(playerStates::DEATH);
+					gameState.setState(game_states::GAME_OVER);
+
+					return 1;
+				}
+			}
+		}
+
+		return 0;
 	}
 
 	void drawProjectiles(sf::FloatRect& view) {

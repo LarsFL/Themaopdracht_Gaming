@@ -181,10 +181,10 @@ int main() {
                     widthValue += (widthG * (generatedBlock.getWidth() + 1)); //widthValue += (widthG * 5);
                 }
 
-                player.update(minSpeed);
+                player.update(minSpeed, enemyList);
 
                 if (coinList.size() > 0) {
-                    if (coinList[0].destroyObjectOnInteract(coinList, player, mainView)) {
+                    if (coinList[0].destroyObjectOnInteract(coinList, player.getGlobalBounds(), mainView)) {
                         float tempValue = increaseValue * 2.5;
                         newCoinPosition = sf::Vector2f{ getRandomNumber(tempValue + 600, tempValue + 1200), 100 };
                     }
@@ -205,7 +205,7 @@ int main() {
 
                 // Destroy enemy object when the player interacts with it, or the enemy is out of bounds.
                 if (enemyList.size() > 0) {
-                    if (enemyList[0].deathByEnemy(enemyList, player, mainView)) {
+                    if (player.deathByEnemy(enemyList) || enemyList[0].enemyOutOfBounds(enemyList, mainView)) {
                         float tempValue = increaseValue * 1;
                         newEnemyPosition = sf::Vector2f{ getRandomNumber(tempValue + 600, tempValue + 1200), 100 };
                     }
@@ -218,6 +218,7 @@ int main() {
                                                                 sf::Vector2f{2,2},
                                                                 sf::Vector2f{0.0, 7.5}, 5, false, true, state, window });
                         enemyList[0].setAnimationStates(&animationsMap["smallAlien"]);
+                        animationsMap["smallAlien"].resetCurrentAnimation();
                         animationsMap["smallAlien"].setState(PossibleStates::IDLE);
                     }
                 }
@@ -268,10 +269,11 @@ int main() {
                     state.setReplay(false);
 
                     animationsMap["player"].resetCurrentAnimation();
-                    //==========================================================================================================================
+                    animationsMap["smallAlien"].resetCurrentAnimation();
+
                     player.setPlayerState(playerStates::IDLE);
                     player.jump(sf::Vector2f{ 580,550 });
-                    player.update(minSpeed);
+                    player.update(minSpeed, enemyList);
                     player.setPlayerAnimationState(animationsMap);
 
 
@@ -302,6 +304,7 @@ int main() {
                                                                sf::Vector2f{2,2},
                                                                sf::Vector2f{0.0, 5}, 5, false, true, state, window });
                         enemyList[0].setAnimationStates(&animationsMap["smallAlien"]);
+
                         animationsMap["smallAlien"].setState(PossibleStates::IDLE);
 
                         enemyList[0].setMoveSpeed(sf::Vector2f{ 0.0, 5 });

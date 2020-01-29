@@ -6,8 +6,8 @@
 #include <iostream>
 #include <deque>
 
-#include "GameObject.hpp"
-#include "Player.hpp"
+#include "Code/Game engine/Object systems/GameObject.hpp"
+#include "Code/Game engine/Object systems/Player.hpp"
 
 class PickUp : public GameObject {
 protected:
@@ -40,10 +40,10 @@ public:
 		this->moveSpeed = newSpeed;
 	}
 
-	bool destroyObjectOnInteract(std::deque<PickUp>& list, Player& player, sf::View& view) {
+	bool destroyObjectOnInteract(std::deque<PickUp>& list, sf::FloatRect playerRect, sf::View& view) {
 		if (list.size() > 0) {
 			sf::FloatRect itemBounds = list[0].getGlobalBounds();
-			if (player.getGlobalBounds().intersects(itemBounds)) {
+			if (playerRect.intersects(itemBounds)) {
 				list.pop_back();
 				return 1;
 			}
