@@ -30,7 +30,7 @@ void InitializePlayerAnimations(std::map<std::string, AnimationStates> &animatio
 	smallAstronaut.addAnimation(PossibleStates::SHOOT, Shoot);
 
 	//IDLE
-	sf::IntRect idleLoc(1, 99, 19, 34);
+	sf::IntRect idleLoc(1, 99, 20, 34);
 	Animation Idle(idleLoc, 8, 39, 150);
 	smallAstronaut.addAnimation(PossibleStates::IDLE, Idle);
 
