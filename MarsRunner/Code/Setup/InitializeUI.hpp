@@ -188,7 +188,7 @@ void InitializeUI(sf::RenderWindow& window, sf::View & fixedView, GameState & st
 	gameOverState.append("enterField", RetryText);
 
 	// Back to menu button
-	Button ReturnToMenuButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Back to menu clicc" << std::endl; } };
+	Button ReturnToMenuButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Back to menu clicc" << std::endl; state.setReplay(true); } };
 	ReturnToMenuButton.centerOrigin();
 	ReturnToMenuButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 4))));
 	gameOverState.append("ReturnToMenuButton", ReturnToMenuButton);
@@ -213,7 +213,7 @@ void InitializeUI(sf::RenderWindow& window, sf::View & fixedView, GameState & st
 	saveScore.append("enterField", PlayerName);
 
 	// Save button
-	Button SaveButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] { state.sendScore(state.getText(), state.getScore()); state.setState(game_states::MAIN_MENU); } };
+	Button SaveButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] { state.sendScore(state.getText(), state.getScore()); state.setReplay(true); state.setState(game_states::MAIN_MENU); } };
 	SaveButton.centerOrigin();
 	SaveButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2)));
 	saveScore.append("SaveButton", SaveButton);
