@@ -19,13 +19,16 @@ private:
 	enemyStates thisState = enemyStates::IDLE;
 
 public:
-	Enemy(TextureManager manager, int textureID, sf::Vector2f position, sf::Vector2f size, sf::Vector2f moveSpeed, float weight, bool isStatic, bool animated, GameState& gameState, sf::RenderWindow& window) :
-		PickUp(manager, textureID, position, size, moveSpeed, weight, isStatic, animated, window),
+	Enemy(TextureManager manager, int textureID, sf::Vector2f position, sf::Vector2f size, sf::Vector2f moveSpeed,
+		float weight, bool isStatic, bool animated, GameState& gameState, sf::RenderWindow& window, AudioManager& audio) :
+		
+		
+		PickUp(manager, textureID, position, size, moveSpeed, weight, isStatic, animated, window, gameState, audio),
 		gameState(gameState)
 	{}
 
 	Enemy(const Enemy& a) :
-		PickUp(a.manager, a.textureID, a.position, a.size, a.moveSpeed, a.weight, a.isStatic, a.animated, a.window),
+		PickUp(a.manager, a.textureID, a.position, a.size, a.moveSpeed, a.weight, a.isStatic, a.animated, a.window, a.state, a.audio),
 		gameState(a.gameState)
 	{}
 	

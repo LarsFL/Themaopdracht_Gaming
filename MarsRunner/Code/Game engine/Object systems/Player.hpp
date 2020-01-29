@@ -49,8 +49,11 @@ protected:
 	float viewMoveSpeed = 0.f;
 	bool isJumping = false;
 
-	float maxX_points = 0.f;
+	float previousPoints = 0.f;
+	float currentPoints = 0.f;
 	AudioManager& audio;
+
+	
 
 
 	std::vector<action> actions = {
@@ -159,9 +162,15 @@ public:
 	
 	void update(float & minSpeed, std::deque<Enemy> & enemies) {
 
-		maxX_points = getViewBounds(currentView).left + getViewBounds(currentView).width;
+		previousPoints = currentPoints;
 
-		gameState.setScore(maxX_points / 3);
+		currentPoints = ((getViewBounds(currentView).left + getViewBounds(currentView).width) / 3);
+
+		int newpoints = currentPoints - previousPoints;
+
+		std::cout << newpoints << std::endl;
+
+		gameState.setScore(gameState.getScore() + newpoints);
 
 		if (isLeftIntersecting(*this, getViewBounds(currentView))) {
 			state = playerStates::DEATH;
@@ -369,7 +378,6 @@ public:
 	void setPlayerState(playerStates newState) {
 		state = newState;
 	}
-
 
 };
 

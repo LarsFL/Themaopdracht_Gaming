@@ -105,12 +105,12 @@ int main() {
 
     coinList.push_back(PickUp{ manager, 2, sf::Vector2f{getRandomNumber(700, 1100), 100}, 
                                            sf::Vector2f{.03,.03}, 
-                                           sf::Vector2f{0.0, 5}, 5, false, false, window });
+                                           sf::Vector2f{0.0, 5}, 5, false, false, window, state, audio });
 
 
     enemyList.push_back(Enemy { manager, 3, sf::Vector2f{1000,100}, 
                                             sf::Vector2f{2,2},
-                                            sf::Vector2f{0.0, 5}, 5, false, true, state, window });
+                                            sf::Vector2f{0.0, 5}, 5, false, true, state, window, audio });
     enemyList[0].setAnimationStates(&animationsMap["smallAlien"]);
     animationsMap["smallAlien"].setState(PossibleStates::IDLE);
     
@@ -179,7 +179,7 @@ int main() {
                     if (player.getGlobalBounds().left + 1750 > newCoinPosition.x) {
                         coinList.push_back(PickUp{ manager, 2, newCoinPosition,
                                                                 sf::Vector2f{0.03,0.03},
-                                                                sf::Vector2f{0.0, 7.5}, 5, false, false, window });
+                                                                sf::Vector2f{0.0, 7.5}, 5, false, false, window, state, audio });
                     }
                 }
 
@@ -201,7 +201,7 @@ int main() {
                     if (player.getGlobalBounds().left + 1750 > newEnemyPosition.x) {
                         enemyList.push_back(Enemy{ manager, 3, newEnemyPosition,
                                                                 sf::Vector2f{2,2},
-                                                                sf::Vector2f{0.0, 7.5}, 5, false, true, state, window });
+                                                                sf::Vector2f{0.0, 7.5}, 5, false, true, state, window, audio });
                         enemyList[0].setAnimationStates(&animationsMap["smallAlien"]);
                         animationsMap["smallAlien"].resetCurrentAnimation();
                         animationsMap["smallAlien"].setState(PossibleStates::IDLE);
@@ -271,14 +271,14 @@ int main() {
                         coinList.pop_back();
                         coinList.push_back(PickUp{ manager, 2, sf::Vector2f{getRandomNumber(increaseValue + 600, increaseValue + 1200), 100},
                                                                sf::Vector2f{0.03,0.03},
-                                                               sf::Vector2f{0.0, 5}, 5, false, false, window });
+                                                               sf::Vector2f{0.0, 5}, 5, false, false, window, state, audio });
 
                         coinList[0].setMoveSpeed(sf::Vector2f{ 0.0, 5 });
                     }
                     else {
                         coinList.push_back(PickUp{ manager, 2, sf::Vector2f{getRandomNumber(increaseValue + 600, increaseValue + 1200), 100},
                                        sf::Vector2f{0.03,0.03},
-                                       sf::Vector2f{0.0, 5}, 5, false, false, window });
+                                       sf::Vector2f{0.0, 5}, 5, false, false, window, state, audio });
 
                         coinList[0].setMoveSpeed(sf::Vector2f{ 0.0, 5 });
                     }
@@ -289,7 +289,7 @@ int main() {
                         enemyList.pop_back();
                         enemyList.push_back(Enemy{ manager, 3, sf::Vector2f{getRandomNumber(increaseValue + 600, increaseValue + 1200), 100},
                                                                sf::Vector2f{2,2},
-                                                               sf::Vector2f{0.0, 5}, 5, false, true, state, window });
+                                                               sf::Vector2f{0.0, 5}, 5, false, true, state, window, audio });
                         enemyList[0].setAnimationStates(&animationsMap["smallAlien"]);
 
                         animationsMap["smallAlien"].setState(PossibleStates::IDLE);
@@ -299,7 +299,7 @@ int main() {
                     else {
                         enemyList.push_back(Enemy{ manager, 3, sf::Vector2f{getRandomNumber(increaseValue + 600, increaseValue + 1200), 100},
                                        sf::Vector2f{2,2},
-                                       sf::Vector2f{0.0, 5}, 5, false, true, state, window });
+                                       sf::Vector2f{0.0, 5}, 5, false, true, state, window, audio });
                         enemyList[0].setAnimationStates(&animationsMap["smallAlien"]);
                         animationsMap["smallAlien"].setState(PossibleStates::IDLE);
 
