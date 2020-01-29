@@ -53,7 +53,7 @@ public:
 			if (playerRect.intersects(itemBounds)) {
 				audio.playSound("coin");
 				std::cout << state.getScore() << std::endl;
-				state.setScore(state.getScore() + 500);
+				state.setScore(state.getScore() + 250);
 				list.pop_back();
 				return 1;
 			}

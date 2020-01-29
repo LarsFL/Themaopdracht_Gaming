@@ -45,6 +45,7 @@ public:
 	}
 
 	void enemyKilled() {
+		gameState.setScore(gameState.getScore() + 500);
 		thisState = enemyStates::DEATH;
 		animations->setState(PossibleStates::DEATH);
 	}
