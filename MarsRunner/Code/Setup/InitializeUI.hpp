@@ -187,17 +187,6 @@ void InitializeUI(sf::RenderWindow& window, sf::View & fixedView, GameState & st
 	RetryText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 16.3f))));
 	gameOverState.append("enterField", RetryText);
 
-	// Back to menu button
-	Button ReturnToMenuButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Back to menu clicc" << std::endl; state.setReplay(true); } };
-	ReturnToMenuButton.centerOrigin();
-	ReturnToMenuButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 4))));
-	gameOverState.append("ReturnToMenuButton", ReturnToMenuButton);
-
-	Text ReturnToMenuText{ fontLocation, backToMenuButtonText, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 50, sf::Color::Black };
-	ReturnToMenuText.centerOrigin();
-	ReturnToMenuText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 4.3f))));
-	gameOverState.append("ReturnToMenuText", ReturnToMenuText);
-
 	state.addUIState(game_states::GAME_OVER, gameOverState);
 
 	/*
