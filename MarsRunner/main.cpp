@@ -36,8 +36,8 @@
 int main() {
     int width = sf::VideoMode::getDesktopMode().width;
     int height = sf::VideoMode::getDesktopMode().height;
-    //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Mars Runner", sf::Style::Default);
+    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
+
     window.setFramerateLimit(60);
     sf::View fixed = window.getView();
     std::map<std::string, AnimationStates> animationsMap;
@@ -75,13 +75,6 @@ int main() {
     float widthValue = -190;
     float widthG = 32;
 
-    //de blokken aan het begin van de game
-    /*for (unsigned int i = 0; i < 15; i++) {
-        ObjectBlock generatedBlock = generator.generate();
-        generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
-        groundObjectList.push_back(generatedBlock);
-        widthValue += (widthG * 5);
-    }*/
     for (unsigned int i = 0; i < 12; i++) {
         ObjectBlock generatedBlock = generator.generateStart();
         generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
@@ -214,6 +207,7 @@ int main() {
                     mainView.setCenter(sf::Vector2f(600.f, 384.f));
                     background.jump(sf::Vector2f{ -250, -250 });
                     widthValue = -190;
+                    groundObjectList.clear();
                     for (unsigned int i = 0; i < 12; i++) {
                         ObjectBlock generatedBlock = generator.generateStart();
                         generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);

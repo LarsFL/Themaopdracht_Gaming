@@ -18,6 +18,8 @@
 #include "GameObject.hpp"
 #include "Code/Game engine/Audio systems/AudioManager.hpp"
 
+/// \file Player.hpp
+
 enum class playerStates {
 	IDLE,
 	WALK,
@@ -29,6 +31,11 @@ enum class playerStates {
 	DAMAGE,
 	DEATH
 };
+
+/// \brief
+/// Player class
+/// \details
+/// This class represents the player object in the game.
 
 class Player : public GameObject {
 protected:
@@ -143,6 +150,12 @@ public:
 	void isOnGround(bool setTo) {
 		isGround = setTo;
 	}
+
+	/// \brief
+	/// Update function.
+
+	/// \details
+	/// This update function handles updating the player, movement, points, etc.
 
 	void update(float & minSpeed) {
 
@@ -281,9 +294,7 @@ public:
 					this->setAcceleration(sf::Vector2f{ 0.0, 0.35 });
 					this->setVelocity(sf::Vector2f{ 0.0, -12.0 });
 				}
-				//state = playerStates::IDLE;
 
-				//niet zeker of dit de goede animatie is
 				animationsMap["player"].setState(PossibleStates::JUMP_START_IMPACT);
 				animationsMap["player"].setGameSpeed(viewMoveSpeed);
 				break;

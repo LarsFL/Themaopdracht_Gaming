@@ -4,9 +4,13 @@
 #include "../Object systems/GameObject.hpp"
 #include <SFML/Graphics.hpp>
 
-void updateVelocity(GameObject& obj);
+/// \brief
+/// Physics class
 
-//bool intersects(GameObject& rhs, GameObject& lhs);
+/// \details
+/// The Physics class handles most of the Physics related calculations of the game
+
+void updateVelocity(GameObject& obj);
 
 bool isObjOnGround(GameObject& movingObj, GameObject& staticObj);
 
@@ -15,8 +19,6 @@ bool isLeftIntersecting(GameObject& movingObj, GameObject& staticObj);
 bool isRightIntersecting(GameObject& movingObj, GameObject& staticObj);
 
 bool isTopIntersecting(GameObject& movingObj, GameObject& staticObj);
-
-//bool intersects(GameObject& rhs, ObjectBlock& lhs);
 
 bool isObjOnGround(GameObject& movingObj, ObjectBlock& staticObj);
 

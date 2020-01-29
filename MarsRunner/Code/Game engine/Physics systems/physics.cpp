@@ -5,10 +5,6 @@ void updateVelocity(GameObject& obj) {
 	obj.setVelocity(obj.getVelocity() + obj.getAcceleration());
 }
 
-//bool intersects(GameObject& rhs, GameObject& lhs) {
-//	return rhs.getGlobalBounds().intersects(lhs.getGlobalBounds());
-//}
-
 bool isObjOnGround(GameObject& movingObj, GameObject& staticObj) {
 	sf::FloatRect globalBounds = movingObj.getGlobalBounds();
 	sf::FloatRect intersectionTester(globalBounds.left, globalBounds.top + globalBounds.height, globalBounds.width, 1);
@@ -34,10 +30,6 @@ bool isTopIntersecting(GameObject& movingObj, GameObject& staticObj) {
 	sf::FloatRect intersectionTester(globalBounds.left, globalBounds.top - 2, globalBounds.width, 2);
 	return intersectionTester.intersects(staticObj.getGlobalBounds());
 }
-
-//bool intersects(GameObject& rhs, ObjectBlock& lhs) {
-//	return rhs.getGlobalBounds().intersects(lhs.getGlobalBounds());
-//}
 
 bool isObjOnGround(GameObject& movingObj, ObjectBlock& staticObj) {
 	sf::FloatRect globalBounds = movingObj.getGlobalBounds();
