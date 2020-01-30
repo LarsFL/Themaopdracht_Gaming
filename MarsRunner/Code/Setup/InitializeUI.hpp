@@ -56,15 +56,15 @@ void InitializeUI(sf::RenderWindow& window, sf::View & fixedView, GameState & st
 	mainMenuState.append("LeaderboardText", LeaderboardText);
 
 	// Quit button
-	Button QuitButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Quit clicc" << std::endl; /*state.closeGame = true;*/ } };
+	Button QuitButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Quit clicc" << std::endl; state.closeGame = true; } };
 	QuitButton.centerOrigin();
-	QuitButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 7))));
+	QuitButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 4.2))));
 	mainMenuState.append("QuitButton", QuitButton);
 
 	std::string quitButtonText = "Quit";
 	Text QuitText{ fontLocation, quitButtonText, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 50, sf::Color::Black };
 	QuitText.centerOrigin();
-	QuitText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 8.2f))));
+	QuitText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 4.5f))));
 	mainMenuState.append("QuitButtonText", QuitText);
 	
 	// Add state to UI states

@@ -27,7 +27,7 @@ public:
 		state(state),
 		audio(audio)
 	{
-		std::cout << "value: " << position.x << "\n";
+		//std::cout << "value: " << position.x << "\n";
 	}
 
 	// Copy Constructor
