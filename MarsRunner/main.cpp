@@ -37,8 +37,8 @@
 int main() {
     int width = sf::VideoMode::getDesktopMode().width;
     int height = sf::VideoMode::getDesktopMode().height;
-    //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
-    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Default);
+    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
+    //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Default);
 
     window.setVerticalSyncEnabled(true);
     sf::View fixed = window.getView();
@@ -76,7 +76,6 @@ int main() {
     InitializePlayerAnimations(animationsMap);
     InitializeSmallAlienAnimations(animationsMap);
     InitializeGreenAlienAnimations(animationsMap);
-    InitializeSateliteAnimations(animationsMap);
 
     // Generate initial flat land to start the game on
     for (unsigned int i = 0; i < 12; i++) {

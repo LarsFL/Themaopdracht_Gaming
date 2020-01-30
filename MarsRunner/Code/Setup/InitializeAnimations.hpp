@@ -110,15 +110,4 @@ void InitializeGreenAlienAnimations(std::map<std::string, AnimationStates>& anim
 	animationsMap["greenAlien"] = GreenAlien;
 }
 
-void InitializeSateliteAnimations(std::map<std::string, AnimationStates>& animationsMap) {
-	AnimationStates satellite;
-
-	//IDLE
-	sf::IntRect idleLoc(10, 0, 92, 49);
-	Animation Idle(idleLoc, 7, 121, 500);
-	satellite.addAnimation(PossibleStates::IDLE, Idle);
-
-	animationsMap["satellite"] = satellite;
-}
-
 #endif
