@@ -37,39 +37,48 @@
 int main() {
     int width = sf::VideoMode::getDesktopMode().width;
     int height = sf::VideoMode::getDesktopMode().height;
-    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
+    //sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Fullscreen);
+    sf::RenderWindow window(sf::VideoMode(width, height), "Mars Runner", sf::Style::Default);
 
     window.setVerticalSyncEnabled(true);
     sf::View fixed = window.getView();
-    std::map<std::string, AnimationStates> animationsMap;
     sf::View mainView;
+
+    mainView.setCenter(sf::Vector2f(600.f, 384.f));
+    mainView.setSize(sf::Vector2f(1280.f, 720.f));
+    mainView.setViewport(sf::FloatRect(0, 0, 1, 1));
+    window.setView(mainView);
+
+    GenerateBlock generator = {};
+    TextureManager manager = {};
+    AudioManager audio = {};
+    GameState state{};
+
+    generateBlocks(generator, manager);
+    initializeSounds(audio);
+    InitializeUI(window, fixed, state);
+
+    auto previous = std::chrono::system_clock::now();
+    auto lag = 0.0;
+    float msPerLoop = 16.33;
+    float minSpeed = 3;
+    float widthValue = -190;
+    float widthG = 32;
+    sf::Vector2f newCoinPosition = { 0.0,0.0 };
+    sf::Vector2f newEnemyPosition = { 0.0,0.0 };
+
+    std::map<std::string, AnimationStates> animationsMap;
+
+    std::deque<ObjectBlock> groundObjectList;
+    std::deque<PickUp> coinList;
+    std::deque<Enemy> enemyList;
 
     InitializePlayerAnimations(animationsMap);
     InitializeSmallAlienAnimations(animationsMap);
     InitializeGreenAlienAnimations(animationsMap);
     InitializeSateliteAnimations(animationsMap);
 
-    bool escapeUp = true;
-    mainView.setCenter(sf::Vector2f(600.f, 384.f));
-    mainView.setSize(sf::Vector2f(1280.f, 720.f));
-    mainView.setViewport(sf::FloatRect(0, 0, 1, 1));
-    window.setView(mainView);
-
-    std::string pathBackground = "../Assets/Objects/newBackground.jpg";
-    GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{0.78, 1.4}, 5, false };
-
-    std::deque<ObjectBlock> groundObjectList;
-
-    GenerateBlock generator = {};
-    TextureManager manager = {};
-    AudioManager audio = {};
-
-    generateBlocks(generator, manager);
-    initializeSounds(audio);
-
-    float widthValue = -190;
-    float widthG = 32;
-
+    // Generate initial flat land to start the game on
     for (unsigned int i = 0; i < 12; i++) {
         ObjectBlock generatedBlock = generator.generateStart();
         generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
@@ -77,43 +86,24 @@ int main() {
         widthValue += (widthG * 5);
     }
 
-    GameState state{};
-
-    InitializeUI(window, fixed, state);
-
-    action actions[] = {
-        action(sf::Keyboard::Escape,[&]() { if (escapeUp) { state.handleEscape(); escapeUp = false;} }),
-        action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape); }, [&]() { escapeUp = true;})
-    };
-
-    auto previous = std::chrono::system_clock::now();
-    auto lag = 0.0;
-    float msPerLoop = 16.33;
-    float minSpeed = 3;
-    sf::Vector2f newCoinPosition = { 0.0,0.0 };
-    sf::Vector2f newEnemyPosition = { 0.0,0.0 };
+    std::string pathBackground = "../Assets/Objects/newBackground.jpg";
+    GameObject background{ pathBackground, sf::Vector2f{-250, -250}, sf::Vector2f{0.78, 1.4}, 5, false };
 
     std::string playerSpriteSheet = "../Assets/Objects/smallAstronaut.png";
     Player player{ playerSpriteSheet, sf::Vector2f{580,550}, sf::Vector2f{2,2}, 5, false, true, window, groundObjectList, mainView, state, audio };
-
     player.setAnimationStates(&animationsMap["player"]);
     animationsMap["player"].setState(PossibleStates::IDLE);
     player.setVelocity(sf::Vector2f{ 0.0, 2 });
     
-    std::deque<PickUp> coinList;
-    std::deque<Enemy> enemyList;
-
     coinList.push_back(PickUp{ manager, 2, sf::Vector2f{getRandomNumber(700, 1100), 100}, 
                                            sf::Vector2f{.03,.03}, 
                                            sf::Vector2f{0.0, 5}, 5, false, false, window, state, audio });
-
 
     enemyList.push_back(Enemy { manager, 3, sf::Vector2f{1000,100}, 
                                             sf::Vector2f{2,2},
                                             sf::Vector2f{0.0, 5}, 5, false, true, state, window, audio });
     enemyList[0].setAnimationStates(&animationsMap["smallAlien"]);
     animationsMap["smallAlien"].setState(PossibleStates::IDLE);
-    
 
     while (window.isOpen()) {
         // Always take the same time step per loop.
@@ -122,15 +112,10 @@ int main() {
         previous = current;
         lag += elapsed.count();
 
-
         window.clear();
 
         while (lag >= msPerLoop) {
             float increaseValue = mainView.getCenter().x;
-
-            for (auto& action : actions) {
-                action();
-            }
 
             //qualety of life for us, in main game?
             if (state.getState() == game_states::MAIN_MENU && sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
@@ -179,7 +164,7 @@ int main() {
                     if (player.getGlobalBounds().left + 1750 > newCoinPosition.x) {
                         coinList.push_back(PickUp{ manager, 2, newCoinPosition,
                                                                 sf::Vector2f{0.03,0.03},
-                                                                sf::Vector2f{0.0, 7.5}, 5, false, false, window, state, audio });
+                                                                sf::Vector2f{0.0, 5}, 5, false, false, window, state, audio });
                     }
                 }
 
@@ -201,7 +186,7 @@ int main() {
                     if (player.getGlobalBounds().left + 1750 > newEnemyPosition.x) {
                         enemyList.push_back(Enemy{ manager, 3, newEnemyPosition,
                                                                 sf::Vector2f{2,2},
-                                                                sf::Vector2f{0.0, 7.5}, 5, false, true, state, window, audio });
+                                                                sf::Vector2f{0.0, 5}, 5, false, true, state, window, audio });
                         enemyList[0].setAnimationStates(&animationsMap["smallAlien"]);
                         animationsMap["smallAlien"].resetCurrentAnimation();
                         animationsMap["smallAlien"].setState(PossibleStates::IDLE);
@@ -215,8 +200,6 @@ int main() {
 
                 player.setPlayerAnimationState(animationsMap);
 
-                // TODO Coins vallen niet helemaal door de onderkant,
-                // TODO Bij death, back to menu werkt niet,
                 for (auto& groundObject : groundObjectList) {
                     if (coinList.size() > 0) {
                         if (isObjOnGround(coinList[0], groundObject)) {
@@ -226,7 +209,6 @@ int main() {
                 }
 
                 // If enemy hits the ground, stop moving the enemy.
-
                 // TODO Zet deze in update van enemy
                 for (auto& groundObject : groundObjectList) {
                     if (enemyList.size() > 0) {
@@ -244,6 +226,9 @@ int main() {
                     background.jump(sf::Vector2f{ -250, -250 });
                     widthValue = -190;
                     groundObjectList.clear();
+
+                    player.clearProjectiles();
+
                     for (unsigned int i = 0; i < 12; i++) {
                         ObjectBlock generatedBlock = generator.generateStart();
                         generatedBlock.setPositions(sf::Vector2f(widthValue, 0), 32);
