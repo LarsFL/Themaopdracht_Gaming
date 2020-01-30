@@ -70,9 +70,48 @@ protected:
 		state = playerStates::WALK_LEFT;
 		}),
 
+		action([&]() { //Joystick left
+		
+			int positionX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+			return positionX == 100;
+			
+		}, [&]() { 
+			
+		for (auto& groundObject : groundObjects) {
+			if (isLeftIntersecting(*this, groundObject)) {
+				return;
+			}
+		}
+
+		lastState = state;
+		state = playerStates::WALK_LEFT;
+		}),
+
 
 		action(sf::Keyboard::Right, [&]() { 
 			
+		for (auto& groundObject : groundObjects) {
+			if (isRightIntersecting(*this, groundObject)) {
+				return;
+			}
+		}
+
+		if (isRightIntersecting(*this, getViewBounds(currentView)))
+		{
+			return;
+		}
+
+		lastState = state;
+		state = playerStates::WALK_RIGHT;
+		}),
+
+		action([&]() { //Joystick right
+
+			int positionX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+			return positionX == -100;
+
+		}, [&]() {
+
 		for (auto& groundObject : groundObjects) {
 			if (isRightIntersecting(*this, groundObject)) {
 				return;
@@ -95,6 +134,17 @@ protected:
 			state = playerStates::DOWN;
 		}),
 
+		action([&]() { //Joystick down
+
+			int positionX = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+			return positionX == -100;
+
+		}, [&]() {
+
+		lastState = state;
+		state = playerStates::DOWN;
+		}),
+
 		action(sf::Keyboard::Up,
 		[&]() {
 			if (this->isOnGround() && !isJumping) {
@@ -104,7 +154,20 @@ protected:
 			}
 		}),
 
-		action([&]() { return !sf::Keyboard::isKeyPressed(sf::Keyboard::Space); },
+		action([&]() { //Jump
+
+			return sf::Joystick::isButtonPressed(0, 4);
+
+		}, [&]() {
+
+			if (this->isOnGround() && !isJumping) {
+				isJumping = true;
+				lastState = state;
+				state = playerStates::JUMP;
+			}
+		}),
+
+		action([&]() { return (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) && !sf::Joystick::isConnected(0); },
 		[&]() {
 			spacePressed = false;
 		}),
@@ -115,7 +178,25 @@ protected:
 			state = playerStates::SHOOT;
 		}),
 
-		action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Up); }, [&]() { isJumping = false; })
+		action([&]() { return sf::Joystick::isButtonPressed(0, 2); },
+		[&]() {
+				lastState = state;
+				state = playerStates::SHOOT;
+		}),
+
+		action([&]() {return (!sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) && !sf::Joystick::isConnected(0); }, [&]() { isJumping = false; }),
+
+		action([&]() { //Joystick middle
+
+			if (sf::Joystick::isConnected(0)) {
+				return sf::Joystick::isButtonPressed(0, 4);
+			}
+			return false;
+
+		}, [&]() {
+			spacePressed = false;
+			isJumping = false;
+		})
 	};
 	playerStates state = playerStates::IDLE;
 	playerStates lastState = state;
@@ -162,13 +243,32 @@ public:
 	
 	void update(float & minSpeed, std::deque<Enemy> & enemies) {
 
+
+		///////////////////joystick
+
+		unsigned int buttons = sf::Joystick::getButtonCount(0);
+
+		//bool hasX = sf::Joystick::hasAxis(0, sf::Joystick::X);
+
+		//int positionX = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+
+		//std::cout << positionX << std::endl;
+
+		for (int i = 0; i < buttons; i++) {
+			if (sf::Joystick::isButtonPressed(0, i))
+			{
+				std::cout << "button: " << i << " pressed!" << std::endl;
+			}
+		}
+
+
+		///////////////////
+
 		previousPoints = currentPoints;
 
 		currentPoints = ((getViewBounds(currentView).left + getViewBounds(currentView).width) / 3);
 
 		int newpoints = currentPoints - previousPoints;
-
-		std::cout << newpoints << std::endl;
 
 		gameState.setScore(gameState.getScore() + newpoints);
 
