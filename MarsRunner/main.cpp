@@ -101,6 +101,7 @@ int main() {
     enemyList.push_back(Enemy { manager, 3, sf::Vector2f{getRandomNumber(1700, 1900),100},
                                             sf::Vector2f{2,2},
                                             sf::Vector2f{0.0, 5}, 5, false, true, state, window, audio });
+
     enemyList[0].setAnimationStates(&animationsMap["smallAlien"]);
     animationsMap["smallAlien"].setState(PossibleStates::IDLE);
 
@@ -160,10 +161,10 @@ int main() {
                 }
 
                 if (coinList.size() == 0) {
-                    if (player.getGlobalBounds().left + 1750 > newCoinPosition.x) {
+                    if (player.getGlobalBounds().left + 1500 > newCoinPosition.x) {
                         coinList.push_back(PickUp{ manager, 2, newCoinPosition,
                                                                 sf::Vector2f{0.03,0.03},
-                                                                sf::Vector2f{0.0, 3}, 5, false, false, window, state, audio });
+                                                                sf::Vector2f{0.0, 4}, 5, false, false, window, state, audio });
                     }
                 }
 
@@ -183,12 +184,23 @@ int main() {
                 // Spawn enemy when player is getting close to position of enemy
                 if (enemyList.size() == 0) {
                     if (player.getGlobalBounds().left + 1750 > newEnemyPosition.x) {
-                        enemyList.push_back(Enemy{ manager, 3, newEnemyPosition,
-                                                                sf::Vector2f{2,2},
-                                                                sf::Vector2f{0.0, 5}, 5, false, true, state, window, audio });
-                        enemyList[0].setAnimationStates(&animationsMap["smallAlien"]);
-                        animationsMap["smallAlien"].resetCurrentAnimation();
-                        animationsMap["smallAlien"].setState(PossibleStates::IDLE);
+                        int randNumb = (int)getRandomNumber(0, 2);
+                        if (randNumb == 1) {
+                            enemyList.push_back(Enemy{ manager, 3, newEnemyPosition,
+                                                                    sf::Vector2f{2,2},
+                                                                    sf::Vector2f{0.0, 5}, 5, false, true, state, window, audio });
+                            enemyList[0].setAnimationStates(&animationsMap["smallAlien"]);
+                            animationsMap["smallAlien"].resetCurrentAnimation();
+                            animationsMap["smallAlien"].setState(PossibleStates::IDLE);
+                        } else{
+                            enemyList.push_back(Enemy{ manager, 4, newEnemyPosition,
+                                                                    sf::Vector2f{2,2},
+                                                                    sf::Vector2f{0.0, 5}, 5, false, true, state, window, audio });
+                            enemyList[0].setAnimationStates(&animationsMap["greenAlien"]);
+                            animationsMap["greenAlien"].resetCurrentAnimation();
+                            animationsMap["greenAlien"].setState(PossibleStates::IDLE);
+                        }
+
                     }
                 }
 

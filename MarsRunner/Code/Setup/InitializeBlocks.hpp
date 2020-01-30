@@ -34,6 +34,10 @@ void generateBlocks(GenerateBlock& generator, TextureManager& manager) {
 	Texture enemy1Tex{ enemy1Path };
 	manager.addTexture(3, enemy1Tex);
 
+	std::string enemy2Path = "../Assets/Objects/smallGreenAlien.png";
+	Texture enemy2Tex{ enemy2Path };
+	manager.addTexture(4, enemy2Tex);
+
 	Tile boring1GroundTile = { manager, 0, sf::Vector2f{0,0}, sf::Vector2f{2,2}, grounddVar2PlainRect };
 	Tile boringGroundTile = { manager, 0, sf::Vector2f{0,0}, sf::Vector2f{2,2}, groundVar1PlainRect };
 	Tile solidGroundTile = { manager, 0, sf::Vector2f{0,0}, sf::Vector2f{2,2}, groundVar0PlainRect };
