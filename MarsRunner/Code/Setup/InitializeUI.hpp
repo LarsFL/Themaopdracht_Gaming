@@ -56,15 +56,15 @@ void InitializeUI(sf::RenderWindow& window, sf::View & fixedView, GameState & st
 	mainMenuState.append("LeaderboardText", LeaderboardText);
 
 	// Quit button
-	Button QuitButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Quit clicc" << std::endl; /*state.closeGame = true;*/ } };
+	Button QuitButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Quit clicc" << std::endl; state.closeGame = true; } };
 	QuitButton.centerOrigin();
-	QuitButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 7))));
+	QuitButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 4.2))));
 	mainMenuState.append("QuitButton", QuitButton);
 
 	std::string quitButtonText = "Quit";
 	Text QuitText{ fontLocation, quitButtonText, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 50, sf::Color::Black };
 	QuitText.centerOrigin();
-	QuitText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 8.2f))));
+	QuitText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 4.5f))));
 	mainMenuState.append("QuitButtonText", QuitText);
 	
 	// Add state to UI states
@@ -186,17 +186,6 @@ void InitializeUI(sf::RenderWindow& window, sf::View & fixedView, GameState & st
 	RetryText.centerOrigin();
 	RetryText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 16.3f))));
 	gameOverState.append("enterField", RetryText);
-
-	// Back to menu button
-	Button ReturnToMenuButton{ notClickButton, clickButton, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {std::cout << "Back to menu clicc" << std::endl; state.setReplay(true); } };
-	ReturnToMenuButton.centerOrigin();
-	ReturnToMenuButton.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 4))));
-	gameOverState.append("ReturnToMenuButton", ReturnToMenuButton);
-
-	Text ReturnToMenuText{ fontLocation, backToMenuButtonText, sf::Vector2f(0,0), sf::Vector2f(1,1), [&] {}, 50, sf::Color::Black };
-	ReturnToMenuText.centerOrigin();
-	ReturnToMenuText.jump(sf::Vector2f((screenSize.x / 2), (screenSize.y / 2 + (screenSize.y / 4.3f))));
-	gameOverState.append("ReturnToMenuText", ReturnToMenuText);
 
 	state.addUIState(game_states::GAME_OVER, gameOverState);
 

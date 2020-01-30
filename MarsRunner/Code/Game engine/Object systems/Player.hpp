@@ -48,15 +48,16 @@ protected:
 	bool spacePressed = false;
 	float viewMoveSpeed = 0.f;
 	bool isJumping = false;
+	bool escapeUp = true;
 
 	float previousPoints = 0.f;
 	float currentPoints = 0.f;
 	AudioManager& audio;
-
 	
-
-
 	std::vector<action> actions = {
+
+		action(sf::Keyboard::Escape,[&]() { if (escapeUp) { gameState.handleEscape(); escapeUp = false; } }),
+		action([&]() {return !sf::Keyboard::isKeyPressed(sf::Keyboard::Escape); }, [&]() { escapeUp = true; }),
 
 		action(sf::Keyboard::Left,  [&]() {
 
@@ -269,7 +270,7 @@ public:
 		currentPoints = ((getViewBounds(currentView).left + getViewBounds(currentView).width) / 3);
 
 		int newpoints = currentPoints - previousPoints;
-
+		
 		gameState.setScore(gameState.getScore() + newpoints);
 
 		if (isLeftIntersecting(*this, getViewBounds(currentView))) {
@@ -372,7 +373,7 @@ public:
 	void drawProjectiles(sf::FloatRect& view) {
 		unsigned int i = 0;
 		for (auto& projectile : projectiles) {
-			if (!projectile.getGlobalBounds().intersects(view)) {
+ 			if (!projectile.getGlobalBounds().intersects(view)) {
 				projectiles.erase(projectiles.begin() + i);
 			}
 			i++;
@@ -438,20 +439,22 @@ public:
 
 			case(playerStates::SHOOT): {
 				sf::Vector2f ProjectilePosition(position.x, position.y + 25);
-				if (lastState == playerStates::WALK_LEFT) {
-					//make projectile
-					if (!spacePressed) {
-						projectiles.push_back(Projectile("../assets/objects/bullet.png", ProjectilePosition, sf::Vector2f(1, 1), sf::Vector2f( (viewMoveSpeed*-1)-10, 0)));
-						audio.playSound("pew");
-						spacePressed = true;
+				if (projectiles.size() < 5) {
+					if (lastState == playerStates::WALK_LEFT) {
+						//make projectile
+						if (!spacePressed) {
+							projectiles.push_back(Projectile("../assets/objects/bullet.png", ProjectilePosition, sf::Vector2f(1, 1), sf::Vector2f((viewMoveSpeed * -1) - 10, 0)));
+							audio.playSound("pew");
+							spacePressed = true;
+						}
 					}
-				}
-				else {
-					//make projectile
-					if (!spacePressed) {
-						projectiles.push_back(Projectile("../assets/objects/bullet.png", ProjectilePosition, sf::Vector2f(1, 1), sf::Vector2f(viewMoveSpeed + 10, 0)));
-						audio.playSound("pew");
-						spacePressed = true;
+					else {
+						//make projectile
+						if (!spacePressed) {
+							projectiles.push_back(Projectile("../assets/objects/bullet.png", ProjectilePosition, sf::Vector2f(1, 1), sf::Vector2f(viewMoveSpeed + 10, 0)));
+							audio.playSound("pew");
+							spacePressed = true;
+						}
 					}
 				}
 
@@ -477,6 +480,16 @@ public:
 
 	void setPlayerState(playerStates newState) {
 		state = newState;
+	}
+
+	void clearProjectiles() {
+		projectiles.clear();
+	}
+
+	void resetScore() {
+		currentPoints = 0;
+		previousPoints = 0;
+		gameState.setScore(0);
 	}
 
 };
