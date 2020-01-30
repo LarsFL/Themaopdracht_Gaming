@@ -383,6 +383,12 @@ public:
 		projectiles.clear();
 	}
 
+	void resetScore() {
+		currentPoints = 0;
+		previousPoints = 0;
+		gameState.setScore(0);
+	}
+
 };
 
 #endif //PLAYER_HPP
